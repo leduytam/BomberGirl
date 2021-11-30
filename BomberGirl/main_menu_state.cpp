@@ -11,7 +11,7 @@ void bombergirl::MainMenuState::init()
 
     // init components
     m_mainMenuText.setFont(m_sharedContext->m_resources->getFont("garamond"));
-    m_mainMenuText.setString("MAIN MENU");
+    m_mainMenuText.setString("MAIN   MENU");
     m_mainMenuText.setCharacterSize(50u);
     sf::FloatRect bounds = m_mainMenuText.getLocalBounds();
     m_mainMenuText.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
