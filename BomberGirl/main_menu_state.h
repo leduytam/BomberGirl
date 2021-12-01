@@ -8,6 +8,7 @@ namespace bombergirl
     {
     private:
         sf::Text m_mainMenuText;
+        sf::Sprite m_backgroundSprite;
     public:
         MainMenuState(SharedContext* sharedContext);
 

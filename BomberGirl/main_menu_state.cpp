@@ -8,6 +8,7 @@ void bombergirl::MainMenuState::init()
 {
     // load resources
     m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
+    m_sharedContext->m_resources->loadTexture("background", BACKGROUND_TEXTURE_PATH);
 
     // init components
     m_mainMenuText.setFont(m_sharedContext->m_resources->getFont("garamond"));
@@ -17,6 +18,8 @@ void bombergirl::MainMenuState::init()
     m_mainMenuText.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
     auto windowSize = m_sharedContext->m_window->getSize();
     m_mainMenuText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
+
+    m_backgroundSprite.setTexture(m_sharedContext->m_resources->getTexture("background"));
 }
 
 void bombergirl::MainMenuState::handleInput()
@@ -40,6 +43,7 @@ void bombergirl::MainMenuState::update(const float& dt)
 
 void bombergirl::MainMenuState::render()
 {
+    m_sharedContext->m_window->draw(m_backgroundSprite);
     m_sharedContext->m_window->draw(m_mainMenuText);
 }
 
