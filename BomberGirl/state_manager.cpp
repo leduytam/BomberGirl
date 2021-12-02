@@ -1,9 +1,9 @@
 #include "state_manager.h"
 #include "base_state.h"
 
-bombergirl::StateManager::StateManager() {}
+Bombergirl::StateManager::StateManager() {}
 
-bombergirl::StateManager::~StateManager()
+Bombergirl::StateManager::~StateManager()
 {
     for (auto& iter : m_states)
         delete iter;
@@ -15,28 +15,28 @@ bombergirl::StateManager::~StateManager()
     }
 }
 
-void bombergirl::StateManager::push(BaseState* state, const bool& isReplacing)
+void Bombergirl::StateManager::push(BaseState* state, const bool& isReplacing)
 {
     m_actionQueue.push(isReplacing ? StateAction::Replacing : StateAction::Adding);
     m_addingQueue.push(state);
 }
 
-void bombergirl::StateManager::pop()
+void Bombergirl::StateManager::pop()
 {
     m_actionQueue.push(StateAction::Removing);
 }
 
-void bombergirl::StateManager::handleInput()
+void Bombergirl::StateManager::handleInput()
 {
     if (!m_states.empty()) m_states.back()->handleInput();
 }
 
-void bombergirl::StateManager::update(const float& dt)
+void Bombergirl::StateManager::update(const float& dt)
 {
     if (!m_states.empty()) m_states.back()->update(dt);
 }
 
-void bombergirl::StateManager::render()
+void Bombergirl::StateManager::render()
 {
     if (m_states.empty()) return;
     auto iter = m_states.end() - 1;
@@ -44,7 +44,7 @@ void bombergirl::StateManager::render()
     for (; iter != m_states.end(); ++iter) (*iter)->render();
 }
 
-void bombergirl::StateManager::handleStateChanges()
+void Bombergirl::StateManager::handleStateChanges()
 {
     while (!m_actionQueue.empty())
     {

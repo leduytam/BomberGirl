@@ -3,7 +3,7 @@
 
 int main()
 {
-    bombergirl::Game().run();
+    Bombergirl::Game().run();
 
     return EXIT_SUCCESS;
 }

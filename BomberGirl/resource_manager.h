@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
 
-namespace bombergirl
+namespace Bombergirl
 {
     class ResourceManager
     {

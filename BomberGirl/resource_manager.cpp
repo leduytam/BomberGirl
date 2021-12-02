@@ -1,7 +1,7 @@
 #include "resource_manager.h"
 #include <iostream>
 
-void bombergirl::ResourceManager::loadTexture(const std::string& textureID, const std::string& textureFilePath)
+void Bombergirl::ResourceManager::loadTexture(const std::string& textureID, const std::string& textureFilePath)
 {
     if (m_textures.find(textureID) == m_textures.end())
     {
@@ -14,12 +14,12 @@ void bombergirl::ResourceManager::loadTexture(const std::string& textureID, cons
     }
 }
 
-sf::Texture& bombergirl::ResourceManager::getTexture(const std::string& textureID)
+sf::Texture& Bombergirl::ResourceManager::getTexture(const std::string& textureID)
 {
     return m_textures.at(textureID);
 }
 
-void bombergirl::ResourceManager::loadFont(const std::string& fontID, const std::string& fontFilePath)
+void Bombergirl::ResourceManager::loadFont(const std::string& fontID, const std::string& fontFilePath)
 {
     if (m_fonts.find(fontID) == m_fonts.end())
     {
@@ -32,7 +32,7 @@ void bombergirl::ResourceManager::loadFont(const std::string& fontID, const std:
     }
 }
 
-sf::Font& bombergirl::ResourceManager::getFont(const std::string& fontID)
+sf::Font& Bombergirl::ResourceManager::getFont(const std::string& fontID)
 {
     return m_fonts.at(fontID);
 }

@@ -2,7 +2,7 @@
 
 #include "base_state.h"
 
-namespace bombergirl
+namespace Bombergirl
 {
     class PausedState : public BaseState
     {

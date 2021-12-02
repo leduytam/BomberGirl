@@ -2,7 +2,7 @@
 
 #include "shared_context.h"
 
-namespace bombergirl
+namespace Bombergirl
 {
     class Game
     {
@@ -13,7 +13,6 @@ namespace bombergirl
         StateManager m_stateManager;
 
         sf::Clock m_clock;
-        sf::Event m_event;
 
         void handleInput();
         void update(const float&);

@@ -5,7 +5,7 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-namespace bombergirl
+namespace Bombergirl
 {
     class SharedContext
     {

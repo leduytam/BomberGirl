@@ -2,12 +2,13 @@
 
 #include "base_state.h"
 
-namespace bombergirl
+namespace Bombergirl
 {
     class MainMenuState : public BaseState
     {
     private:
         sf::Text m_mainMenuText;
+        sf::Sprite m_backgroundSprite;
     public:
         MainMenuState(SharedContext* sharedContext);
 

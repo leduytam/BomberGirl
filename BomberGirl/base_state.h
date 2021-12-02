@@ -2,7 +2,7 @@
 
 #include "shared_context.h"
 
-namespace bombergirl
+namespace Bombergirl
 {
     class BaseState
     {

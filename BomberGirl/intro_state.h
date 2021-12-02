@@ -3,7 +3,7 @@
 #include "base_state.h"
 #include <SFML/Graphics.hpp>
 
-namespace bombergirl
+namespace Bombergirl
 {
     class IntroState : public BaseState
     {
@@ -17,6 +17,7 @@ namespace bombergirl
         void handleInput() override;
         void update(const float&) override;
         void render() override;
+        
     };
 }
 

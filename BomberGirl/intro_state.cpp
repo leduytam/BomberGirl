@@ -2,9 +2,9 @@
 #include "configs.h"
 #include "main_menu_state.h"
 
-bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sharedContext), m_totalTime(0.f) {}
+Bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sharedContext), m_totalTime(0.f) {}
 
-void bombergirl::IntroState::init()
+void Bombergirl::IntroState::init()
 {
     // load resources
     m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
@@ -19,17 +19,21 @@ void bombergirl::IntroState::init()
     m_introText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
 }
 
-void bombergirl::IntroState::handleInput()
+void Bombergirl::IntroState::handleInput()
 {
     sf::Event e;
     while (m_sharedContext->m_window->pollEvent(e))
     {
         if (e.type == sf::Event::Closed)
             m_sharedContext->m_window->close();
+        if (e.key.code == sf::Keyboard::Escape) {
+            m_sharedContext->m_window->close();
+
+        }
     }
 }
 
-void bombergirl::IntroState::update(const float& dt)
+void Bombergirl::IntroState::update(const float& dt)
 {
     if (m_totalTime < INTRO_SCREEN_TIME)
         m_totalTime += dt;
@@ -37,7 +41,7 @@ void bombergirl::IntroState::update(const float& dt)
         m_sharedContext->m_stateManager->push(new MainMenuState(m_sharedContext), true);
 }
 
-void bombergirl::IntroState::render()
+void Bombergirl::IntroState::render()
 {
     m_sharedContext->m_window->draw(m_introText);
 }
