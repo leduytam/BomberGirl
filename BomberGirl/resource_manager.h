@@ -13,6 +13,7 @@ namespace Bombergirl
         std::unordered_map<std::string, sf::Font> m_fonts;
     public:
         void loadTexture(const std::string&, const std::string&);
+        void loadTexture(const std::string&, const std::string&, const sf::IntRect &);
         sf::Texture& getTexture(const std::string&);
 
         void loadFont(const std::string&, const std::string&);

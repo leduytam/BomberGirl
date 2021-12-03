@@ -13,5 +13,6 @@ namespace Bombergirl
         sf::RenderWindow* m_window;
         ResourceManager* m_resources;
         StateManager* m_stateManager;
+
     };
 }

@@ -14,6 +14,8 @@ void Bombergirl::ResourceManager::loadTexture(const std::string& textureID, cons
     }
 }
 
+
+
 sf::Texture& Bombergirl::ResourceManager::getTexture(const std::string& textureID)
 {
     return m_textures.at(textureID);
