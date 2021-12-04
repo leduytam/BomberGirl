@@ -5,7 +5,7 @@
 #include "configs.h"
 
 Bombergirl::MainMenuState::MainMenuState(SharedContext* sharedContext) : BaseState(sharedContext) {
-	mainOption = OPTION::NEWGAME;
+	mainOption = OPTION(0);
 	m_option = 0;
 }
 
@@ -41,20 +41,19 @@ void Bombergirl::MainMenuState::init()
 		switch (i)
 		{
 		case 0:
-			btn.setText("New");
+			btn.setText("Play");
 			break;
 		case 1:
-			btn.setText("About");
+			btn.setText("Continue");
 			break;
 		case 2:
-			btn.setText("Load");
+			btn.setText("About");
 
 			break;
 		case 3:
-			btn.setText("Save");
+			btn.setText("Exit");
 			break;
 		}
-		btn.setPadding(40);
 		btn.setPosition(sf::Vector2f(windowSize.x / 2.f - btn.getCenter().x, 1.f * START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
 		options_Button.push_back(btn);
 	}
@@ -97,7 +96,7 @@ void Bombergirl::MainMenuState::handleInput()
 
 void Bombergirl::MainMenuState::update(const float& dt)
 {
-	m_arrow.setPosition(sf::Vector2f(options_Button[m_option].getPosition().x - m_arrow.getLocalBounds().width - 10, options_Button[m_option].getPosition().y + options_Button[m_option].getCenter().y));
+	m_arrow.setPosition(sf::Vector2f(options_Button[m_option].getPosition().x - m_arrow.getLocalBounds().width, options_Button[m_option].getPosition().y + options_Button[m_option].getCenter().y));
 	selectOption(m_option);
 }
 

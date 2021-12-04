@@ -20,10 +20,10 @@ namespace Bombergirl
 	public:
 
 		enum class OPTION {
-			NEWGAME,
+			PLAY,
+			CONTINUE,
 			ABOUT,
-			LOAD,
-			SAVE,
+			EXIT,
 			MAX,
 		};
 		OPTION mainOption;
