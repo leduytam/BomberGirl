@@ -28,7 +28,6 @@ void Bombergirl::IntroState::handleInput()
             m_sharedContext->m_window->close();
         if (e.key.code == sf::Keyboard::Escape) {
             m_sharedContext->m_window->close();
-
         }
     }
 }
@@ -38,7 +37,10 @@ void Bombergirl::IntroState::update(const float& dt)
     if (m_totalTime < INTRO_SCREEN_TIME)
         m_totalTime += dt;
     else
-        m_sharedContext->m_stateManager->push(new MainMenuState(m_sharedContext), true);
+    {
+        m_sharedContext->m_stateManager->push(new MainMenuState(m_sharedContext));
+        m_totalTime = 0.f;
+    }
 }
 
 void Bombergirl::IntroState::render()

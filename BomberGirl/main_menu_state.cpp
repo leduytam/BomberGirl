@@ -55,7 +55,7 @@ void Bombergirl::MainMenuState::init()
 			break;
 		}
 		btn.setPadding(40);
-		btn.setPosition(sf::Vector2f(windowSize.x / 2.f - btn.getCenter().x, START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
+		btn.setPosition(sf::Vector2f(windowSize.x / 2.f - btn.getCenter().x, 1.f * START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
 		options_Button.push_back(btn);
 	}
 }
@@ -75,8 +75,11 @@ void Bombergirl::MainMenuState::handleInput()
 			}
 
 			if (e.key.code == sf::Keyboard::Enter) {
-
 				m_sharedContext->m_stateManager->push(new PausedState(m_sharedContext));
+			}
+
+			if (e.key.code == sf::Keyboard::BackSpace) {
+				m_sharedContext->m_stateManager->pop();
 			}
 
 			if (e.key.code == sf::Keyboard::Down) {
@@ -116,14 +119,14 @@ Bombergirl::Button Bombergirl::MainMenuState::createOption() {
 }
 
 void Bombergirl::MainMenuState::drawMenuOption() {
-	for (int i = 0; i < options_Button.size(); i++) {
+	for (size_t i = 0; i < options_Button.size(); i++) {
 		options_Button[i].drawButton();
 	}
 }
 
 
 void Bombergirl::MainMenuState::selectOption(int option) {
-	for (int i = 0; i < options_Button.size(); i++) {
+	for (size_t i = 0; i < options_Button.size(); i++) {
 		options_Button[i].setOutline(0);
 		options_Button[i].setBackgroundColor();
 		if (i == option) {
@@ -132,6 +135,4 @@ void Bombergirl::MainMenuState::selectOption(int option) {
 		}
 	}
 }
-
-
 

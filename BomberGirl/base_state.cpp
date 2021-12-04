@@ -12,3 +12,8 @@ void Bombergirl::BaseState::setTransparent(const bool& isTransparent)
 {
     m_isTransparent = isTransparent;
 }
+
+Bombergirl::SharedContext* Bombergirl::BaseState::getSharedContext() const
+{
+    return m_sharedContext;
+}
