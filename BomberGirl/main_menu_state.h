@@ -2,38 +2,42 @@
 
 #include "base_state.h"
 #include"Button.h"
+#include<vector>
 
 namespace Bombergirl
 {
-    class MainMenuState : public BaseState
-    {
-    private:
-        sf::Text m_mainMenuText;
-        sf::Sprite m_backgroundSprite;
-        sf::Sprite m_containerBoard;
-        
-    public:
-        const int TILE_SIZE = 12;
-        const int TILE_TYPES = 3;
-        const int VERTEX_IN_QUAD = 4;
-        enum class STATE_OPTION {
-            NEWGAME,
-            ABOUT,
-            LOAD,
-            SAVE,
-        };
+	class MainMenuState : public BaseState
+	{
+	private:
+		sf::Text m_mainMenuText;
+		sf::Sprite m_backgroundSprite;
+		sf::Sprite m_containerBoard;
+		sf::Sprite m_arrow;
+		const int START_POSITION_OPTION = 300;
+		const int SPACE_BETWEEN_OPTION = 150;
+		std::vector <Button> options_Button;
+		int m_option;
+	public:
 
-        STATE_OPTION mainOption;
-        MainMenuState(SharedContext* sharedContext);
-        
+		enum class OPTION {
+			NEWGAME,
+			ABOUT,
+			LOAD,
+			SAVE,
+			MAX,
+		};
+		OPTION mainOption;
+		MainMenuState(SharedContext* sharedContext);
 
-        void init() override;
-        void handleInput() override;
-        void update(const float&) override;
-        void render() override;
 
-        Button createOptionText(const std::string&);
-        sf::RectangleShape createContainer();
-    };
+		void init() override;
+		void handleInput() override;
+		void update(const float&) override;
+		void render() override;
+
+		Button createOption();
+		void drawMenuOption();
+		void selectOption(int option);
+	};
 }
 

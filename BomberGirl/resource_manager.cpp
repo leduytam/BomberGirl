@@ -14,6 +14,17 @@ void Bombergirl::ResourceManager::loadTexture(const std::string& textureID, cons
     }
 }
 
+void Bombergirl::ResourceManager::loadTexture(const std::string& textureID, const std::string& textureFilePath, const sf::IntRect& crop) {
+    if (m_textures.find(textureID) == m_textures.end())
+    {
+        sf::Texture texture;
+
+        if (texture.loadFromFile(textureFilePath, crop))
+            m_textures[textureID] = texture;
+        else
+            std::cout << "Failed to load texture: " << textureFilePath << std::endl;
+    }
+}
 
 
 sf::Texture& Bombergirl::ResourceManager::getTexture(const std::string& textureID)
@@ -38,3 +49,5 @@ sf::Font& Bombergirl::ResourceManager::getFont(const std::string& fontID)
 {
     return m_fonts.at(fontID);
 }
+
+
