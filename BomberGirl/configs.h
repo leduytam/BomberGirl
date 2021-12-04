@@ -18,7 +18,7 @@ namespace Bombergirl
 
 ////////////////////////////
 #pragma region Intro
-	const auto INTRO_SCREEN_TIME = 2.f;
+	const auto INTRO_SCREEN_TIME = 1.f;
 
 #pragma endregion
 
@@ -27,9 +27,5 @@ namespace Bombergirl
 	const auto MENU_BACKGROUND_PATH = "./assets/textures/backgrounds/background_menu.jpg";
 	const auto MENU_CONTAINER_PATH = "./assets/textures/img/system/Window.png";
 #pragma endregion
-
-
-
-
 
 }

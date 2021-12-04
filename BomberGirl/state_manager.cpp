@@ -1,5 +1,6 @@
 #include "state_manager.h"
 #include "base_state.h"
+#include "fade_in_transition_state.h"
 
 Bombergirl::StateManager::StateManager() {}
 
@@ -46,8 +47,12 @@ void Bombergirl::StateManager::render()
 
 void Bombergirl::StateManager::handleStateChanges()
 {
+    bool isOnAction = false;
+    bool isRemovedTransparent = false;
+
     while (!m_actionQueue.empty())
     {
+        isOnAction = true;
         StateAction action = m_actionQueue.front();
         m_actionQueue.pop();
 
@@ -73,10 +78,18 @@ void Bombergirl::StateManager::handleStateChanges()
         {
             if (!m_states.empty())
             {
+                if (m_states.back()->isTransparent())
+                    isRemovedTransparent = true;
+
                 delete m_states.back();
                 m_states.pop_back();
             }
         }
     }
-}
 
+    if (isOnAction && !isRemovedTransparent && !m_states.empty() && !m_states.back()->isTransparent())
+    {
+        m_states.push_back(new FadeInTransitionState(m_states.back()->getSharedContext()));
+        m_states.back()->init();
+    }
+}

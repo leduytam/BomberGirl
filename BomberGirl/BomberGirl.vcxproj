@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="base_state.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="fade_in_transition_state.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="intro_state.cpp" />
     <ClCompile Include="main.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="base_state.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="configs.h" />
+    <ClInclude Include="fade_in_transition_state.h" />
     <ClInclude Include="main_menu_state.h" />
     <ClInclude Include="paused_state.h" />
     <ClInclude Include="shared_context.h" />

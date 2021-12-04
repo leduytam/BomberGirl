@@ -20,6 +20,8 @@ namespace Bombergirl
 
         bool isTransparent() const;
         void setTransparent(const bool&);
+
+        SharedContext* getSharedContext() const;
     };
 }
 

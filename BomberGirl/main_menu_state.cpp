@@ -5,7 +5,7 @@
 #include "configs.h"
 
 Bombergirl::MainMenuState::MainMenuState(SharedContext* sharedContext) : BaseState(sharedContext) {
-	mainOption = OPTION::NEWGAME;
+	mainOption = OPTION(0);
 	m_option = 0;
 }
 
@@ -41,20 +41,29 @@ void Bombergirl::MainMenuState::init()
 		switch (i)
 		{
 		case 0:
-			btn.setText("New");
+			btn.setText("Play");
 			break;
 		case 1:
-			btn.setText("About");
+			btn.setText("Continue");
 			break;
 		case 2:
+<<<<<<< HEAD
 			btn.setText("Load");	
+=======
+			btn.setText("About");
+
+>>>>>>> tam
 			break;
 		case 3:
-			btn.setText("Save");
+			btn.setText("Exit");
 			break;
 		}
+<<<<<<< HEAD
 		btn.setPadding(20);
 		btn.setPosition(sf::Vector2f(windowSize.x / 2.f - btn.getCenter().x, START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
+=======
+		btn.setPosition(sf::Vector2f(windowSize.x / 2.f - btn.getCenter().x, 1.f * START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
+>>>>>>> tam
 		options_Button.push_back(btn);
 	}
 }
@@ -73,9 +82,17 @@ void Bombergirl::MainMenuState::handleInput()
 				m_sharedContext->m_window->close();
 			}
 
+<<<<<<< HEAD
 			if (e.key.code == sf::Keyboard::P) {
 
+=======
+			if (e.key.code == sf::Keyboard::Enter) {
+>>>>>>> tam
 				m_sharedContext->m_stateManager->push(new PausedState(m_sharedContext));
+			}
+
+			if (e.key.code == sf::Keyboard::BackSpace) {
+				m_sharedContext->m_stateManager->pop();
 			}
 
 			if (e.key.code == sf::Keyboard::Down) {
@@ -93,7 +110,7 @@ void Bombergirl::MainMenuState::handleInput()
 
 void Bombergirl::MainMenuState::update(const float& dt)
 {
-	m_arrow.setPosition(sf::Vector2f(options_Button[m_option].getPosition().x - m_arrow.getLocalBounds().width - 10, options_Button[m_option].getPosition().y + options_Button[m_option].getCenter().y));
+	m_arrow.setPosition(sf::Vector2f(options_Button[m_option].getPosition().x - m_arrow.getLocalBounds().width, options_Button[m_option].getPosition().y + options_Button[m_option].getCenter().y));
 	selectOption(m_option);
 }
 
@@ -115,14 +132,14 @@ Bombergirl::Button Bombergirl::MainMenuState::createOption() {
 }
 
 void Bombergirl::MainMenuState::drawMenuOption() {
-	for (int i = 0; i < options_Button.size(); i++) {
+	for (size_t i = 0; i < options_Button.size(); i++) {
 		options_Button[i].drawButton();
 	}
 }
 
 
 void Bombergirl::MainMenuState::selectOption(int option) {
-	for (int i = 0; i < options_Button.size(); i++) {
+	for (size_t i = 0; i < options_Button.size(); i++) {
 		options_Button[i].setOutline(0);
 		options_Button[i].setBackgroundColor();
 		if (i == option) {
@@ -131,6 +148,4 @@ void Bombergirl::MainMenuState::selectOption(int option) {
 		}
 	}
 }
-
-
 

@@ -37,7 +37,6 @@ void Bombergirl::PausedState::handleInput() {
                 m_sharedContext->m_stateManager->pop();
             if (e.key.code == sf::Keyboard::Escape) {
                 m_sharedContext->m_window->close();
-
             }
         }
     }
