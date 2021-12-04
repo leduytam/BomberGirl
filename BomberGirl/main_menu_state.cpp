@@ -47,14 +47,13 @@ void Bombergirl::MainMenuState::init()
 			btn.setText("About");
 			break;
 		case 2:
-			btn.setText("Load");
-
+			btn.setText("Load");	
 			break;
 		case 3:
 			btn.setText("Save");
 			break;
 		}
-		btn.setPadding(40);
+		btn.setPadding(20);
 		btn.setPosition(sf::Vector2f(windowSize.x / 2.f - btn.getCenter().x, START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
 		options_Button.push_back(btn);
 	}
@@ -74,7 +73,7 @@ void Bombergirl::MainMenuState::handleInput()
 				m_sharedContext->m_window->close();
 			}
 
-			if (e.key.code == sf::Keyboard::Enter) {
+			if (e.key.code == sf::Keyboard::P) {
 
 				m_sharedContext->m_stateManager->push(new PausedState(m_sharedContext));
 			}

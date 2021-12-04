@@ -11,7 +11,7 @@ namespace Bombergirl {
 		sf::Text m_content;
 		SharedContext* m_sharedContext;
 	public:
-
+		
 		Button(SharedContext*);
 
 		void setPadding(float padding) {
@@ -20,7 +20,7 @@ namespace Bombergirl {
 
 		void setSize(const sf::Vector2f&);
 
-		void setText(const std::string&, sf::Color color = sf::Color::Black, const int & sizeCharacter = 50);
+		void setText(const std::string&, sf::Color color = sf::Color::White, const int & sizeCharacter = 50);
 
 		void setOutline(float thickness, sf::Color color = sf::Color::Black);
 

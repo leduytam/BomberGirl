@@ -15,7 +15,7 @@ void Bombergirl::PausedState::init()
     auto windowSize = m_sharedContext->m_window->getSize();
 
     m_overlay.setSize({ static_cast<float>(windowSize.x), static_cast<float>(windowSize.y) });
-    m_overlay.setFillColor(sf::Color(0u, 0u, 0u, 150u));
+    m_overlay.setFillColor(sf::Color(0u, 0u, 0u, 200));
 
     m_pausedText.setFont(m_sharedContext->m_resources->getFont("garamond"));
     m_pausedText.setString("PAUSED");
@@ -33,7 +33,7 @@ void Bombergirl::PausedState::handleInput() {
             m_sharedContext->m_window->close();
         else if (e.type == sf::Event::KeyPressed)
         {
-            if (e.key.code == sf::Keyboard::Enter)
+            if (e.key.code == sf::Keyboard::P)
                 m_sharedContext->m_stateManager->pop();
             if (e.key.code == sf::Keyboard::Escape) {
                 m_sharedContext->m_window->close();
