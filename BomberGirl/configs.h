@@ -12,6 +12,7 @@ namespace Bombergirl
 ////////////////////////////
 #pragma region Font
 	const auto GARAMOND_FONT_PATH = "./assets/fonts/garamond.ttf";
+	const auto ZOMBIE_FONT_PATH = "./assets/fonts/zombiecontrol.ttf";
 
 #pragma endregion
 

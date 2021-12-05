@@ -5,7 +5,6 @@
 
 Bombergirl::Button::Button(SharedContext* sharedContext) {
     m_sharedContext = sharedContext;
-    m_shape.setSize(sf::Vector2f(200, 100));
 }
 
 void Bombergirl::Button::setSize(const sf::Vector2f& size) {
@@ -18,7 +17,7 @@ void Bombergirl::Button::setText(const std::string& text, sf::Color color, const
     m_content.setCharacterSize(sizeCharacter);
     m_content.setFillColor(color);
     m_content.setString(text);
-    m_shape.setSize(sf::Vector2f(text.length() * sizeCharacter + 20.f, sizeCharacter + 20.f));
+    m_shape.setSize(sf::Vector2f(text.length() * sizeCharacter, sizeCharacter));
 }
 
 void Bombergirl::Button::setOutline(float thickness = 0.f, sf::Color color) {
@@ -34,9 +33,25 @@ void Bombergirl::Button::drawButton() {
 
 void Bombergirl::Button::setPosition(const sf::Vector2f& position) {
     m_shape.setPosition(position);
-    m_content.setPosition(position.x + (m_shape.getSize().x - m_content.getLocalBounds().width) / 2, position.y + (m_shape.getSize().y - m_content.getLocalBounds().height * 2) / 2);
+    m_content.setPosition(position.x + (m_shape.getSize().x - m_content.getLocalBounds().width) / 2, position.y + (m_shape.getSize().y - m_content.getCharacterSize() * 1.5f) / 2);
 }
 
 void Bombergirl::Button::setBackgroundColor(const sf::Color color) {
     m_shape.setFillColor(color);
+}
+
+void Bombergirl::Button::setPadding(float padding) {
+    m_shape.setSize(sf::Vector2f(m_shape.getSize().x + padding, m_shape.getSize().y + padding));
+}
+
+sf::Vector2f Bombergirl::Button::getSize() {
+    return m_shape.getSize();
+}
+
+sf::Vector2f Bombergirl::Button::getCenter() {
+    return sf::Vector2f(m_shape.getSize().x / 2.f, m_shape.getSize().y / 2.f);
+}
+
+sf::Vector2f Bombergirl::Button::getPosition() {
+    return m_shape.getPosition();
 }

@@ -32,7 +32,18 @@ void Bombergirl::Game::render()
 
 void Bombergirl::Game::run()
 {
-    const float dt = 1.f / GAME_FPS;
+    m_clock.restart();
+    while (m_window.isOpen())
+    {
+
+        m_stateManager.handleStateChanges();
+
+        handleInput();
+        update(m_clock.restart().asSeconds());
+
+        render();
+    }
+   /* const float dt = 1.f / GAME_FPS;
     float newTime = 0.f, frameTime = 0.f, accumulator = 0.f;
     float currentTime = m_clock.getElapsedTime().asSeconds();
 
@@ -57,5 +68,5 @@ void Bombergirl::Game::run()
         }
 
         render();
-    }
+    }*/
 }

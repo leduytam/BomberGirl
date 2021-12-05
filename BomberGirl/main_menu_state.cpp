@@ -48,13 +48,13 @@ void Bombergirl::MainMenuState::init()
 			break;
 		case 2:
 			btn.setText("About");
-
 			break;
 		case 3:
 			btn.setText("Exit");
 			break;
 		}
-		btn.setPosition(sf::Vector2f(windowSize.x / 2.f - btn.getCenter().x, 1.f * START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
+		btn.setPadding(20);
+		btn.setPosition(sf::Vector2f(windowSize.x / 2.f - btn.getCenter().x, START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
 		options_Button.push_back(btn);
 	}
 }
@@ -73,7 +73,7 @@ void Bombergirl::MainMenuState::handleInput()
 				m_sharedContext->m_window->close();
 			}
 
-			if (e.key.code == sf::Keyboard::Enter) {
+			if (e.key.code == sf::Keyboard::P) {
 				m_sharedContext->m_stateManager->push(new PausedState(m_sharedContext));
 			}
 
@@ -106,7 +106,6 @@ void Bombergirl::MainMenuState::render()
 	m_sharedContext->m_window->draw(m_mainMenuText);
 	m_sharedContext->m_window->draw(m_arrow);
 	drawMenuOption();
-
 }
 
 
@@ -130,7 +129,7 @@ void Bombergirl::MainMenuState::selectOption(int option) {
 		options_Button[i].setBackgroundColor();
 		if (i == option) {
 			options_Button[i].setOutline(2);
-			options_Button[i].setBackgroundColor(sf::Color{ 255,255,255, 100 });
+			options_Button[i].setBackgroundColor(sf::Color{ 255, 255, 255, 100 });
 		}
 	}
 }
