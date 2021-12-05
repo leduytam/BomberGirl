@@ -8,7 +8,7 @@ namespace Bombergirl
     class IntroState : public BaseState
     {
     private:
-        sf::Text m_introText;
+        sf::Sprite m_logo;
         float m_totalTime;
     public:
         IntroState(SharedContext* sharedContext);

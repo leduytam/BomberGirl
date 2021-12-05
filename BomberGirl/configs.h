@@ -19,6 +19,7 @@ namespace Bombergirl
 ////////////////////////////
 #pragma region Intro
 	const auto INTRO_SCREEN_TIME = 1.f;
+	const auto LOGO_PATH = "./assets/textures/logo/bomb_logo.png";
 
 #pragma endregion
 

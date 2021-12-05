@@ -7,16 +7,12 @@ Bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sha
 void Bombergirl::IntroState::init()
 {
     // load resources
-    m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
+    m_sharedContext->m_resources->loadTexture("logo", LOGO_PATH);
 
     // init components
-    m_introText.setFont(m_sharedContext->m_resources->getFont("garamond"));
-    m_introText.setString("GAME   INTRO");
-    m_introText.setCharacterSize(50u);
-    sf::FloatRect bounds = m_introText.getLocalBounds();
-    m_introText.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
     auto windowSize = m_sharedContext->m_window->getSize();
-    m_introText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
+    m_logo.setTexture(m_sharedContext->m_resources->getTexture("logo"));
+    m_logo.setPosition({ windowSize.x / 2.f - m_logo.getTexture()->getSize().x / 2.f, windowSize.y / 2.f - m_logo.getTexture()->getSize().y / 2.f });
 }
 
 void Bombergirl::IntroState::handleInput()
@@ -45,6 +41,6 @@ void Bombergirl::IntroState::update(const float& dt)
 
 void Bombergirl::IntroState::render()
 {
-    m_sharedContext->m_window->draw(m_introText);
+    m_sharedContext->m_window->draw(m_logo);
 }
 
