@@ -2,10 +2,10 @@
 #include<iostream>
 #include "main_menu_state.h"
 #include "paused_state.h"
+#include "pick_up_Character_state.h"
 #include "configs.h"
 
 Bombergirl::MainMenuState::MainMenuState(SharedContext* sharedContext) : BaseState(sharedContext) {
-	mainOption = OPTION(0);
 	m_option = 0;
 }
 
@@ -89,6 +89,20 @@ void Bombergirl::MainMenuState::handleInput()
 			if (e.key.code == sf::Keyboard::Up) {
 				m_option = m_option--;
 				if (m_option < 0) m_option = 3;
+			}
+
+			if (e.key.code == sf::Keyboard::Enter) {
+				switch (m_option)
+				{
+				case 0:
+					m_sharedContext->m_stateManager->push(new PickUpCharacterState(m_sharedContext));
+					break;
+				case 1:
+				case 2:
+				case 3:
+				default:
+					break;
+				}
 			}
 		}
 	}
