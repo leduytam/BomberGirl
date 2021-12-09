@@ -29,4 +29,7 @@ namespace Bombergirl
 	const auto MENU_CONTAINER_PATH = "./assets/textures/img/system/Window.png";
 #pragma endregion
 
+#pragma region About
+	const auto ABOUT_BACKGROUND_PATH = "./assets/textures/backgrounds/about_background.png";
+#pragma endregion
 }
