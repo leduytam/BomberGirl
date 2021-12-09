@@ -14,8 +14,8 @@ void Bombergirl::MainMenuState::init()
 	// load resources
 	m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
 	m_sharedContext->m_resources->loadTexture("background_menu", MENU_BACKGROUND_PATH);
-	m_sharedContext->m_resources->loadTexture("container_menu", MENU_CONTAINER_PATH);
-	m_sharedContext->m_resources->loadTexture("arrow_menu", MENU_CONTAINER_PATH, sf::IntRect(sf::Vector2i(144, 96), sf::Vector2i(24, 24)));
+	m_sharedContext->m_resources->loadTexture("container_menu", MENU_SYSTEM_PATH);
+	m_sharedContext->m_resources->loadTexture("arrow_menu", MENU_SYSTEM_PATH, sf::IntRect(sf::Vector2i(144, 96), sf::Vector2i(24, 24)));
 
 	// init components
 	m_mainMenuText.setFont(m_sharedContext->m_resources->getFont("garamond"));

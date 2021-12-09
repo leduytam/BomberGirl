@@ -19,14 +19,23 @@ namespace Bombergirl
 ////////////////////////////
 #pragma region Intro
 	const auto INTRO_SCREEN_TIME = 1.f;
-	const auto LOGO_PATH = "./assets/textures/logo/bomb_logo.png";
+	const auto INTRO_LOGO_PATH = "./assets/textures/logo/bomb_logo.png";
 
 #pragma endregion
 
 ////////////////////////////
 #pragma region Menu
+
 	const auto MENU_BACKGROUND_PATH = "./assets/textures/backgrounds/background_menu.jpg";
-	const auto MENU_CONTAINER_PATH = "./assets/textures/img/system/Window.png";
+	const auto MENU_SYSTEM_PATH = "./assets/textures/img/system/Window.png";
+#pragma endregion
+
+////////////////////////////
+#pragma region Character
+	const auto CHARACTER_TEXTURE_PATH = "./assets/textures/players/faces/";
+	const auto CHARACTER_NUMBER_OF = 4;
+	const auto CHARACTER_BORDER_SELECT_RED = "./assets/textures/borders/red_border.png";
+	const auto CHARACTER_BORDER_SELECT_BLUE = "./assets/textures/borders/blue_border.png";
 #pragma endregion
 
 }
