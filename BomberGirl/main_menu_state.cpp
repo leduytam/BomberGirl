@@ -2,7 +2,6 @@
 #include<iostream>
 #include "main_menu_state.h"
 #include "paused_state.h"
-#include "pick_up_Character_state.h"
 #include "configs.h"
 
 Bombergirl::MainMenuState::MainMenuState(SharedContext* sharedContext) : BaseState(sharedContext) {
@@ -90,7 +89,6 @@ void Bombergirl::MainMenuState::handleInput()
 				m_option = m_option--;
 				if (m_option < 0) m_option = 3;
 			}
-
 			if (e.key.code == sf::Keyboard::Enter) {
 				switch (m_option)
 				{
@@ -99,7 +97,9 @@ void Bombergirl::MainMenuState::handleInput()
 					break;
 				case 1:
 				case 2:
+					m_sharedContext->m_stateManager->push(new AboutState(m_sharedContext));
 				case 3:
+					m_sharedContext->m_window->close();
 				default:
 					break;
 				}
@@ -122,7 +122,6 @@ void Bombergirl::MainMenuState::render()
 	drawMenuOption();
 }
 
-
 Bombergirl::Button Bombergirl::MainMenuState::createOption() {
 	Bombergirl::Button button(m_sharedContext);
 	button.setOutline(0, sf::Color{ 95, 2, 31 });
@@ -135,7 +134,6 @@ void Bombergirl::MainMenuState::drawMenuOption() {
 		options_Button[i].drawButton();
 	}
 }
-
 
 void Bombergirl::MainMenuState::selectOption(int option) {
 	for (size_t i = 0; i < options_Button.size(); i++) {

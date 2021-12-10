@@ -38,4 +38,7 @@ namespace Bombergirl
 	const auto CHARACTER_BORDER_SELECT_BLUE = "./assets/textures/borders/blue_border.png";
 #pragma endregion
 
+#pragma region About
+	const auto ABOUT_BACKGROUND_PATH = "./assets/textures/backgrounds/about_background.png";
+#pragma endregion
 }

@@ -45,7 +45,17 @@
     <ClCompile Include="fade_in_transition_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="pick_up_Character_state.cpp">
+=======
+    <ClCompile Include="about_state.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="animation.cpp">
+>>>>>>> tam
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,7 +93,17 @@
     <ClInclude Include="fade_in_transition_state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="pick_up_Character_state.h">
+=======
+    <ClInclude Include="about_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="animation.h">
+>>>>>>> tam
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
