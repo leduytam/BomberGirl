@@ -22,6 +22,10 @@ namespace Bombergirl{
         sf::Sprite m_frame_1;
         sf::Sprite m_frame_2;
 
+        sf::Sprite m_character_select_1;
+        sf::Sprite m_character_select_2;
+
+
         sf::String m_character_value_1;
         sf::String m_character_value_2;
 
@@ -30,15 +34,12 @@ namespace Bombergirl{
 
     public:
         PickUpCharacterState(SharedContext* sharedContext);
-
         void init() override;
         void loadResource();
         void handleInput() override;
         void update(const float&) override;
         void render() override;
-
         void lockSelect(int, sf::RectangleShape&, const sf::Vector2f& , const sf::Vector2f&);
-
         void setText(sf::Text &text, const float&, const sf::String&);
 	};
 }

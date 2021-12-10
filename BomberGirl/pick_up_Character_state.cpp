@@ -64,6 +64,7 @@ void Bombergirl::PickUpCharacterState::init() {
 	//frame
 	m_frame_1.setTexture(m_sharedContext->m_resources->getTexture("border_select_blue"));
 	m_frame_2.setTexture(m_sharedContext->m_resources->getTexture("border_select_red"));
+
 	m_frame_1.setScale(2, 2);
 	m_frame_1.setOrigin(m_frame_1.getLocalBounds().width / 2.f, m_frame_1.getLocalBounds().height / 2.f);
 	m_frame_1.setPosition(m_character_text_1.getPosition().x, 500);
@@ -71,6 +72,7 @@ void Bombergirl::PickUpCharacterState::init() {
 	m_frame_2.setScale(2, 2);
 	m_frame_2.setOrigin(m_frame_2.getLocalBounds().width / 2.f, m_frame_2.getLocalBounds().height / 2.f);
 	m_frame_2.setPosition(m_character_text_2.getPosition().x, 500);
+
 }
 
 void Bombergirl::PickUpCharacterState::handleInput() {
@@ -111,14 +113,24 @@ void Bombergirl::PickUpCharacterState::handleInput() {
 			}
 
 			// select
-			if (e.key.code == sf::Keyboard::RShift) {
+			if (e.key.code == sf::Keyboard::RShift && m_character_value_2 == "") {
 				lockSelect(2, m_lockBackground_2, sf::Vector2f(m_characters[m_select_2].getLocalBounds().width, m_characters[m_select_2].getLocalBounds().height), m_borderSelect_2.getPosition());
 				m_character_value_2 = "player_" + std::to_string(m_select_2 + 1);
-
+				const sf::Texture* demo = m_characters[m_select_2].getTexture();
+				m_character_select_2.setTexture(*demo);
+				m_character_select_2.setOrigin(m_character_select_2.getLocalBounds().width / 2.f, m_character_select_2.getGlobalBounds().height / 2.f);
+				m_character_select_2.setScale(2, 2);
+				m_character_select_2.setPosition(m_frame_2.getPosition());
 			}
-			if (e.key.code == sf::Keyboard::LShift) {
+			if (e.key.code == sf::Keyboard::LShift && m_character_value_1 == "") {
 				lockSelect(1, m_lockBackground_1, sf::Vector2f(m_characters[m_select_1].getLocalBounds().width, m_characters[m_select_1].getLocalBounds().height), m_borderSelect_1.getPosition());
 				m_character_value_1 = "player_" + std::to_string(m_select_1 + 1);
+				const sf::Texture* demo = m_characters[m_select_1].getTexture();
+				m_character_select_1.setTexture(*demo);
+				m_character_select_1.setOrigin(m_character_select_1.getLocalBounds().width / 2.f, m_character_select_1.getGlobalBounds().height / 2.f);
+				m_character_select_1.setScale(2, 2);
+				m_character_select_1.setPosition(m_frame_1.getPosition());
+
 			}
 		}
 
@@ -126,11 +138,8 @@ void Bombergirl::PickUpCharacterState::handleInput() {
 }
 
 void Bombergirl::PickUpCharacterState::update(const float& dt) {
-
 	m_borderSelect_1.setPosition(m_characters[m_select_1].getPosition());
 	m_borderSelect_2.setPosition(m_characters[m_select_2].getPosition());
-
-
 }
 
 void Bombergirl::PickUpCharacterState::render() {
@@ -139,6 +148,7 @@ void Bombergirl::PickUpCharacterState::render() {
 	for (auto i = 0; i < m_characters.size(); i++) {
 		m_sharedContext->m_window->draw(m_characters[i]);
 	}
+
 	m_sharedContext->m_window->draw(m_lockBackground_2);
 	m_sharedContext->m_window->draw(m_lockBackground_1);
 
@@ -147,6 +157,9 @@ void Bombergirl::PickUpCharacterState::render() {
 
 	m_sharedContext->m_window->draw(m_character_text_1);
 	m_sharedContext->m_window->draw(m_character_text_2);
+
+	m_sharedContext->m_window->draw(m_character_select_1);
+	m_sharedContext->m_window->draw(m_character_select_2);
 
 	m_sharedContext->m_window->draw(m_frame_1);
 	m_sharedContext->m_window->draw(m_frame_2);
