@@ -2,6 +2,8 @@
 #include<iostream>
 #include "main_menu_state.h"
 #include "paused_state.h"
+#include "pick_up_Character_state.h"
+#include "about_state.h"
 #include "configs.h"
 
 Bombergirl::MainMenuState::MainMenuState(SharedContext* sharedContext) : BaseState(sharedContext) {
