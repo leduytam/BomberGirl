@@ -156,11 +156,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_menu_state.cpp" />
     <ClCompile Include="paused_state.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="pick_up_Character_state.cpp" />
-=======
     <ClCompile Include="player.cpp" />
->>>>>>> tam
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="state_manager.cpp" />
   </ItemGroup>
@@ -173,11 +170,8 @@
     <ClInclude Include="fade_in_transition_state.h" />
     <ClInclude Include="main_menu_state.h" />
     <ClInclude Include="paused_state.h" />
-<<<<<<< HEAD
     <ClInclude Include="pick_up_Character_state.h" />
-=======
     <ClInclude Include="player.h" />
->>>>>>> tam
     <ClInclude Include="shared_context.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="intro_state.h" />
