@@ -1,10 +1,7 @@
 #include "base_state.h"
 #include "shared_context.h"
 
-Bombergirl::BaseState::BaseState(SharedContext* sharedContext) : m_sharedContext(sharedContext), m_isTransparent(false) {
-
-    m_sharedContext->m_window->setMouseCursorVisible(false);
-}
+Bombergirl::BaseState::BaseState(SharedContext* sharedContext) : m_sharedContext(sharedContext), m_isTransparent(false) {}
 
 bool Bombergirl::BaseState::isTransparent() const
 {
@@ -15,7 +12,6 @@ void Bombergirl::BaseState::setTransparent(const bool& isTransparent)
 {
     m_isTransparent = isTransparent;
 }
-
 Bombergirl::SharedContext* Bombergirl::BaseState::getSharedContext() const
 {
     return m_sharedContext;

@@ -152,6 +152,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="fade_in_transition_state.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="intro_state.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_menu_state.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="configs.h" />
     <ClInclude Include="fade_in_transition_state.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="main_menu_state.h" />
     <ClInclude Include="paused_state.h" />
     <ClInclude Include="pick_up_Character_state.h" />

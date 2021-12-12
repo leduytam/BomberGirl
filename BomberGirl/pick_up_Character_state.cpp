@@ -2,6 +2,7 @@
 #include "configs.h"
 #include <string>
 #include <iostream>
+#include "GameState.h"
 
 Bombergirl::PickUpCharacterState::PickUpCharacterState(SharedContext* sharedContext) :BaseState(sharedContext) {
 	m_select_1 = 0;
@@ -21,7 +22,6 @@ void Bombergirl::PickUpCharacterState::loadResource() {
 	m_sharedContext->m_resources->loadTexture("border_select_red", CHARACTER_BORDER_SELECT_RED);
 	m_sharedContext->m_resources->loadTexture("border_select_blue", CHARACTER_BORDER_SELECT_BLUE);
 	m_sharedContext->m_resources->loadTexture("background_select", MENU_SYSTEM_PATH, sf::IntRect(sf::Vector2i(0, 96), sf::Vector2i(96, 96)));
-
 }
 
 void Bombergirl::PickUpCharacterState::init() {
@@ -72,7 +72,6 @@ void Bombergirl::PickUpCharacterState::init() {
 	m_frame_2.setScale(2, 2);
 	m_frame_2.setOrigin(m_frame_2.getLocalBounds().width / 2.f, m_frame_2.getLocalBounds().height / 2.f);
 	m_frame_2.setPosition(m_character_text_2.getPosition().x, 500);
-
 }
 
 void Bombergirl::PickUpCharacterState::handleInput() {
@@ -130,10 +129,15 @@ void Bombergirl::PickUpCharacterState::handleInput() {
 				m_character_select_1.setOrigin(m_character_select_1.getLocalBounds().width / 2.f, m_character_select_1.getGlobalBounds().height / 2.f);
 				m_character_select_1.setScale(2, 2);
 				m_character_select_1.setPosition(m_frame_1.getPosition());
+			}
 
+			if (m_character_value_1 != "" && m_character_value_2 != "")
+			{
+				m_sharedContext->m_resources->loadTexture("move1", PLAYER_MOVEMENT_TEXTURE_PATH + m_character_value_1 + ".png");
+				m_sharedContext->m_resources->loadTexture("move2", PLAYER_MOVEMENT_TEXTURE_PATH + m_character_value_2 + ".png");
+				m_sharedContext->m_stateManager->push(new GameState(m_sharedContext, "move1", "move2"), true);
 			}
 		}
-
 	}
 }
 
