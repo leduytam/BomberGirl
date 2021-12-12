@@ -100,6 +100,7 @@ void Bombergirl::MainMenuState::handleInput()
 				case 1:
 				case 2:
 					m_sharedContext->m_stateManager->push(new AboutState(m_sharedContext));
+					break;
 				case 3:
 					m_sharedContext->m_window->close();
 				default:
