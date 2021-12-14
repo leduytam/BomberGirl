@@ -11,6 +11,8 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext, const sf::String&
     
     m_player1->setArena(m_sharedContext->m_window->getSize());
     m_player2->setArena(m_sharedContext->m_window->getSize());
+
+
 }
 
 Bombergirl::GameState::~GameState()
@@ -19,11 +21,25 @@ Bombergirl::GameState::~GameState()
     delete m_player2;
 }
 
+void Bombergirl::GameState::loadResources() {
+    m_sharedContext->m_resources->loadTexture("background_tileset", BACKGROUND_TILESETS_PATH);
+}
+
+void Bombergirl::GameState::createBackground()
+{
+
+}
+
+
 void Bombergirl::GameState::init()
 {
+    loadResources();
     auto windowSize = m_sharedContext->m_window->getSize();
     m_background.setFillColor(sf::Color::White);
     m_background.setSize({ (float)windowSize.x, (float)windowSize.y });
+    m_backgroundTexture = m_sharedContext->m_resources->getTexture("background_tileset");
+
+    m_player2->setPosition(sf::Vector2f{(float)windowSize.x - 24.f, (float)windowSize.y - 24.f });
 }
 
 void Bombergirl::GameState::handleInput()

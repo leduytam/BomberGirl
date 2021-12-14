@@ -35,6 +35,7 @@ namespace Bombergirl
         void setArena(const sf::Vector2u& arena = {1920,1080});
 
         void setPosition(const sf::Vector2f&);
+        
     };
 
 };

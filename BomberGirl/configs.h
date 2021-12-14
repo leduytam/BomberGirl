@@ -45,5 +45,6 @@ namespace Bombergirl
 #pragma region Game
 	const auto PLAYER_SHADOW_PATH = "./assets/textures/players/shadow.png";
 	const auto PLAYER_MOVEMENT_TEXTURE_PATH = "./assets/textures/players/movements/";
+	const auto BACKGROUND_TILESETS_PATH = "./assets/textures/tilesets/SF_Outside_A3.png";
 #pragma endregion
 }

@@ -69,8 +69,7 @@ void Bombergirl::Player::update(const float& dt)
         case Player::Direction::Right:
             m_playerSprite.move(dt * m_speed, 0.f);
             m_walkingRight.update(dt);
-            if (m_playerSprite.getPosition().x > (m_Arena.x - m_playerSprite.getLocalBounds().width)) {
-                std::cout << m_playerSprite.getLocalBounds().width;
+            if (m_playerSprite.getPosition().x > (m_Arena.x - m_playerSprite.getLocalBounds().width / 2)) {
                 m_playerSprite.move(-dt * m_speed, 0.f);
             }
             break;
