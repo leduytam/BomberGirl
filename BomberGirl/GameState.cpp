@@ -6,8 +6,11 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext, const sf::String&
     m_sharedContext->m_resources->loadTexture("shadow1", PLAYER_SHADOW_PATH);
     m_sharedContext->m_resources->loadTexture("shadow2", PLAYER_SHADOW_PATH);
 
-    m_player1 = new Player(&m_sharedContext->m_resources->getTexture(character_1), &m_sharedContext->m_resources->getTexture("shadow1"));
-    m_player2 = new Player(&m_sharedContext->m_resources->getTexture(character_2), &m_sharedContext->m_resources->getTexture("shadow2"));
+    m_player1 = new Player(&m_sharedContext->m_resources->getTexture(character_1), &m_sharedContext->m_resources->getTexture("shadow1"), true);
+    m_player2 = new Player(&m_sharedContext->m_resources->getTexture(character_2), &m_sharedContext->m_resources->getTexture("shadow2"), false);
+    
+    m_player1->setArena(m_sharedContext->m_window->getSize());
+    m_player2->setArena(m_sharedContext->m_window->getSize());
 }
 
 Bombergirl::GameState::~GameState()
@@ -35,14 +38,31 @@ void Bombergirl::GameState::handleInput()
         }
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+        m_player2->moveUp();
+    }   
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+        m_player2->moveDown();
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        m_player2->moveLeft();
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        m_player2->moveRight();
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         m_player1->moveUp();
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         m_player1->moveDown();
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         m_player1->moveLeft();
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         m_player1->moveRight();
+    }
 }
 
 void Bombergirl::GameState::update(const float& dt)

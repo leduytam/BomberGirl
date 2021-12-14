@@ -1,7 +1,9 @@
 #include "player.h"
+#include<iostream>
 
-Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTexture) : m_speed(100.f), m_direction(Direction::Down), m_isDying(false)
+Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTexture, bool directDown) : m_speed(200.f), m_isDying(false)
 {
+    m_direction = directDown ? Direction::Down : Direction::Up;
     m_playerSprite.setTexture(*playerTexture);
     m_shadowSprite.setTexture(*shadowTexture);
     m_shadowSprite.setPosition({ 0.f, 8.f });
@@ -46,18 +48,31 @@ void Bombergirl::Player::update(const float& dt)
         case Player::Direction::Up:
             m_playerSprite.move(0.f, -dt * m_speed);
             m_walkingUp.update(dt);
+            if (m_playerSprite.getPosition().y < 0.f) {
+                m_playerSprite.move(0.f, dt * m_speed);
+            }
             break;
         case Player::Direction::Down:
             m_playerSprite.move(0.f, dt * m_speed);
             m_walkingDown.update(dt);
+            if (m_playerSprite.getPosition().y > (m_Arena.y - m_playerSprite.getLocalBounds().height)) {
+                m_playerSprite.move(0.f, -dt * m_speed);
+            }
             break;
         case Player::Direction::Left:
             m_playerSprite.move(-dt * m_speed, 0.f);
             m_walkingLeft.update(dt);
+            if (m_playerSprite.getPosition().x < 0.f) {
+                m_playerSprite.move(dt * m_speed, 0.f);
+            }
             break;
         case Player::Direction::Right:
             m_playerSprite.move(dt * m_speed, 0.f);
             m_walkingRight.update(dt);
+            if (m_playerSprite.getPosition().x > (m_Arena.x - m_playerSprite.getLocalBounds().width)) {
+                std::cout << m_playerSprite.getLocalBounds().width;
+                m_playerSprite.move(-dt * m_speed, 0.f);
+            }
             break;
         }
     }
@@ -99,4 +114,8 @@ void Bombergirl::Player::die()
 void Bombergirl::Player::setPosition(const sf::Vector2f& position)
 {
    m_playerSprite.setPosition({ position.x - 24.f, position.y - 24.f });
+}
+
+void Bombergirl::Player::setArena(const sf::Vector2u& arena) {
+    m_Arena = arena;
 }
