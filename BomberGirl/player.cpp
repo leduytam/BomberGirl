@@ -33,9 +33,6 @@ Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTextur
 	m_dying.addFrame({ 0, 192, 48, 48 });
 	m_dying.addFrame({ 48, 192, 48, 48 });
 	m_dying.addFrame({ 96, 192, 48, 48 });
-
-
-
 }
 
 void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<Cell*>>& map)
@@ -62,17 +59,6 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 		break;
 	}
 
-	sf::Vector2f newPos = offset + m_playerSprite.getPosition();
-
-	if (newPos.y < m_arena.top || newPos.y > m_arena.height) {
-		offset.y = 0.f;
-	}
-	if (newPos.x < m_arena.left || newPos.x > m_arena.width) {
-		offset.x = 0.f;
-	}
-
-	bool isCollision = false;
-
 	sf::FloatRect playerBound = this->getBound();
 	sf::FloatRect newPlayerBound = {
 		playerBound.left + offset.x,
@@ -80,6 +66,16 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 		playerBound.width,
 		playerBound.height
 	};
+
+	if (newPlayerBound.top < m_arena.top || newPlayerBound.top + newPlayerBound.height > m_arena.height) {
+		offset.y = 0.f;
+	}
+
+	if (newPlayerBound.left < m_arena.left || newPlayerBound.left + newPlayerBound.width  > m_arena.width) {
+		offset.x = 0.f;
+	}
+
+	bool isCollision = false;
 
 	for (int i = 0; i < map.size(); i++)
 	{
@@ -96,13 +92,11 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 
 					float tmp = fabs(offset.x);
 
-					if (offset.x < 0.f)
-					{
+					if (offset.x < 0.f) {
 						offset.x = cell->getBound().left + cell->getBound().width - playerBound.left;
 						offset.y = tmp - fabs(offset.x);
 					}
-					else
-					{
+					else {
 						offset.x = cell->getBound().left - (playerBound.left + playerBound.width);
 						offset.y = tmp - fabs(offset.x);
 					}
@@ -111,38 +105,25 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 						offset.y = -offset.y;
 					}
 				}
-				//else {
-				//	auto centerPlayer_X = newPlayerBound.left + newPlayerBound.width / 2.f;
-				//	auto centerCell_Y = cell->getBound().left + cell->getBound().width / 2.f;
-				//}
-			}
-		}
-	}
-
-
-
-	/*for (const auto& row : map) {
-		for (const auto& cell : row) {
-			if (newPlayerBound.intersects(cell->getBound()) && cell->getType() == 1) {
-				if (v.x != 0.f)
-				{
-					auto centerPlayer_Y = newPlayerBound.top + newPlayerBound.height / 2.f;
-					auto centerCell_Y = cell->getBound().top + cell->getBound().height / 2.f;
-					bool isUp = centerPlayer_Y < centerCell_Y;
-					
-					if (v.x < 0.f)
-					{
-						auto gap_X = cell->getBound().left + cell->getBound().width - newPlayerBound.left;
-
-					}
-					else
-					{
-						auto gap_X = newPlayerBound.left + newPlayerBound.width - cell->getBound().left;
-					}
-				}
 				else {
-					auto centerPlayer_X = newPlayerBound.left + newPlayerBound.width / 2.f;
-					auto centerCell_Y = cell->getBound().left + cell->getBound().width / 2.f;
+					auto centerPlayer_X = playerBound.left + playerBound.width / 2.f;
+					auto centerCell_X = cell->getBound().left + cell->getBound().width / 2.f;
+					bool isLeft = centerPlayer_X < centerCell_X;
+
+					float tmp = fabs(offset.y);
+
+					if (offset.y < 0.f) {
+						offset.y = cell->getBound().top + cell->getBound().height - playerBound.top;
+						offset.x = tmp - fabs(offset.y);
+					}
+					else {
+						offset.y = cell->getBound().top - (playerBound.top + playerBound.height);
+						offset.x = tmp - fabs(offset.y);
+					}
+
+					if (isLeft) {
+						offset.x = -offset.x;
+					}
 				}
 
 				isCollision = true;
@@ -153,46 +134,9 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 		if (isCollision) {
 			break;
 		}
-	}*/
+	}
+
 	m_playerSprite.move(offset);
-	//if (m_isDying)
-	//{
-	//    m_dying.update(dt);
-	//}
-	//else
-	//{
-	//    switch (m_direction)
-	//    {
-	//    case Player::Direction::Up:
-	//        m_playerSprite.move(0.f, -dt * m_speed);
-	//        m_walkingUp.update(dt);
-	//        if (m_playerSprite.getPosition().y < m_arena.top) {
-	//            m_playerSprite.move(0.f, dt * m_speed);
-	//        }
-	//        break;
-	//    case Player::Direction::Down:
-	//        m_playerSprite.move(0.f, dt * m_speed);
-	//        m_walkingDown.update(dt);
-	//        if (m_playerSprite.getPosition().y > (m_arena.height)) {
-	//            m_playerSprite.move(0.f, -dt * m_speed);
-	//        }
-	//        break;
-	//    case Player::Direction::Left:
-	//        m_playerSprite.move(-dt * m_speed, 0.f);
-	//        m_walkingLeft.update(dt);
-	//        if (m_playerSprite.getPosition().x < m_arena.left) {
-	//            m_playerSprite.move(dt * m_speed, 0.f);
-	//        }
-	//        break;
-	//    case Player::Direction::Right:
-	//        m_playerSprite.move(dt * m_speed, 0.f);
-	//        m_walkingRight.update(dt);
-	//        if (m_playerSprite.getPosition().x > (m_arena.width)) {
-	//            m_playerSprite.move(-dt * m_speed, 0.f);
-	//        }
-	//        break;
-	//    }
-	//}
 
 	m_direction = Direction::None;
 }
@@ -201,6 +145,14 @@ void Bombergirl::Player::render(sf::RenderWindow& window)
 {
 	window.draw(m_shadowSprite, m_playerSprite.getTransform());
 	window.draw(m_playerSprite);
+
+	sf::RectangleShape rect;
+	rect.setPosition({ getBound().left, getBound().top });
+	rect.setSize({ getBound().width, getBound().height });
+	rect.setFillColor(sf::Color::Transparent);
+	rect.setOutlineColor(sf::Color::Red);
+	rect.setOutlineThickness(-2.f);
+	window.draw(rect);
 }
 
 void Bombergirl::Player::moveUp()
@@ -228,8 +180,6 @@ void Bombergirl::Player::die()
 	m_isDying = true;
 }
 
-
-
 void Bombergirl::Player::setPosition(const sf::Vector2f& position)
 {
 	m_playerSprite.setPosition({ position.x - 24.f, position.y - 24.f });
@@ -238,9 +188,8 @@ void Bombergirl::Player::setPosition(const sf::Vector2f& position)
 void Bombergirl::Player::setArena(const sf::IntRect& arena) {
 	m_arena.left = arena.left + m_playerSprite.getLocalBounds().width;
 	m_arena.top = arena.top + m_playerSprite.getLocalBounds().height;
-	m_arena.width = arena.width - 2 * m_playerSprite.getLocalBounds().width;
-	m_arena.height = arena.height - 2 * m_playerSprite.getLocalBounds().height;
-
+	m_arena.width = arena.width - m_playerSprite.getLocalBounds().width;
+	m_arena.height = arena.height - m_playerSprite.getLocalBounds().height;
 }
 
 sf::FloatRect Bombergirl::Player::getBound()
@@ -248,7 +197,7 @@ sf::FloatRect Bombergirl::Player::getBound()
 	return {
 		m_playerSprite.getPosition().x + 8.f,
 		m_playerSprite.getPosition().y + 8.f,
-		m_playerSprite.getLocalBounds().width - 8.f,
+		m_playerSprite.getLocalBounds().width - 16.f,
 		m_playerSprite.getLocalBounds().height - 8.f,
 	};
 }
