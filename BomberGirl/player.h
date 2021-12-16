@@ -19,8 +19,8 @@ namespace Bombergirl
         Direction m_direction;
         float m_speed;
         bool m_isDying;
+        sf::IntRect m_arena;
 
-        sf::Vector2u m_Arena;
     public:
         Player(sf::Texture*, sf::Texture*, bool directDown = true);
 
@@ -32,7 +32,7 @@ namespace Bombergirl
         void moveLeft();
         void moveRight();
         void die();
-        void setArena(const sf::Vector2u& arena = {1920,1080});
+        void setArena(const sf::IntRect& arena = {0,0,1920,1080});
 
         void setPosition(const sf::Vector2f&);
         
