@@ -150,6 +150,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="base_state.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Cell.cpp" />
     <ClCompile Include="fade_in_transition_state.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="base_state.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="configs.h" />
     <ClInclude Include="fade_in_transition_state.h" />
     <ClInclude Include="GameState.h" />

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "animation.h"
+#include "Cell.h"
+#include <vector>
 
 namespace Bombergirl
 {
@@ -24,7 +26,7 @@ namespace Bombergirl
     public:
         Player(sf::Texture*, sf::Texture*, bool directDown = true);
 
-        void update(const float&);
+        void update(const float&, const std::vector<std::vector<Cell*>>&);
         void render(sf::RenderWindow&);
 
         void moveUp();
@@ -36,7 +38,7 @@ namespace Bombergirl
 
         void setPosition(const sf::Vector2f&);
 
-
+        sf::FloatRect getBound();
         
     };
 

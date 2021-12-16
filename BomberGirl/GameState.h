@@ -2,32 +2,11 @@
 
 #include "base_state.h"
 #include "player.h"
-#include<vector>
+#include <vector>
+#include "Cell.h"
 
 namespace Bombergirl
 {
-    class Cell {
-    private:
-        sf::Vector2f m_position;
-        sf::FloatRect m_rect;
-        int m_type;
-        const int cell_size = 48;
-    public:
-        Cell(int type = 0, sf::Vector2f position = sf::Vector2f(0, 0)) {
-            m_type = type;
-            m_position = position;
-            m_rect = sf::FloatRect(position.x, position.y, cell_size, cell_size);
-        }
-        int getType() {
-            return m_type;
-        }
-        
-        sf::FloatRect getBound() {
-            return m_rect;
-        }
-       
-    };
-
     class GameState : public BaseState
     {
     private:

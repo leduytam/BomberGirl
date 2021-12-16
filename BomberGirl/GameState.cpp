@@ -71,7 +71,6 @@ void Bombergirl::GameState::createBackground()
 	}
 }
 
-
 void Bombergirl::GameState::init()
 {
 	loadResources();
@@ -102,7 +101,6 @@ void Bombergirl::GameState::handleInput()
 		}
 	}
 
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		m_player2->moveUp();
 	}
@@ -132,8 +130,8 @@ void Bombergirl::GameState::handleInput()
 
 void Bombergirl::GameState::update(const float& dt)
 {
-	m_player1->update(dt);
-	m_player2->update(dt);
+	m_player1->update(dt, m_map);
+	m_player2->update(dt, m_map);
 }
 
 void Bombergirl::GameState::render()
