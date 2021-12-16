@@ -9,16 +9,23 @@ namespace Bombergirl
     class Cell {
     private:
         sf::Vector2f m_position;
+        sf::FloatRect m_rect;
         int m_type;
+        const int cell_size = 48;
     public:
         Cell(int type = 0, sf::Vector2f position = sf::Vector2f(0, 0)) {
             m_type = type;
             m_position = position;
+            m_rect = sf::FloatRect(position.x, position.y, cell_size, cell_size);
         }
         int getType() {
             return m_type;
         }
-
+        
+        sf::FloatRect getBound() {
+            return m_rect;
+        }
+       
     };
 
     class GameState : public BaseState
@@ -29,6 +36,7 @@ namespace Bombergirl
         sf::Texture m_backgroundTexture;
         sf::VertexArray m_backgroundVA;
         sf::IntRect m_arena;
+        sf::View m_view;
 
         std::vector <std::vector<Cell*>> m_map;
 

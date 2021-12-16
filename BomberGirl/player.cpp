@@ -33,6 +33,9 @@ Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTextur
     m_dying.addFrame({ 0, 192, 48, 48 });
     m_dying.addFrame({ 48, 192, 48, 48 });
     m_dying.addFrame({ 96, 192, 48, 48 });
+    
+
+    
 }
 
 void Bombergirl::Player::update(const float& dt)
@@ -109,6 +112,8 @@ void Bombergirl::Player::die()
 {
     m_isDying = true;
 }
+
+
 
 void Bombergirl::Player::setPosition(const sf::Vector2f& position)
 {

@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include "configs.h"
+#include<iostream>
 
 Bombergirl::GameState::GameState(SharedContext* sharedContext, const sf::String& character_1, const sf::String& character_2) : BaseState(sharedContext)
 {
@@ -8,8 +9,11 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext, const sf::String&
 	m_player1 = new Player(&m_sharedContext->m_resources->getTexture(character_1), &m_sharedContext->m_resources->getTexture("shadow1"), true);
 	m_player2 = new Player(&m_sharedContext->m_resources->getTexture(character_2), &m_sharedContext->m_resources->getTexture("shadow2"), false);
 	m_arena = sf::IntRect{ 0,0,WORLD_WIDTH, WORLD_HEIGHT };
-	
-	
+
+
+	m_view.reset(sf::FloatRect(0, 0, 1920, 1080));
+	m_view.setCenter(WORLD_WIDTH / 2.f, WORLD_HEIGHT / 2.f);
+	m_view.zoom(0.7);
 }
 
 Bombergirl::GameState::~GameState()
@@ -29,15 +33,13 @@ void Bombergirl::GameState::createMap() {
 		std::vector<Cell*> rowCell;
 		for (int w = 0; w < world_widthTiles; w++) {
 			if (h == 0 || w == 0 || h == world_heightTiles - 1 || w == world_widthTiles - 1) {
-				rowCell.push_back(new Cell());
+				rowCell.push_back(new Cell(0, sf::Vector2f{ 1.f * w * TILE_SIZE, 1.f * h * TILE_SIZE }));
 			}
-			else if (h % 2 ==0 && w % 2 == 0) {
-				rowCell.push_back(new Cell(1));
+			else if (h % 2 == 0 && w % 2 == 0) {
+				rowCell.push_back(new Cell(1, sf::Vector2f{ 1.f * w * TILE_SIZE, 1.f * h * TILE_SIZE }));
 			}
-			else {/*
-				srand((int)time(0) + h * w - h);
-				int r = rand() % 2 + 2;*/
-				rowCell.push_back(new Cell(3));
+			else {
+				rowCell.push_back(new Cell(3, sf::Vector2f{ 1.f * w * TILE_SIZE, 1.f * h * TILE_SIZE }));
 			}
 		}
 		m_map.push_back(rowCell);
@@ -59,11 +61,11 @@ void Bombergirl::GameState::createBackground()
 			m_backgroundVA[currentVertex + 2].position = sf::Vector2f((w * TILE_SIZE) + TILE_SIZE, (h * TILE_SIZE) + TILE_SIZE);
 			m_backgroundVA[currentVertex + 3].position = sf::Vector2f(w * TILE_SIZE, (h * TILE_SIZE) + TILE_SIZE);
 
-				m_backgroundVA[currentVertex].texCoords = sf::Vector2f(0, TILE_SIZE * m_map[h][w]->getType());
-				m_backgroundVA[currentVertex + 1].texCoords = sf::Vector2f(TILE_SIZE, TILE_SIZE * m_map[h][w]->getType());
-				m_backgroundVA[currentVertex + 2].texCoords = sf::Vector2f(TILE_SIZE, TILE_SIZE + TILE_SIZE * m_map[h][w]->getType());
-				m_backgroundVA[currentVertex + 3].texCoords = sf::Vector2f(0, TILE_SIZE + TILE_SIZE * m_map[h][w]->getType());
-			
+			m_backgroundVA[currentVertex].texCoords = sf::Vector2f(0, TILE_SIZE * m_map[h][w]->getType());
+			m_backgroundVA[currentVertex + 1].texCoords = sf::Vector2f(TILE_SIZE, TILE_SIZE * m_map[h][w]->getType());
+			m_backgroundVA[currentVertex + 2].texCoords = sf::Vector2f(TILE_SIZE, TILE_SIZE + TILE_SIZE * m_map[h][w]->getType());
+			m_backgroundVA[currentVertex + 3].texCoords = sf::Vector2f(0, TILE_SIZE + TILE_SIZE * m_map[h][w]->getType());
+
 			currentVertex += VERTEX_IN_QUAD;
 		}
 	}
@@ -100,6 +102,7 @@ void Bombergirl::GameState::handleInput()
 		}
 	}
 
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		m_player2->moveUp();
 	}
@@ -135,12 +138,9 @@ void Bombergirl::GameState::update(const float& dt)
 
 void Bombergirl::GameState::render()
 {
+	m_sharedContext->m_window->setView(m_view);
 	m_sharedContext->m_window->draw(m_backgroundVA, &m_backgroundTexture);
 	m_player1->render(*m_sharedContext->m_window);
 	m_player2->render(*m_sharedContext->m_window);
-	sf::Sprite demo;/*
-	demo.setTexture(m_sharedContext->m_resources->getTexture("background_tileset"));
-	m_sharedContext->m_window->draw(demo);*/
-
 }
 
