@@ -7,7 +7,7 @@ Bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sha
 void Bombergirl::IntroState::init()
 {
     // load resources
-    m_sharedContext->m_resources->loadTexture("logo", LOGO_PATH);
+    m_sharedContext->m_resources->loadTexture("logo", INTRO_LOGO_PATH);
 
     // init components
     auto windowSize = m_sharedContext->m_window->getSize();

@@ -2,11 +2,11 @@
 #include<iostream>
 #include "main_menu_state.h"
 #include "paused_state.h"
+#include "pick_up_Character_state.h"
 #include "about_state.h"
 #include "configs.h"
 
 Bombergirl::MainMenuState::MainMenuState(SharedContext* sharedContext) : BaseState(sharedContext) {
-	mainOption = OPTION(0);
 	m_option = 0;
 }
 
@@ -15,8 +15,8 @@ void Bombergirl::MainMenuState::init()
 	// load resources
 	m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
 	m_sharedContext->m_resources->loadTexture("background_menu", MENU_BACKGROUND_PATH);
-	m_sharedContext->m_resources->loadTexture("container_menu", MENU_CONTAINER_PATH);
-	m_sharedContext->m_resources->loadTexture("arrow_menu", MENU_CONTAINER_PATH, sf::IntRect(sf::Vector2i(144, 96), sf::Vector2i(24, 24)));
+	m_sharedContext->m_resources->loadTexture("container_menu", MENU_SYSTEM_PATH);
+	m_sharedContext->m_resources->loadTexture("arrow_menu", MENU_SYSTEM_PATH, sf::IntRect(sf::Vector2i(144, 96), sf::Vector2i(24, 24)));
 
 	// init components
 	m_mainMenuText.setFont(m_sharedContext->m_resources->getFont("garamond"));
@@ -91,16 +91,20 @@ void Bombergirl::MainMenuState::handleInput()
 				m_option = m_option--;
 				if (m_option < 0) m_option = 3;
 			}
-
-			if (e.key.code == sf::Keyboard::Enter)
-			{
-				if (m_option == 2)
+			if (e.key.code == sf::Keyboard::Enter) {
+				switch (m_option)
 				{
+				case 0:
+					m_sharedContext->m_stateManager->push(new PickUpCharacterState(m_sharedContext));
+					break;
+				case 1:
+				case 2:
 					m_sharedContext->m_stateManager->push(new AboutState(m_sharedContext));
-				}
-				else if (m_option == 3)
-				{
+					break;
+				case 3:
 					m_sharedContext->m_window->close();
+				default:
+					break;
 				}
 			}
 		}

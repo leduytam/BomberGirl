@@ -26,7 +26,6 @@ namespace Bombergirl
 			EXIT,
 			MAX,
 		};
-		OPTION mainOption;
 		MainMenuState(SharedContext* sharedContext);
 
 
