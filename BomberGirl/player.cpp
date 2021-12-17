@@ -1,5 +1,4 @@
 #include "player.h"
-#include<iostream>
 
 Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTexture, bool isFaceUp) : m_speed(150.f), m_isDead(false)
 {
@@ -29,6 +28,8 @@ Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTextur
 	m_walkingUpAnimation.addFrame({ 96, 144, 48, 48 });
 
 	m_deadAnimation.setSprite(&m_playerSprite);
+	m_deadAnimation.setFrameDuration(0.5f);
+	m_deadAnimation.setRepeat(false);
 	m_deadAnimation.addFrame({ 0, 192, 48, 48 });
 	m_deadAnimation.addFrame({ 48, 192, 48, 48 });
 	m_deadAnimation.addFrame({ 96, 192, 48, 48 });
@@ -43,6 +44,11 @@ Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTextur
 
 void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<Cell*>>& map)
 {
+	if (m_isDead) {
+		m_deadAnimation.update(dt);
+		return;
+	}
+
 	sf::Vector2f offset;
 
 	switch (m_direction)
@@ -98,7 +104,7 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 			if (newPlayerBound.intersects(cell->getBound()) && cell->getType() == 1) {
 				if (offset.x != 0.f)
 				{
-					auto centerPlayer_Y = playerBound.top + playerBound.height / 2.f;
+					auto centerPlayer_Y = this->getCenter().y;
 					auto centerCell_Y = cell->getBound().top + cell->getBound().height / 2.f;
 					bool isUp = centerPlayer_Y < centerCell_Y - cell->getBound().height / 6.f;
 					bool isDown = centerPlayer_Y > centerCell_Y + cell->getBound().height / 6.f;
@@ -130,7 +136,7 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 					}
 				}
 				else {
-					auto centerPlayer_X = playerBound.left + playerBound.width / 2.f;
+					auto centerPlayer_X = this->getCenter().x;
 					auto centerCell_X = cell->getBound().left + cell->getBound().width / 2.f;
 					bool isLeft = centerPlayer_X < centerCell_X - cell->getBound().width / 6.f;
 					bool isRight = centerPlayer_X > centerCell_X + cell->getBound().width / 6.f;
@@ -221,11 +227,21 @@ void Bombergirl::Player::setPosition(const sf::Vector2f& position)
 	m_playerSprite.setPosition({ position.x - 24.f, position.y - 24.f });
 }
 
+void Bombergirl::Player::setSpeed(const float& speed)
+{
+	m_speed = speed;
+}
+
 void Bombergirl::Player::setArena(const sf::IntRect& arena) {
 	m_arena.left = arena.left + m_playerSprite.getLocalBounds().width;
 	m_arena.top = arena.top + m_playerSprite.getLocalBounds().height;
 	m_arena.width = arena.width - m_playerSprite.getLocalBounds().width;
 	m_arena.height = arena.height - m_playerSprite.getLocalBounds().height;
+}
+
+sf::Vector2f Bombergirl::Player::getCenter()
+{
+	return { getBound().left + getBound().width / 2.f, getBound().top + getBound().height / 2.f };
 }
 
 sf::FloatRect Bombergirl::Player::getBound()

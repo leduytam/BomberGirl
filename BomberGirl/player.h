@@ -35,9 +35,10 @@ namespace Bombergirl
         void moveRight();
         void setIsDead();
         void setArena(const sf::IntRect& arena = { 0, 0, 1920, 1080});
-
         void setPosition(const sf::Vector2f&);
+        void setSpeed(const float&);
 
+        sf::Vector2f getCenter();
         sf::FloatRect getBound();
     };
 };

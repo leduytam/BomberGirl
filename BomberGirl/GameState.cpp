@@ -10,7 +10,6 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext, const sf::String&
 	m_player2 = new Player(&m_sharedContext->m_resources->getTexture(character_2), &m_sharedContext->m_resources->getTexture("shadow2"), true);
 	m_arena = sf::IntRect{ 0, 0, WORLD_WIDTH, WORLD_HEIGHT };
 
-
 	m_view.reset(sf::FloatRect(0, 0, 1920, 1080));
 	m_view.setCenter(WORLD_WIDTH / 2.f, WORLD_HEIGHT / 2.f);
 	m_view.zoom(0.7);
@@ -20,10 +19,12 @@ Bombergirl::GameState::~GameState()
 {
 	delete m_player1;
 	delete m_player2;
-}
-
-void Bombergirl::GameState::loadResources() {
-	m_sharedContext->m_resources->loadTexture("background_tileset", BACKGROUND_TILESETS_PATH, sf::IntRect(48 * 7, 48 * 5, 48, 48 * 4));
+	
+	for (auto& row : m_map) {
+		for (auto& cell : row) {
+			delete cell;
+		}
+	}
 }
 
 void Bombergirl::GameState::createMap() {
@@ -46,47 +47,21 @@ void Bombergirl::GameState::createMap() {
 	}
 }
 
-void Bombergirl::GameState::createBackground()
-{
-	int world_widthTiles = m_arena.width / TILE_SIZE;
-	int world_heightTiles = m_arena.height / TILE_SIZE;
-	m_backgroundVA.setPrimitiveType(sf::Quads);
-	m_backgroundVA.resize(world_heightTiles * world_widthTiles * VERTEX_IN_QUAD);
-	int currentVertex = 0;
-
-	for (int w = 0; w < world_widthTiles; w++) {
-		for (int h = 0; h < world_heightTiles; h++) {
-			m_backgroundVA[currentVertex].position = sf::Vector2f(w * TILE_SIZE, h * TILE_SIZE);
-			m_backgroundVA[currentVertex + 1].position = sf::Vector2f((w * TILE_SIZE) + TILE_SIZE, h * TILE_SIZE);
-			m_backgroundVA[currentVertex + 2].position = sf::Vector2f((w * TILE_SIZE) + TILE_SIZE, (h * TILE_SIZE) + TILE_SIZE);
-			m_backgroundVA[currentVertex + 3].position = sf::Vector2f(w * TILE_SIZE, (h * TILE_SIZE) + TILE_SIZE);
-
-			m_backgroundVA[currentVertex].texCoords = sf::Vector2f(0, TILE_SIZE * m_map[h][w]->getType());
-			m_backgroundVA[currentVertex + 1].texCoords = sf::Vector2f(TILE_SIZE, TILE_SIZE * m_map[h][w]->getType());
-			m_backgroundVA[currentVertex + 2].texCoords = sf::Vector2f(TILE_SIZE, TILE_SIZE + TILE_SIZE * m_map[h][w]->getType());
-			m_backgroundVA[currentVertex + 3].texCoords = sf::Vector2f(0, TILE_SIZE + TILE_SIZE * m_map[h][w]->getType());
-
-			currentVertex += VERTEX_IN_QUAD;
-		}
-	}
-}
-
 void Bombergirl::GameState::init()
 {
-	loadResources();
-	auto windowSize = m_sharedContext->m_window->getSize();
-	m_background.setFillColor(sf::Color::White);
-	m_background.setSize({ (float)windowSize.x, (float)windowSize.y });
+	m_sharedContext->m_resources->loadTexture("map_background", MAP_BACKGROUND_TEXTURE_PATH);
 
-	m_backgroundTexture = m_sharedContext->m_resources->getTexture("background_tileset");
 	createMap();
-	createBackground();
 
 	m_player1->setArena(m_arena);
 	m_player2->setArena(m_arena);
 
 	m_player1->setPosition(sf::Vector2f{ (float)m_arena.left + TILE_SIZE * 1.5f, (float)m_arena.top + TILE_SIZE * 1.5f });
+	m_player1->setSpeed(PLAYER_DEFAULT_SPEED);
 	m_player2->setPosition(sf::Vector2f{ (float)m_arena.width - TILE_SIZE * 1.5f, (float)m_arena.height - TILE_SIZE * 1.5f });
+	m_player2->setSpeed(PLAYER_DEFAULT_SPEED);
+
+	m_mapBackgroundSprite.setTexture(m_sharedContext->m_resources->getTexture("map_background"));
 }
 
 void Bombergirl::GameState::handleInput()
@@ -94,9 +69,10 @@ void Bombergirl::GameState::handleInput()
 	sf::Event e;
 	while (m_sharedContext->m_window->pollEvent(e))
 	{
-		if (e.type == sf::Event::Closed)
+		if (e.type == sf::Event::Closed) {
 			m_sharedContext->m_window->close();
-		if (e.key.code == sf::Keyboard::Escape) {
+		}
+		else if (e.key.code == sf::Keyboard::Escape) {
 			m_sharedContext->m_window->close();
 		}
 	}
@@ -112,6 +88,9 @@ void Bombergirl::GameState::handleInput()
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		m_player2->moveRight();
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+		m_player2->setIsDead();
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
@@ -137,7 +116,7 @@ void Bombergirl::GameState::update(const float& dt)
 void Bombergirl::GameState::render()
 {
 	m_sharedContext->m_window->setView(m_view);
-	m_sharedContext->m_window->draw(m_backgroundVA, &m_backgroundTexture);
+	m_sharedContext->m_window->draw(m_mapBackgroundSprite);
 	m_player1->render(*m_sharedContext->m_window);
 	m_player2->render(*m_sharedContext->m_window);
 }

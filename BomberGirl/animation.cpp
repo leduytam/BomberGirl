@@ -1,6 +1,6 @@
 #include "animation.h"
 
-Bombergirl::Animation::Animation() : m_time(0.f), m_frameDuration(0.15f) { }
+Bombergirl::Animation::Animation() : m_time(0.f), m_frameDuration(0.15f), m_isRepeat(true) { }
 
 void Bombergirl::Animation::setSprite(sf::Sprite* sprite)
 {
@@ -21,20 +21,15 @@ void Bombergirl::Animation::update(const float& dt)
 {
     m_time += dt;
 
-    if (m_time >= m_frameDuration * m_frames.size())
-        m_time -= m_frameDuration * m_frames.size();
-
-    float m_tmp = m_time;
-
-    for (size_t i = 0; i < m_frames.size(); i++)
-    {
-        m_tmp -= m_frameDuration;
-
-        if (m_tmp < 0.f)
-        {
-            m_playerSprite->setTextureRect(m_frames[i]);
-            break;
-        }
+    if (!m_isRepeat && m_time >= m_frameDuration * m_frames.size()) {
+        return;
     }
+
+    m_playerSprite->setTextureRect(m_frames[static_cast<int>(m_time / m_frameDuration) % m_frames.size()]);
+}
+
+void Bombergirl::Animation::setRepeat(const bool& isRepeat)
+{
+    m_isRepeat = isRepeat;
 }
 

@@ -9,7 +9,7 @@ Bombergirl::Game::Game()
     m_sharedContext.m_stateManager = &m_stateManager;
     m_sharedContext.m_window->setKeyRepeatEnabled(false);
 
-    m_window.create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Default);
+    m_window.create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Fullscreen);
     m_window.setMouseCursorVisible(false);
     m_stateManager.push(new IntroState(&m_sharedContext));
 }
