@@ -25,6 +25,10 @@ Bombergirl::GameState::~GameState()
 			delete cell;
 		}
 	}
+
+	for (auto& bomb : m_bombs) {
+		delete bomb;
+	}
 }
 
 void Bombergirl::GameState::createMap() {
@@ -50,6 +54,7 @@ void Bombergirl::GameState::createMap() {
 void Bombergirl::GameState::init()
 {
 	m_sharedContext->m_resources->loadTexture("map_background", MAP_BACKGROUND_TEXTURE_PATH);
+	m_sharedContext->m_resources->loadTexture("bomb", BOMB_TEXTURE_PATH);
 
 	createMap();
 
@@ -105,10 +110,24 @@ void Bombergirl::GameState::handleInput()
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		m_player1->moveRight();
 	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+		m_bombs.push_back(new Bomb(&m_sharedContext->m_resources->getTexture("bomb"), { static_cast<int>((m_player2->getCenter().y / TILE_SIZE)), static_cast<int>((m_player2->getCenter().x / TILE_SIZE)) }));
+	}
 }
 
 void Bombergirl::GameState::update(const float& dt)
 {
+	for (int i = 0; i < m_bombs.size(); i++) {
+		m_bombs[i]->update(dt, m_map);
+
+		if (m_bombs[i]->isDone()) {
+			delete m_bombs[i];
+			m_bombs.erase(m_bombs.begin() + i);
+			--i;
+		}
+	}
+
 	m_player1->update(dt, m_map);
 	m_player2->update(dt, m_map);
 }
@@ -117,6 +136,9 @@ void Bombergirl::GameState::render()
 {
 	m_sharedContext->m_window->setView(m_view);
 	m_sharedContext->m_window->draw(m_mapBackgroundSprite);
+	for (auto& bomb : m_bombs) {
+		bomb->draw(*m_sharedContext->m_window);
+	}
 	m_player1->render(*m_sharedContext->m_window);
 	m_player2->render(*m_sharedContext->m_window);
 }

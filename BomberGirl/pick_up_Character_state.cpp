@@ -181,7 +181,7 @@ void Bombergirl::PickUpCharacterState::lockSelect(int order, sf::RectangleShape&
 
 }
 
-void Bombergirl::PickUpCharacterState::setText(sf::Text & text, const float& charactersize, const sf::String& content) {
+void Bombergirl::PickUpCharacterState::setText(sf::Text & text, const int& charactersize, const sf::String& content) {
 	text.setFont(m_sharedContext->m_resources->getFont("garamond"));
 	text.setString(content);
 	text.setCharacterSize(charactersize);

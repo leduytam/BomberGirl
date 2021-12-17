@@ -47,9 +47,11 @@ namespace Bombergirl
 	const auto PLAYER_MOVEMENT_TEXTURE_PATH = "./assets/textures/players/movements/";
 	const auto BACKGROUND_TILESETS_PATH = "./assets/textures/tilesets/Dungeon_A5.png";
 	const auto MAP_BACKGROUND_TEXTURE_PATH = "./assets/textures/backgrounds/map_background.png";
+	const auto BOMB_TEXTURE_PATH = "./assets/textures/bomb/bomb.png";
 	const auto TILE_SIZE = 48;
 	const auto WORLD_WIDTH = 720;
 	const auto WORLD_HEIGHT = 720;
 	const auto PLAYER_DEFAULT_SPEED = 150.f;
+	const auto TIME_RAY_EXIST = 1.f;
 #pragma endregion
 }

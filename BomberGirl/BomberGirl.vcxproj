@@ -149,6 +149,7 @@
     <ClCompile Include="about_state.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="base_state.cpp" />
+    <ClCompile Include="bomb.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="fade_in_transition_state.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="paused_state.cpp" />
     <ClCompile Include="pick_up_Character_state.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="ray.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="state_manager.cpp" />
   </ItemGroup>
@@ -167,6 +169,7 @@
     <ClInclude Include="about_state.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="base_state.h" />
+    <ClInclude Include="bomb.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="configs.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="paused_state.h" />
     <ClInclude Include="pick_up_Character_state.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="ray.h" />
     <ClInclude Include="shared_context.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="intro_state.h" />

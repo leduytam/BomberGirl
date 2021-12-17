@@ -1,4 +1,5 @@
 #include "player.h"
+#include "configs.h"
 
 Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTexture, bool isFaceUp) : m_speed(150.f), m_isDead(false)
 {
@@ -8,32 +9,32 @@ Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTextur
 	m_shadowSprite.setPosition({ 0.f, 8.f });
 
 	m_walkingDownAnimation.setSprite(&m_playerSprite);
-	m_walkingDownAnimation.addFrame({ 0, 0, 48, 48 });
-	m_walkingDownAnimation.addFrame({ 48, 0, 48, 48 });
-	m_walkingDownAnimation.addFrame({ 96, 0, 48, 48 });
+	for (int i = 0; i < 3; i++) {
+		m_walkingDownAnimation.addFrame({ i * TILE_SIZE, 0 * TILE_SIZE, TILE_SIZE, TILE_SIZE });
+	}
 
 	m_walkingLeftAnimation.setSprite(&m_playerSprite);
-	m_walkingLeftAnimation.addFrame({ 0, 48, 48, 48 });
-	m_walkingLeftAnimation.addFrame({ 48, 48, 48, 48 });
-	m_walkingLeftAnimation.addFrame({ 96, 48, 48, 48 });
+	for (int i = 0; i < 3; i++) {
+		m_walkingLeftAnimation.addFrame({ i * TILE_SIZE, 1 * TILE_SIZE, TILE_SIZE, TILE_SIZE });
+	}
 
 	m_walkingRightAnimation.setSprite(&m_playerSprite);
-	m_walkingRightAnimation.addFrame({ 0, 96, 48, 48 });
-	m_walkingRightAnimation.addFrame({ 48, 96, 48, 48 });
-	m_walkingRightAnimation.addFrame({ 96, 96, 48, 48 });
+	for (int i = 0; i < 3; i++) {
+		m_walkingRightAnimation.addFrame({ i * TILE_SIZE, 2 * TILE_SIZE, TILE_SIZE, TILE_SIZE });
+	}
 
 	m_walkingUpAnimation.setSprite(&m_playerSprite);
-	m_walkingUpAnimation.addFrame({ 0, 144, 48, 48 });
-	m_walkingUpAnimation.addFrame({ 48, 144, 48, 48 });
-	m_walkingUpAnimation.addFrame({ 96, 144, 48, 48 });
+	for (int i = 0; i < 3; i++) {
+		m_walkingUpAnimation.addFrame({ i * TILE_SIZE, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE });
+	}
 
 	m_deadAnimation.setSprite(&m_playerSprite);
 	m_deadAnimation.setFrameDuration(0.5f);
 	m_deadAnimation.setRepeat(false);
-	m_deadAnimation.addFrame({ 0, 192, 48, 48 });
-	m_deadAnimation.addFrame({ 48, 192, 48, 48 });
-	m_deadAnimation.addFrame({ 96, 192, 48, 48 });
-	
+	for (int i = 0; i < 3; i++) {
+		m_deadAnimation.addFrame({ i * TILE_SIZE, 4 * TILE_SIZE, TILE_SIZE, TILE_SIZE });
+	}
+
 	if (isFaceUp) {
 		m_walkingUpAnimation.update(0.f);
 	}

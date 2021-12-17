@@ -4,6 +4,7 @@
 #include "player.h"
 #include <vector>
 #include "Cell.h"
+#include "bomb.h"
 
 namespace Bombergirl
 {
@@ -16,6 +17,7 @@ namespace Bombergirl
         sf::Sprite m_mapBackgroundSprite;
 
         std::vector <std::vector<Cell*>> m_map;
+        std::vector<Bomb*> m_bombs;
     public:
         GameState(SharedContext* sharedContext, const sf::String& character_1, const sf::String& character_2);
         ~GameState();

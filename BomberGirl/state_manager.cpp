@@ -34,7 +34,9 @@ void Bombergirl::StateManager::handleInput()
 
 void Bombergirl::StateManager::update(const float& dt)
 {
-    if (!m_states.empty()) m_states.back()->update(dt);
+    if (!m_states.empty()) {
+        m_states.back()->update(dt);
+    }
 }
 
 void Bombergirl::StateManager::render()
