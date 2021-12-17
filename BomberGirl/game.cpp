@@ -9,7 +9,7 @@ Bombergirl::Game::Game()
     m_sharedContext.m_stateManager = &m_stateManager;
     m_sharedContext.m_window->setKeyRepeatEnabled(false);
 
-    m_window.create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Fullscreen);
+    m_window.create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Default);
     m_window.setMouseCursorVisible(false);
     m_stateManager.push(new IntroState(&m_sharedContext));
 }
@@ -44,30 +44,4 @@ void Bombergirl::Game::run()
 
         render();
     }
-   /* const float dt = 1.f / GAME_FPS;
-    float newTime = 0.f, frameTime = 0.f, accumulator = 0.f;
-    float currentTime = m_clock.getElapsedTime().asSeconds();
-
-    while (m_window.isOpen())
-    {
-
-        m_stateManager.handleStateChanges();
-
-        newTime = m_clock.getElapsedTime().asSeconds();
-        frameTime = newTime - currentTime;
-
-        if (frameTime >= 0.25f) frameTime = 0.25f;
-
-        currentTime = newTime;
-        accumulator += frameTime;
-
-        while (accumulator >= dt)
-        {
-            handleInput();
-            update(dt);
-            accumulator -= dt;
-        }
-
-        render();
-    }*/
 }

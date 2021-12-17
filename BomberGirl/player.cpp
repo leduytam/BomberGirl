@@ -101,6 +101,9 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 		for (int j = 0; j < map[i].size(); j++)
 		{
 			Cell* cell = map[i][j];
+			auto isBlocked = [](const Cell::Type& type) {
+				return type == Cell::Type::Crate || type == Cell::Type::Border || type == Cell::Type::Obstacle;
+			};
 
 			if (newPlayerBound.intersects(cell->getBound()) && (cell->getType() == Cell::Type::Obstacle || cell->getType() == Cell::Type::Crate)) {
 				
@@ -108,8 +111,8 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 				{
 					auto centerPlayer_Y = this->getCenter().y;
 					auto centerCell_Y = cell->getBound().top + cell->getBound().height / 2.f;
-					bool isUp = centerPlayer_Y < centerCell_Y - cell->getBound().height / 6.f;
-					bool isDown = centerPlayer_Y > centerCell_Y + cell->getBound().height / 6.f;
+					bool isUp = centerPlayer_Y < centerCell_Y - cell->getBound().height / 7.f;
+					bool isDown = centerPlayer_Y > centerCell_Y + cell->getBound().height / 7.f;
 
 					float tmp = fabs(offset.x);
 
@@ -129,19 +132,40 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 						offset.y = 0.f;
 					}
 
-					// check collision up and down
-					if (isUp) {
+					sf::Vector2i index1 = { i, j };
+					sf::Vector2i index2 = { i, j };
 
+					if (isUp) {
+						index1.x -= 1;
+						index2.x -= 1;
 					}
 					else if (isDown) {
+						index1.x += 1;
+						index2.x += 1;
+					}
 
+					if (m_direction == Player::Direction::Left) {
+						index2.y += 1;
+					}
+					else if (m_direction == Player::Direction::Right) {
+						index2.y -= 1;
+					}
+
+					if (isUp || isDown) {
+						if (index1.x >= 0 && index1.x < map.size() && index1.y >= 0 && index1.y < map.front().size() && isBlocked(map[index1.x][index1.y]->getType())) {
+							offset.y = 0.f;
+						}
+
+						if (index2.x >= 0 && index2.x < map.size() && index2.y >= 0 && index2.y < map.front().size() && isBlocked(map[index2.x][index2.y]->getType())) {
+							offset.y = 0.f;
+						}
 					}
 				}
 				else {
 					auto centerPlayer_X = this->getCenter().x;
 					auto centerCell_X = cell->getBound().left + cell->getBound().width / 2.f;
-					bool isLeft = centerPlayer_X < centerCell_X - cell->getBound().width / 6.f;
-					bool isRight = centerPlayer_X > centerCell_X + cell->getBound().width / 6.f;
+					bool isLeft = centerPlayer_X < centerCell_X - cell->getBound().width / 7.f;
+					bool isRight = centerPlayer_X > centerCell_X + cell->getBound().width / 7.f;
 
 					float tmp = fabs(offset.y);
 
@@ -161,12 +185,33 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 						offset.x = 0.f;
 					}
 
-					// check collision left and right
-					if (isLeft) {
+					sf::Vector2i index1 = { i, j };
+					sf::Vector2i index2 = { i, j };
 
+					if (isLeft) {
+						index1.y -= 1;
+						index2.y -= 1;
 					}
 					else if (isRight) {
+						index1.y += 1;
+						index2.y += 1;
+					}
 
+					if (m_direction == Player::Direction::Up) {
+						index2.x += 1;
+					}
+					else if (m_direction == Player::Direction::Down) {
+						index2.x -= 1;
+					}
+
+					if (isLeft || isRight) {
+						if (index1.x >= 0 && index1.x < map.size() && index1.y >= 0 && index1.y < map.front().size() && isBlocked(map[index1.x][index1.y]->getType())) {
+							offset.x = 0.f;
+						}
+
+						if (index2.x >= 0 && index2.x < map.size() && index2.y >= 0 && index2.y < map.front().size() && isBlocked(map[index2.x][index2.y]->getType())) {
+							offset.x = 0.f;
+						}
 					}
 				}
 

@@ -9,7 +9,7 @@ namespace Bombergirl
 	class Bomb
 	{
 	private:
-		sf::Vector2i m_pos;
+		sf::Vector2i m_index;
 		sf::Texture* m_bombTexture;
 		sf::Sprite m_bombSprite;
 		Animation m_bombAnimation;
@@ -24,5 +24,6 @@ namespace Bombergirl
 		void draw(sf::RenderWindow&);
 		bool isExploded() const;
 		bool isDone() const;
+		sf::Vector2i getIndex() const;
 	};
 }

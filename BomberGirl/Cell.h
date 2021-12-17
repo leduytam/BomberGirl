@@ -21,11 +21,10 @@ namespace Bombergirl {
 		Type m_type;
 		const int cell_size = 48;
 	public:
-		
-		Cell(Type type = Type::Border, sf::Vector2f position = sf::Vector2f(0, 0));
-		Type getType();
-
-		sf::FloatRect getBound();
+		Cell(const Type& type = Type::Border, const sf::Vector2f& position = sf::Vector2f(0, 0));
+		Type getType() const;
+		void setType(const Type&);
+		sf::FloatRect getBound() const;
 	};
 }
 
