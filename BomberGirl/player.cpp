@@ -102,7 +102,8 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 		{
 			Cell* cell = map[i][j];
 
-			if (newPlayerBound.intersects(cell->getBound()) && cell->getType() == 1) {
+			if (newPlayerBound.intersects(cell->getBound()) && (cell->getType() == Cell::Type::Obstacle || cell->getType() == Cell::Type::Crate)) {
+				
 				if (offset.x != 0.f)
 				{
 					auto centerPlayer_Y = this->getCenter().y;

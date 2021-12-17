@@ -34,28 +34,45 @@ Bombergirl::GameState::~GameState()
 void Bombergirl::GameState::createMap() {
 	int world_widthTiles = m_arena.width / TILE_SIZE;
 	int world_heightTiles = m_arena.height / TILE_SIZE;
-	for (int h = 0; h < world_heightTiles; h++) {
-		std::vector<Cell*> rowCell;
-		for (int w = 0; w < world_widthTiles; w++) {
-			if (h == 0 || w == 0 || h == world_heightTiles - 1 || w == world_widthTiles - 1) {
-				rowCell.push_back(new Cell(0, sf::Vector2f{ 1.f * w * TILE_SIZE, 1.f * h * TILE_SIZE }));
-			}
-			else if (h % 2 == 0 && w % 2 == 0) {
-				rowCell.push_back(new Cell(1, sf::Vector2f{ 1.f * w * TILE_SIZE, 1.f * h * TILE_SIZE }));
-			}
-			else {
-				rowCell.push_back(new Cell(3, sf::Vector2f{ 1.f * w * TILE_SIZE, 1.f * h * TILE_SIZE }));
+	m_map.resize(world_heightTiles);
+	for (int w = 0; w < world_widthTiles; w++) {
+		m_map[w].assign(world_widthTiles, NULL);
+	}
+
+	for (auto h = 0; h < world_heightTiles; h++) {
+		for (auto w = 0; w < world_widthTiles; w++) {
+			if ((rand() % 10 + 1) > 6) {
+				m_map[h][w] = new Cell(Cell::Type::Crate, sf::Vector2f{ 1.f * w * TILE_SIZE, 1.f * h * TILE_SIZE });
 			}
 		}
-		m_map.push_back(rowCell);
 	}
+	
+
+	for (int h = 0; h < world_heightTiles; h++) {
+		for (int w = 0; w < world_widthTiles; w++) {
+			if (h == 0 || w == 0 || h == world_heightTiles - 1 || w == world_widthTiles - 1) {
+				if (m_map[h][w]) delete m_map[h][w];
+				m_map[h][w] = new Cell(Cell::Type::Border, sf::Vector2f{ 1.f * w * TILE_SIZE, 1.f * h * TILE_SIZE });
+			}
+			else if (h % 2 == 0 && w % 2 == 0) {
+				if (m_map[h][w]) delete m_map[h][w];
+
+				m_map[h][w] = new Cell(Cell::Type::Obstacle, sf::Vector2f{ 1.f * w * TILE_SIZE, 1.f * h * TILE_SIZE });
+			}
+			else {
+				m_map[h][w] = new Cell(Cell::Type::None, sf::Vector2f{ 1.f * w * TILE_SIZE, 1.f * h * TILE_SIZE });
+			}
+		}
+	}
+
+	
 }
 
 void Bombergirl::GameState::init()
 {
 	m_sharedContext->m_resources->loadTexture("map_background", MAP_BACKGROUND_TEXTURE_PATH);
 	m_sharedContext->m_resources->loadTexture("bomb", BOMB_TEXTURE_PATH);
-
+	m_sharedContext->m_resources->loadTexture("crate", CRATE_PATH);
 	createMap();
 
 	m_player1->setArena(m_arena);
@@ -136,9 +153,21 @@ void Bombergirl::GameState::render()
 {
 	m_sharedContext->m_window->setView(m_view);
 	m_sharedContext->m_window->draw(m_mapBackgroundSprite);
+	sf::Sprite crate;
+	crate.setTexture(m_sharedContext->m_resources->getTexture("crate"));
+	for (int i = 0; i < m_map.size(); i++) {
+		for (int j = 0; j < m_map[i].size(); j++) {
+			if (m_map[i][j]->getType() == Cell::Type::Crate) {
+				crate.setPosition(sf::Vector2f( i * TILE_SIZE, j * TILE_SIZE ));
+				m_sharedContext->m_window->draw(crate);
+
+			}
+		}
+	}
 	for (auto& bomb : m_bombs) {
 		bomb->draw(*m_sharedContext->m_window);
 	}
+	
 	m_player1->render(*m_sharedContext->m_window);
 	m_player2->render(*m_sharedContext->m_window);
 }

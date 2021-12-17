@@ -53,5 +53,6 @@ namespace Bombergirl
 	const auto WORLD_HEIGHT = 720;
 	const auto PLAYER_DEFAULT_SPEED = 150.f;
 	const auto TIME_RAY_EXIST = 1.f;
+	const auto CRATE_PATH = "./assets/textures/tilesets/crate.png";
 #pragma endregion
 }

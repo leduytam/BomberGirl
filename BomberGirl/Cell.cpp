@@ -1,12 +1,12 @@
 #include "Cell.h"
 
-Bombergirl::Cell::Cell(int type, sf::Vector2f position) {
+Bombergirl::Cell::Cell(Bombergirl::Cell::Type type, sf::Vector2f position) {
 	m_type = type;
 	m_position = position;
 	m_rect = sf::FloatRect(position.x, position.y, cell_size, cell_size);
 }
 
-int Bombergirl::Cell::getType() {
+Bombergirl::Cell::Type Bombergirl::Cell::getType() {
 	return m_type;
 }
 
