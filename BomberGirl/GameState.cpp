@@ -1,14 +1,14 @@
 #include "GameState.h"
 #include "configs.h"
-#include<iostream>
+#include <iostream>
 
 Bombergirl::GameState::GameState(SharedContext* sharedContext, const sf::String& character_1, const sf::String& character_2) : BaseState(sharedContext)
 {
 	m_sharedContext->m_resources->loadTexture("shadow1", PLAYER_SHADOW_PATH);
 	m_sharedContext->m_resources->loadTexture("shadow2", PLAYER_SHADOW_PATH);
-	m_player1 = new Player(&m_sharedContext->m_resources->getTexture(character_1), &m_sharedContext->m_resources->getTexture("shadow1"), true);
-	m_player2 = new Player(&m_sharedContext->m_resources->getTexture(character_2), &m_sharedContext->m_resources->getTexture("shadow2"), false);
-	m_arena = sf::IntRect{ 0,0,WORLD_WIDTH, WORLD_HEIGHT };
+	m_player1 = new Player(&m_sharedContext->m_resources->getTexture(character_1), &m_sharedContext->m_resources->getTexture("shadow1"), false);
+	m_player2 = new Player(&m_sharedContext->m_resources->getTexture(character_2), &m_sharedContext->m_resources->getTexture("shadow2"), true);
+	m_arena = sf::IntRect{ 0, 0, WORLD_WIDTH, WORLD_HEIGHT };
 
 
 	m_view.reset(sf::FloatRect(0, 0, 1920, 1080));

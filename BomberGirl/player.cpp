@@ -1,38 +1,44 @@
 #include "player.h"
 #include<iostream>
 
-Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTexture, bool directDown) : m_speed(150.f), m_isDying(false)
+Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTexture, bool isFaceUp) : m_speed(150.f), m_isDead(false)
 {
-	m_direction = directDown ? Direction::Down : Direction::Up;
+	m_direction = isFaceUp ? Direction::Up : Direction::Down;
 	m_playerSprite.setTexture(*playerTexture);
 	m_shadowSprite.setTexture(*shadowTexture);
 	m_shadowSprite.setPosition({ 0.f, 8.f });
 
-	m_walkingDown.setSprite(&m_playerSprite);
-	m_walkingDown.addFrame({ 0, 0, 48, 48 });
-	m_walkingDown.addFrame({ 48, 0, 48, 48 });
-	m_walkingDown.addFrame({ 96, 0, 48, 48 });
-	m_walkingDown.update(0.f);
+	m_walkingDownAnimation.setSprite(&m_playerSprite);
+	m_walkingDownAnimation.addFrame({ 0, 0, 48, 48 });
+	m_walkingDownAnimation.addFrame({ 48, 0, 48, 48 });
+	m_walkingDownAnimation.addFrame({ 96, 0, 48, 48 });
 
-	m_walkingLeft.setSprite(&m_playerSprite);
-	m_walkingLeft.addFrame({ 0, 48, 48, 48 });
-	m_walkingLeft.addFrame({ 48, 48, 48, 48 });
-	m_walkingLeft.addFrame({ 96, 48, 48, 48 });
+	m_walkingLeftAnimation.setSprite(&m_playerSprite);
+	m_walkingLeftAnimation.addFrame({ 0, 48, 48, 48 });
+	m_walkingLeftAnimation.addFrame({ 48, 48, 48, 48 });
+	m_walkingLeftAnimation.addFrame({ 96, 48, 48, 48 });
 
-	m_walkingRight.setSprite(&m_playerSprite);
-	m_walkingRight.addFrame({ 0, 96, 48, 48 });
-	m_walkingRight.addFrame({ 48, 96, 48, 48 });
-	m_walkingRight.addFrame({ 96, 96, 48, 48 });
+	m_walkingRightAnimation.setSprite(&m_playerSprite);
+	m_walkingRightAnimation.addFrame({ 0, 96, 48, 48 });
+	m_walkingRightAnimation.addFrame({ 48, 96, 48, 48 });
+	m_walkingRightAnimation.addFrame({ 96, 96, 48, 48 });
 
-	m_walkingUp.setSprite(&m_playerSprite);
-	m_walkingUp.addFrame({ 0, 144, 48, 48 });
-	m_walkingUp.addFrame({ 48, 144, 48, 48 });
-	m_walkingUp.addFrame({ 96, 144, 48, 48 });
+	m_walkingUpAnimation.setSprite(&m_playerSprite);
+	m_walkingUpAnimation.addFrame({ 0, 144, 48, 48 });
+	m_walkingUpAnimation.addFrame({ 48, 144, 48, 48 });
+	m_walkingUpAnimation.addFrame({ 96, 144, 48, 48 });
 
-	m_dying.setSprite(&m_playerSprite);
-	m_dying.addFrame({ 0, 192, 48, 48 });
-	m_dying.addFrame({ 48, 192, 48, 48 });
-	m_dying.addFrame({ 96, 192, 48, 48 });
+	m_deadAnimation.setSprite(&m_playerSprite);
+	m_deadAnimation.addFrame({ 0, 192, 48, 48 });
+	m_deadAnimation.addFrame({ 48, 192, 48, 48 });
+	m_deadAnimation.addFrame({ 96, 192, 48, 48 });
+	
+	if (isFaceUp) {
+		m_walkingUpAnimation.update(0.f);
+	}
+	else {
+		m_walkingDownAnimation.update(0.f);
+	}
 }
 
 void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<Cell*>>& map)
@@ -43,19 +49,19 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 	{
 	case Player::Direction::Up:
 		offset = { 0.f, -dt * m_speed };
-		m_walkingUp.update(dt);
+		m_walkingUpAnimation.update(dt);
 		break;
 	case Player::Direction::Down:
 		offset = { 0.f, dt * m_speed };
-		m_walkingDown.update(dt);
+		m_walkingDownAnimation.update(dt);
 		break;
 	case Player::Direction::Left:
 		offset = { -dt * m_speed, 0.f };
-		m_walkingLeft.update(dt);
+		m_walkingLeftAnimation.update(dt);
 		break;
 	case Player::Direction::Right:
 		offset = { dt * m_speed, 0.f };
-		m_walkingRight.update(dt);
+		m_walkingRightAnimation.update(dt);
 		break;
 	}
 
@@ -67,12 +73,18 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 		playerBound.height
 	};
 
-	if (newPlayerBound.top < m_arena.top || newPlayerBound.top + newPlayerBound.height > m_arena.height) {
-		offset.y = 0.f;
+	if (newPlayerBound.top < m_arena.top) { 
+		offset.y = playerBound.top - m_arena.top;
+	}
+	else if (newPlayerBound.top + newPlayerBound.height > m_arena.height) {
+		offset.y = m_arena.height - (playerBound.top + newPlayerBound.height);
 	}
 
-	if (newPlayerBound.left < m_arena.left || newPlayerBound.left + newPlayerBound.width  > m_arena.width) {
-		offset.x = 0.f;
+	if (newPlayerBound.left < m_arena.left) { 
+		offset.x = playerBound.left - m_arena.left;
+	}
+	else if (newPlayerBound.left + newPlayerBound.width > m_arena.width) {
+		offset.x = m_arena.width - (playerBound.left + newPlayerBound.width);
 	}
 
 	bool isCollision = false;
@@ -88,7 +100,8 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 				{
 					auto centerPlayer_Y = playerBound.top + playerBound.height / 2.f;
 					auto centerCell_Y = cell->getBound().top + cell->getBound().height / 2.f;
-					bool isUp = centerPlayer_Y < centerCell_Y;
+					bool isUp = centerPlayer_Y < centerCell_Y - cell->getBound().height / 6.f;
+					bool isDown = centerPlayer_Y > centerCell_Y + cell->getBound().height / 6.f;
 
 					float tmp = fabs(offset.x);
 
@@ -104,11 +117,23 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 					if (isUp) {
 						offset.y = -offset.y;
 					}
+					else if (!isDown) {
+						offset.y = 0.f;
+					}
+
+					// check collision up and down
+					if (isUp) {
+
+					}
+					else if (isDown) {
+
+					}
 				}
 				else {
 					auto centerPlayer_X = playerBound.left + playerBound.width / 2.f;
 					auto centerCell_X = cell->getBound().left + cell->getBound().width / 2.f;
-					bool isLeft = centerPlayer_X < centerCell_X;
+					bool isLeft = centerPlayer_X < centerCell_X - cell->getBound().width / 6.f;
+					bool isRight = centerPlayer_X > centerCell_X + cell->getBound().width / 6.f;
 
 					float tmp = fabs(offset.y);
 
@@ -123,6 +148,17 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 
 					if (isLeft) {
 						offset.x = -offset.x;
+					}
+					else if (!isRight) {
+						offset.x = 0.f;
+					}
+
+					// check collision left and right
+					if (isLeft) {
+
+					}
+					else if (isRight) {
+
 					}
 				}
 
@@ -175,9 +211,9 @@ void Bombergirl::Player::moveRight()
 	m_direction = Direction::Right;
 }
 
-void Bombergirl::Player::die()
+void Bombergirl::Player::setIsDead()
 {
-	m_isDying = true;
+	m_isDead = true;
 }
 
 void Bombergirl::Player::setPosition(const sf::Vector2f& position)
