@@ -13,6 +13,12 @@ void Bombergirl::IntroState::init()
     auto windowSize = m_sharedContext->m_window->getSize();
     m_logo.setTexture(m_sharedContext->m_resources->getTexture("logo"));
     m_logo.setPosition({ windowSize.x / 2.f - m_logo.getTexture()->getSize().x / 2.f, windowSize.y / 2.f - m_logo.getTexture()->getSize().y / 2.f });
+
+    // sound
+    //m_sharedContext->m_resources->loadSoundBuffer("intro_sound", INTRO_SOUND);
+    //sf::SoundBuffer sf = m_sharedContext->m_resources->getSoundBuffer("intro_sound");
+    //m_sound.setBuffer(sf);
+    //m_sound.play();
 }
 
 void Bombergirl::IntroState::handleInput()
@@ -34,6 +40,7 @@ void Bombergirl::IntroState::update(const float& dt)
         m_totalTime += dt;
     else
     {
+        //m_sound.pause();
         m_sharedContext->m_stateManager->push(new MainMenuState(m_sharedContext));
         m_totalTime = 0.f;
     }
@@ -42,5 +49,6 @@ void Bombergirl::IntroState::update(const float& dt)
 void Bombergirl::IntroState::render()
 {
     m_sharedContext->m_window->draw(m_logo);
+
 }
 

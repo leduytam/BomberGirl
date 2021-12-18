@@ -18,8 +18,9 @@ namespace Bombergirl
 
 ////////////////////////////
 #pragma region Intro
-	const auto INTRO_SCREEN_TIME = 1.f;
+	const auto INTRO_SCREEN_TIME = 3.f;
 	const auto INTRO_LOGO_PATH = "./assets/textures/logo/bomb_logo.png";
+	const auto INTRO_SOUND = "./assets/sounds/intro.wav";
 
 #pragma endregion
 
@@ -48,6 +49,7 @@ namespace Bombergirl
 	const auto BACKGROUND_TILESETS_PATH = "./assets/textures/tilesets/Dungeon_A5.png";
 	const auto MAP_BACKGROUND_TEXTURE_PATH = "./assets/textures/backgrounds/map_background.png";
 	const auto BOMB_TEXTURE_PATH = "./assets/textures/bomb/bomb.png";
+	const auto GAMESTATE_BACKGROUND_PATH = "./assets/textures/backgrounds/background_gamestate.jpg";
 	const auto TILE_SIZE = 48;
 	const auto WORLD_WIDTH = 720;
 	const auto WORLD_HEIGHT = 720;
@@ -55,5 +57,6 @@ namespace Bombergirl
 	const auto TIME_RAY_EXIST = 1.f;
 	const auto CRATE_PATH = "./assets/textures/tilesets/crate.png";
 	const auto CREATE_RATIO = 0.5f;
+	
 #pragma endregion
 }

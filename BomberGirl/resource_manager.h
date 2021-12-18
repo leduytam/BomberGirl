@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
+#include<SFML/Audio.hpp>
 
 namespace Bombergirl
 {
@@ -11,6 +12,7 @@ namespace Bombergirl
     private:
         std::unordered_map<std::string, sf::Texture> m_textures;
         std::unordered_map<std::string, sf::Font> m_fonts;
+        std::unordered_map<std::string, sf::SoundBuffer> m_sounds;
     public:
         void loadTexture(const std::string&, const std::string&);
         void loadTexture(const std::string&, const std::string&, const sf::IntRect &);
@@ -18,5 +20,8 @@ namespace Bombergirl
 
         void loadFont(const std::string&, const std::string&);
         sf::Font& getFont(const std::string&);
+
+        //void loadSoundBuffer(const std::string&, const std::string&);
+        //sf::SoundBuffer& getSoundBuffer(const std::string&);
     };
 }

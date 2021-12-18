@@ -10,16 +10,19 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext, const sf::String&
 	m_player2 = new Player(&m_sharedContext->m_resources->getTexture(character_2), &m_sharedContext->m_resources->getTexture("shadow2"), true);
 	m_arena = sf::IntRect{ 0, 0, WORLD_WIDTH, WORLD_HEIGHT };
 
-	m_view.reset(sf::FloatRect(0, 0, 1920, 1080));
-	m_view.setCenter(WORLD_WIDTH / 2.f, WORLD_HEIGHT / 2.f);
-	m_view.zoom(0.7);
+	m_mapView.reset(sf::FloatRect(0, 0, 1920, 1080));
+	m_mapView.setCenter(WORLD_WIDTH / 2.f, WORLD_HEIGHT / 2.f);
+	m_mapView.zoom(0.7);
+
+	m_mainView.reset(sf::FloatRect(0, 0, 1920, 1080));
+	
 }
 
 Bombergirl::GameState::~GameState()
 {
 	delete m_player1;
 	delete m_player2;
-	
+
 	for (auto& row : m_map) {
 		for (auto& cell : row) {
 			delete cell;
@@ -68,6 +71,7 @@ void Bombergirl::GameState::init()
 	m_sharedContext->m_resources->loadTexture("map_background", MAP_BACKGROUND_TEXTURE_PATH);
 	m_sharedContext->m_resources->loadTexture("bomb", BOMB_TEXTURE_PATH);
 	m_sharedContext->m_resources->loadTexture("crate", CRATE_PATH);
+	m_sharedContext->m_resources->loadTexture("background_gamestate", GAMESTATE_BACKGROUND_PATH);
 	createMap();
 
 	m_player1->setArena(m_arena);
@@ -79,6 +83,7 @@ void Bombergirl::GameState::init()
 	m_player2->setSpeed(PLAYER_DEFAULT_SPEED);
 
 	m_mapBackgroundSprite.setTexture(m_sharedContext->m_resources->getTexture("map_background"));
+	m_backgroundSprite.setTexture(m_sharedContext->m_resources->getTexture("background_gamestate"));
 }
 
 void Bombergirl::GameState::handleInput()
@@ -152,7 +157,9 @@ void Bombergirl::GameState::update(const float& dt)
 
 void Bombergirl::GameState::render()
 {
-	m_sharedContext->m_window->setView(m_view);
+	m_sharedContext->m_window->setView(m_mainView);
+	m_sharedContext->m_window->draw(m_backgroundSprite);
+	m_sharedContext->m_window->setView(m_mapView);
 	m_sharedContext->m_window->draw(m_mapBackgroundSprite);
 
 	sf::Sprite crate;
@@ -169,7 +176,7 @@ void Bombergirl::GameState::render()
 	for (auto& bomb : m_bombs) {
 		bomb->draw(*m_sharedContext->m_window);
 	}
-	
+
 	m_player1->render(*m_sharedContext->m_window);
 	m_player2->render(*m_sharedContext->m_window);
 }

@@ -13,8 +13,10 @@ namespace Bombergirl
     private:
         Player *m_player1, *m_player2;
         sf::IntRect m_arena;
-        sf::View m_view;
+        sf::View m_mapView;
+        sf::View m_mainView;
         sf::Sprite m_mapBackgroundSprite;
+        sf::Sprite m_backgroundSprite;
 
         std::vector <std::vector<Cell*>> m_map;
         std::vector<Bomb*> m_bombs;
