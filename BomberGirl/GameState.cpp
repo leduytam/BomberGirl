@@ -15,6 +15,17 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext, const sf::String&
 	m_mapView.zoom(0.7f);
 
 	m_mainView.reset(sf::FloatRect(0, 0, 1920, 1080));
+
+	m_backSound = new sf::Sound();
+	m_bombSetSound = new sf::Sound();
+
+	m_sharedContext->m_resources->loadBuffer("game_back_sound", GAME_SOUND);
+	m_sharedContext->m_resources->loadBuffer("bombset_sound", SET_BOMB_SOUND);
+
+	m_backSound->setBuffer(m_sharedContext->m_resources->getBuffer("game_back_sound"));
+	m_bombSetSound->setBuffer(m_sharedContext->m_resources->getBuffer("bombset_sound"));
+
+	m_backSound->play();
 	
 }
 
@@ -32,6 +43,9 @@ Bombergirl::GameState::~GameState()
 	for (auto& bomb : m_bombs) {
 		delete bomb;
 	}
+
+	delete m_backSound;
+	delete m_bombSetSound;
 }
 
 void Bombergirl::GameState::createMap() {
@@ -132,8 +146,8 @@ void Bombergirl::GameState::handleInput()
 		sf::Vector2i index = { static_cast<int>((m_player2->getCenter().y / TILE_SIZE)), static_cast<int>((m_player2->getCenter().x / TILE_SIZE)) };
 		if (index.x >= 0 && index.x < (float)m_map.size() && index.y >= 0 && index.y < (float)m_map.front().size() && m_map[index.x][index.y]->getType() != Cell::Type::Bomb) {
 			m_map[index.x][index.y]->setType(Cell::Type::Bomb);
+			m_bombSetSound->play();
 			m_bombs.push_back(new Bomb(&m_sharedContext->m_resources->getTexture("bomb"), index));
-			std::cout << m_bombs.size() << std::endl;
 		}
 	}
 }

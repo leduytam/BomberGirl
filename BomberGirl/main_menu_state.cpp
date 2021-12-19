@@ -62,8 +62,8 @@ void Bombergirl::MainMenuState::init()
 		options_Button.push_back(btn);
 	}
 	m_sharedContext->m_resources->loadBuffer("mainMenu_sound", MENU_SOUND);
-	m_sharedContext->m_resources->loadBuffer("select_sound", MENU_SELECT_SOUND);
-	m_sharedContext->m_resources->loadBuffer("confirm_sound", MENU_CONFIRM_SOUND);
+	m_sharedContext->m_resources->loadBuffer("select_sound", SELECT_SOUND);
+	m_sharedContext->m_resources->loadBuffer("confirm_sound", CONFIRM_SOUND);
 
 	m_soundBack->setBuffer(m_sharedContext->m_resources->getBuffer("mainMenu_sound"));
 	m_soundClick->setBuffer(m_sharedContext->m_resources->getBuffer("select_sound"));
@@ -110,7 +110,7 @@ void Bombergirl::MainMenuState::handleInput()
 				switch (m_option)
 				{
 				case 0:
-					m_sharedContext->m_stateManager->push(new PickUpCharacterState(m_sharedContext));
+					m_sharedContext->m_stateManager->push(new PickUpCharacterState(m_sharedContext, m_soundBack));
 					break;
 				case 1:
 				case 2:

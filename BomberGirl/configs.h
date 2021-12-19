@@ -66,9 +66,11 @@ namespace Bombergirl
 #pragma region Sound
 	const auto INTRO_SOUND = "./assets/sounds/intro.wav";
 	const auto MENU_SOUND = "./assets/sounds/main_menu.wav";
-	const auto MENU_SELECT_SOUND = "./assets/sounds/select_click.wav";
-	const auto MENU_CONFIRM_SOUND = "./assets/sounds/confirm.wav";
+	const auto SELECT_SOUND = "./assets/sounds/select_click.wav";
+	const auto CONFIRM_SOUND = "./assets/sounds/confirm.wav";
 	const auto CHARACTER_CONFRIM_SOUND = "./assets/sounds/select_character.wav";
+	const auto SET_BOMB_SOUND = "./assets/sounds/bombset.wav";
+	const auto GAME_SOUND = "./assets/sounds/game.wav";
 #pragma endregion
 
 }

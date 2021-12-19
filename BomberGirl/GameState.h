@@ -20,6 +20,10 @@ namespace Bombergirl
 
         std::vector <std::vector<Cell*>> m_map;
         std::vector<Bomb*> m_bombs;
+
+        sf::Sound *m_backSound;
+        sf::Sound* m_bombSetSound;
+        sf::Sound* m_explosionSound;
     public:
         GameState(SharedContext* sharedContext, const sf::String& character_1, const sf::String& character_2);
         ~GameState();

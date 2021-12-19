@@ -32,7 +32,7 @@ namespace Bombergirl{
         int m_select_1;
         int m_select_2;
 
-
+        sf::Sound* m_backsound;
         sf::Sound* m_soundClick_1;
         sf::Sound* m_soundClick_2;
         sf::Sound* m_soundconfirm_1;
@@ -40,7 +40,7 @@ namespace Bombergirl{
 
 
     public:
-        PickUpCharacterState(SharedContext* sharedContext);
+        PickUpCharacterState(SharedContext* sharedContext, sf::Sound*backSound = NULL);
         void init() override;
         void loadResource();
         void handleInput() override;
@@ -53,6 +53,7 @@ namespace Bombergirl{
             delete m_soundClick_2;
             delete m_soundconfirm_1;
             delete m_soundconfirm_2;
+            delete m_backsound;
         }
 	};
 }

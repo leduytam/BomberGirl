@@ -4,7 +4,7 @@
 #include <iostream>
 #include "GameState.h"
 
-Bombergirl::PickUpCharacterState::PickUpCharacterState(SharedContext* sharedContext) :BaseState(sharedContext) {
+Bombergirl::PickUpCharacterState::PickUpCharacterState(SharedContext* sharedContext, sf::Sound*backSound) :BaseState(sharedContext) {
 	m_select_1 = 0;
 	m_select_2 = 1;
 	m_character_value_1 = "";
@@ -13,6 +13,10 @@ Bombergirl::PickUpCharacterState::PickUpCharacterState(SharedContext* sharedCont
 	m_soundClick_2 = new sf::Sound();
 	m_soundconfirm_1 = new sf::Sound();
 	m_soundconfirm_2 = new sf::Sound();
+	if (backSound) {
+		m_backsound = backSound;
+	}
+	else m_backsound = new sf::Sound();
 }
 
 void Bombergirl::PickUpCharacterState::loadResource() {
@@ -77,13 +81,13 @@ void Bombergirl::PickUpCharacterState::init() {
 	m_frame_2.setOrigin(m_frame_2.getLocalBounds().width / 2.f, m_frame_2.getLocalBounds().height / 2.f);
 	m_frame_2.setPosition(m_character_text_2.getPosition().x, 500);
 
-	m_sharedContext->m_resources->loadBuffer("select_sound", MENU_SELECT_SOUND);
-	m_sharedContext->m_resources->loadBuffer("confirm_sound", MENU_CONFIRM_SOUND);
+	m_sharedContext->m_resources->loadBuffer("select_sound", SELECT_SOUND);
+	m_sharedContext->m_resources->loadBuffer("confirm_character_sound", CHARACTER_CONFRIM_SOUND);
 
 	m_soundClick_1->setBuffer(m_sharedContext->m_resources->getBuffer("select_sound"));
 	m_soundClick_2->setBuffer(m_sharedContext->m_resources->getBuffer("select_sound"));
-	m_soundconfirm_1->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_sound"));
-	m_soundconfirm_2->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_sound"));
+	m_soundconfirm_1->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_character_sound"));
+	m_soundconfirm_2->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_character_sound"));
 }
 
 void Bombergirl::PickUpCharacterState::handleInput() {
@@ -151,6 +155,7 @@ void Bombergirl::PickUpCharacterState::handleInput() {
 
 			if (m_character_value_1 != "" && m_character_value_2 != "")
 			{
+				m_backsound->pause();
 				m_sharedContext->m_resources->loadTexture("move1", PLAYER_MOVEMENT_TEXTURE_PATH + m_character_value_1 + ".png");
 				m_sharedContext->m_resources->loadTexture("move2", PLAYER_MOVEMENT_TEXTURE_PATH + m_character_value_2 + ".png");
 				m_sharedContext->m_stateManager->push(new GameState(m_sharedContext, "move1", "move2"), true);
