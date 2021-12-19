@@ -19,7 +19,5 @@ namespace Bombergirl
         void update(const float&) override;
         void render() override;
         ~IntroState();
-        
     };
 }
-

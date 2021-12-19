@@ -3,6 +3,8 @@
 
 Bombergirl::BaseState::BaseState(SharedContext* sharedContext) : m_sharedContext(sharedContext), m_isTransparent(false) {}
 
+Bombergirl::BaseState::~BaseState() {}
+
 bool Bombergirl::BaseState::isTransparent() const
 {
     return m_isTransparent;

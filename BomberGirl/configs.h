@@ -12,8 +12,6 @@ namespace Bombergirl
 ////////////////////////////
 #pragma region Font
 	const auto GARAMOND_FONT_PATH = "./assets/fonts/garamond.ttf";
-	const auto ZOMBIE_FONT_PATH = "./assets/fonts/zombiecontrol.ttf";
-
 #pragma endregion
 
 ////////////////////////////
@@ -25,11 +23,8 @@ namespace Bombergirl
 
 ////////////////////////////
 #pragma region Menu
-
 	const auto MENU_BACKGROUND_PATH = "./assets/textures/backgrounds/background_menu.jpg";
 	const auto MENU_SYSTEM_PATH = "./assets/textures/img/system/Window.png";
-	
-
 #pragma endregion
 
 ////////////////////////////
@@ -50,27 +45,32 @@ namespace Bombergirl
 	const auto PLAYER_MOVEMENT_TEXTURE_PATH = "./assets/textures/players/movements/";
 	const auto BACKGROUND_TILESETS_PATH = "./assets/textures/tilesets/Dungeon_A5.png";
 	const auto MAP_BACKGROUND_TEXTURE_PATH = "./assets/textures/backgrounds/map_background.png";
-	const auto BOMB_TEXTURE_PATH = "./assets/textures/bomb/bomb.png";
+	const auto BOMB_TEXTURE_PATH = "./assets/textures/tilesets/bomb.png";
+	const auto BARREL_TEXTURE_PATH = "./assets/textures/tilesets/barrel.png";
+	const auto EXPLOSION_TEXTURE_PATH = "./assets/textures/tilesets/explosion.png";
+	const auto FLAME_TEXTURE_PATH = "./assets/textures/tilesets/flame.png";
+	const auto ITEM_TEXTURE_PATH = "./assets/textures/tilesets/items.png";
 	const auto GAMESTATE_BACKGROUND_PATH = "./assets/textures/backgrounds/background_gamestate.jpg";
 	const auto TILE_SIZE = 48;
 	const auto WORLD_WIDTH = 720;
 	const auto WORLD_HEIGHT = 720;
 	const auto PLAYER_DEFAULT_SPEED = 150.f;
-	const auto TIME_RAY_EXIST = 1.f;
-	const auto CRATE_PATH = "./assets/textures/tilesets/crate.png";
-	const auto CREATE_RATIO = 0.5f;
-	
+	const auto PLAYER_DEFAULT_BOMB_RANGE = 2;
+	const auto PLAYER_DEFAULT_BOMBS = 2;
+	const auto ITEM_OCCURRENCE_RATE = 0.3f;
+	const auto BARREL_OCCURRENCE_RATE = 0.6f;
+	const auto FLAME_EXISTING_TIME = 0.3f;
+	const auto ITEM_EXISTING_TIME = 6.f;
+	const auto TIME_DELAY_SET_UP_BOMB = 0.1f;
 #pragma endregion
-
 
 #pragma region Sound
 	const auto INTRO_SOUND = "./assets/sounds/intro.wav";
 	const auto MENU_SOUND = "./assets/sounds/main_menu.wav";
 	const auto SELECT_SOUND = "./assets/sounds/select_click.wav";
 	const auto CONFIRM_SOUND = "./assets/sounds/confirm.wav";
-	const auto CHARACTER_CONFRIM_SOUND = "./assets/sounds/select_character.wav";
+	const auto CHARACTER_CONFIRM_SOUND = "./assets/sounds/select_character.wav";
 	const auto SET_BOMB_SOUND = "./assets/sounds/bombset.wav";
 	const auto GAME_SOUND = "./assets/sounds/game.wav";
 #pragma endregion
-
 }

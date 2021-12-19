@@ -8,7 +8,10 @@ void Bombergirl::ResourceManager::loadTexture(const std::string& textureID, cons
         sf::Texture texture;
         
         if (texture.loadFromFile(textureFilePath))
+        {
+            std::cout << "Loaded texture " << textureID << " from " << textureFilePath << std::endl;
             m_textures[textureID] = texture;
+        }
         else
             std::cout << "Failed to load texture: " << textureFilePath << std::endl;
     }
@@ -20,12 +23,14 @@ void Bombergirl::ResourceManager::loadTexture(const std::string& textureID, cons
         sf::Texture texture;
 
         if (texture.loadFromFile(textureFilePath, crop))
+        {
+            std::cout << "Loaded texture " << textureID << " from " << textureFilePath << std::endl;
             m_textures[textureID] = texture;
+        }
         else
             std::cout << "Failed to load texture: " << textureFilePath << std::endl;
     }
 }
-
 
 sf::Texture& Bombergirl::ResourceManager::getTexture(const std::string& textureID)
 {
@@ -38,10 +43,13 @@ void Bombergirl::ResourceManager::loadFont(const std::string& fontID, const std:
     {
         sf::Font font;
 
-        if (font.loadFromFile(fontFilePath))
+        if (font.loadFromFile(fontFilePath)) {
+            std::cout << "Loaded font " << fontID << " from " << fontFilePath << std::endl;
             m_fonts[fontID] = font;
-        else
+        }
+        else {
             std::cout << "Failed to load font: " << fontFilePath << std::endl;
+        }
     }
 }
 
@@ -56,14 +64,16 @@ void Bombergirl::ResourceManager::loadBuffer(const std::string& soundID, const s
     {
         sf::SoundBuffer sound;
 
-        if (sound.loadFromFile(soundPath))
+        if (sound.loadFromFile(soundPath)) {
+            std::cout << "Loaded sound " << soundID << " from " << soundPath << std::endl;
             m_sounds[soundID] = sound;
+        }
+        else {
+            std::cout << "Failed to load sound: " << soundPath << std::endl;
+        }
     }
 }
 
 sf::SoundBuffer& Bombergirl::ResourceManager::getBuffer(const std::string& soundID) {
     return m_sounds.at(soundID);
 }
-
-
-

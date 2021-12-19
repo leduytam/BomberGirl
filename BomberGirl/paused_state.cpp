@@ -8,9 +8,6 @@ Bombergirl::PausedState::PausedState(SharedContext* sharedContext) : BaseState(s
 
 void Bombergirl::PausedState::init()
 {
-    // load resources
-    m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
-
     // init components
     auto windowSize = m_sharedContext->m_window->getSize();
 

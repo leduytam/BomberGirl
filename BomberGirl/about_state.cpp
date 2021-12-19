@@ -5,12 +5,6 @@ Bombergirl::AboutState::AboutState(Bombergirl::SharedContext* sharedContext) : B
 
 void Bombergirl::AboutState::init()
 {
-    // load resource 
-    m_sharedContext->m_resources->loadTexture("about_background", ABOUT_BACKGROUND_PATH);
-    m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
-    m_sharedContext->m_resources->loadTexture("about_control", ABOUT_CONTROL_PATH);
-
-
     // init components
     m_aboutText.setFont(m_sharedContext->m_resources->getFont("garamond"));
     m_aboutText.setString("ABOUT AND CONTROL");
@@ -46,9 +40,6 @@ void Bombergirl::AboutState::init()
     m_controlText5.setString("LET'S SHOW OFF OUR SUPER BOMB-MAKING TALENT!");
     m_controlText5.setCharacterSize(30u);
     m_controlText5.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 680);
-
-
-
 
     //background
     m_background.setTexture(m_sharedContext->m_resources->getTexture("about_background"));
