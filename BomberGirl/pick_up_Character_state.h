@@ -37,25 +37,20 @@ namespace Bombergirl{
         sf::Sound* m_soundClick_2;
         sf::Sound* m_soundconfirm_1;
         sf::Sound* m_soundconfirm_2;
-
-
     public:
         PickUpCharacterState(SharedContext* sharedContext, sf::Sound*backSound = NULL);
         void init() override;
-        void loadResource();
         void handleInput() override;
         void update(const float&) override;
         void render() override;
         void lockSelect(int, sf::RectangleShape&, const sf::Vector2f& , const sf::Vector2f&);
         void setText(sf::Text &text, const int&, const sf::String&);
+
         ~PickUpCharacterState() {
             delete m_soundClick_1;
             delete m_soundClick_2;
             delete m_soundconfirm_1;
             delete m_soundconfirm_2;
-            delete m_backsound;
         }
 	};
 }
-
-

@@ -3,7 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
-#include<SFML/Audio.hpp>
+#include <SFML/Audio.hpp>
 
 namespace Bombergirl
 {
@@ -23,7 +23,5 @@ namespace Bombergirl
 
         void loadBuffer(const std::string& soundID, const std::string& soundPath);
         sf::SoundBuffer& getBuffer(const std::string& soundID);
-
-
     };
 }

@@ -9,19 +9,14 @@ Bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sha
 
 void Bombergirl::IntroState::init()
 {
-    // load resources
-    m_sharedContext->m_resources->loadTexture("logo", INTRO_LOGO_PATH);
-
     // init components
     auto windowSize = m_sharedContext->m_window->getSize();
     m_logo.setTexture(m_sharedContext->m_resources->getTexture("logo"));
     m_logo.setPosition({ windowSize.x / 2.f - m_logo.getTexture()->getSize().x / 2.f, windowSize.y / 2.f - m_logo.getTexture()->getSize().y / 2.f });
 
     //// sounds
-    m_sharedContext->m_resources->loadBuffer("intro_sound", INTRO_SOUND);
     m_sound->setBuffer(m_sharedContext->m_resources->getBuffer("intro_sound"));
     m_sound->play();
-    
 }
 
 void Bombergirl::IntroState::handleInput()

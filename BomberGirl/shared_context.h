@@ -2,7 +2,6 @@
 
 #include "resource_manager.h"
 #include "state_manager.h"
-#include <memory>
 #include <SFML/Graphics.hpp>
 
 namespace Bombergirl
@@ -14,5 +13,12 @@ namespace Bombergirl
         ResourceManager* m_resources;
         StateManager* m_stateManager;
 
+        SharedContext() : m_window(nullptr), m_resources(nullptr), m_stateManager(nullptr) {}
+
+        ~SharedContext() {
+            delete m_window;
+            delete m_resources;
+            delete m_stateManager;
+        }
     };
 }

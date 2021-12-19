@@ -15,12 +15,6 @@ Bombergirl::MainMenuState::MainMenuState(SharedContext* sharedContext) : BaseSta
 
 void Bombergirl::MainMenuState::init()
 {
-	// load resources
-	m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
-	m_sharedContext->m_resources->loadTexture("background_menu", MENU_BACKGROUND_PATH);
-	m_sharedContext->m_resources->loadTexture("container_menu", MENU_SYSTEM_PATH);
-	m_sharedContext->m_resources->loadTexture("arrow_menu", MENU_SYSTEM_PATH, sf::IntRect(sf::Vector2i(144, 96), sf::Vector2i(24, 24)));
-
 	// init components
 	m_mainMenuText.setFont(m_sharedContext->m_resources->getFont("garamond"));
 	m_mainMenuText.setString("MAIN   MENU");
@@ -61,9 +55,6 @@ void Bombergirl::MainMenuState::init()
 		btn.setPosition(sf::Vector2f((float)windowSize.x / 2.f - btn.getCenter().x, (float)START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
 		options_Button.push_back(btn);
 	}
-	m_sharedContext->m_resources->loadBuffer("mainMenu_sound", MENU_SOUND);
-	m_sharedContext->m_resources->loadBuffer("select_sound", SELECT_SOUND);
-	m_sharedContext->m_resources->loadBuffer("confirm_sound", CONFIRM_SOUND);
 
 	m_soundBack->setBuffer(m_sharedContext->m_resources->getBuffer("mainMenu_sound"));
 	m_soundClick->setBuffer(m_sharedContext->m_resources->getBuffer("select_sound"));
@@ -169,5 +160,3 @@ Bombergirl::MainMenuState::~MainMenuState() {
 	delete m_soundClick;
 	delete m_soundConfirm;
 }
-
-

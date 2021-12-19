@@ -1,30 +1,32 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "shared_context.h"
 
 namespace Bombergirl {
 	class Cell {
 	public:
-		enum class Type {
-			Border,
-			Obstacle,
+		enum class CellType {
+			Indestructible,
 			Bomb,
-			Item_increaseBomb,
-			Item_increaseSpeed,
-			Item_increaseRange,
-			Crate,
-			None,
+			Barrel,
+			Item,
+			Flame,
+			Empty,
 		};
-	private:
-		sf::Vector2f m_position;
-		sf::FloatRect m_rect;
-		Type m_type;
-		const int cell_size = 48;
+	protected:
+		sf::Vector2i m_index;
+		sf::FloatRect m_bound;
+		SharedContext* m_sharedContext;
 	public:
-		Cell(const Type& type = Type::Border, const sf::Vector2f& position = sf::Vector2f(0, 0));
-		Type getType() const;
-		void setType(const Type&);
+		Cell(const sf::Vector2i&, SharedContext*);
+		virtual ~Cell();
 		sf::FloatRect getBound() const;
+		sf::Vector2i getIndex() const;
+		sf::Vector2f getPosision() const;
+		virtual CellType getType() const = 0;
+		virtual bool isObstacle() const = 0;
+		virtual void update(const float&, std::vector<std::vector<Cell*>>&);
+		virtual void render(sf::RenderWindow&) const;
 	};
 }
-

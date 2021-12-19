@@ -12,6 +12,7 @@ namespace Bombergirl
         bool m_isTransparent;
     public:
         BaseState(SharedContext*);
+        virtual ~BaseState();
 
         virtual void init() = 0;
         virtual void handleInput() = 0;
@@ -24,4 +25,3 @@ namespace Bombergirl
         SharedContext* getSharedContext() const;
     };
 }
-
