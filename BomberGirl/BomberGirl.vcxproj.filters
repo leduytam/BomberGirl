@@ -63,10 +63,10 @@
     <ClCompile Include="Cell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bomb.cpp">
+    <ClCompile Include="ray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ray.cpp">
+    <ClCompile Include="bomb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

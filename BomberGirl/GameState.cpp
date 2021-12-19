@@ -12,7 +12,7 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext, const sf::String&
 
 	m_mapView.reset(sf::FloatRect(0, 0, 1920, 1080));
 	m_mapView.setCenter(WORLD_WIDTH / 2.f, WORLD_HEIGHT / 2.f);
-	m_mapView.zoom(0.7);
+	m_mapView.zoom(0.7f);
 
 	m_mainView.reset(sf::FloatRect(0, 0, 1920, 1080));
 	
@@ -130,7 +130,7 @@ void Bombergirl::GameState::handleInput()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
 		sf::Vector2i index = { static_cast<int>((m_player2->getCenter().y / TILE_SIZE)), static_cast<int>((m_player2->getCenter().x / TILE_SIZE)) };
-		if (index.x >= 0 && index.x < m_map.size() && index.y >= 0 && index.y < m_map.front().size() && m_map[index.x][index.y]->getType() != Cell::Type::Bomb) {
+		if (index.x >= 0 && index.x < (float)m_map.size() && index.y >= 0 && index.y < (float)m_map.front().size() && m_map[index.x][index.y]->getType() != Cell::Type::Bomb) {
 			m_map[index.x][index.y]->setType(Cell::Type::Bomb);
 			m_bombs.push_back(new Bomb(&m_sharedContext->m_resources->getTexture("bomb"), index));
 			std::cout << m_bombs.size() << std::endl;
@@ -140,7 +140,7 @@ void Bombergirl::GameState::handleInput()
 
 void Bombergirl::GameState::update(const float& dt)
 {
-	for (int i = 0; i < m_bombs.size(); i++) {
+	for (unsigned int i = 0; i < m_bombs.size(); i++) {
 		m_bombs[i]->update(dt, m_map);
 
 		if (m_bombs[i]->isDone()) {
@@ -164,8 +164,8 @@ void Bombergirl::GameState::render()
 
 	sf::Sprite crate;
 	crate.setTexture(m_sharedContext->m_resources->getTexture("crate"));
-	for (int i = 0; i < m_map.size(); i++) {
-		for (int j = 0; j < m_map[i].size(); j++) {
+	for (unsigned int i = 0; i < m_map.size(); i++) {
+		for (unsigned int j = 0; j < m_map[i].size(); j++) {
 			if (m_map[i][j]->getType() == Cell::Type::Crate) {
 				crate.setPosition(sf::Vector2f(m_map[i][j]->getBound().left, m_map[i][j]->getBound().top));
 				m_sharedContext->m_window->draw(crate);

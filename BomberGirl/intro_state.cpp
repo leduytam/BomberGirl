@@ -2,7 +2,10 @@
 #include "configs.h"
 #include "main_menu_state.h"
 
-Bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sharedContext), m_totalTime(0.f) {}
+Bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sharedContext), m_totalTime(0.f) {
+    m_sound = new sf::Sound();
+
+}
 
 void Bombergirl::IntroState::init()
 {
@@ -14,11 +17,11 @@ void Bombergirl::IntroState::init()
     m_logo.setTexture(m_sharedContext->m_resources->getTexture("logo"));
     m_logo.setPosition({ windowSize.x / 2.f - m_logo.getTexture()->getSize().x / 2.f, windowSize.y / 2.f - m_logo.getTexture()->getSize().y / 2.f });
 
-    // sound
-    //m_sharedContext->m_resources->loadSoundBuffer("intro_sound", INTRO_SOUND);
-    //sf::SoundBuffer sf = m_sharedContext->m_resources->getSoundBuffer("intro_sound");
-    //m_sound.setBuffer(sf);
-    //m_sound.play();
+    //// sounds
+    m_sharedContext->m_resources->loadBuffer("intro_sound", INTRO_SOUND);
+    m_sound->setBuffer(m_sharedContext->m_resources->getBuffer("intro_sound"));
+    m_sound->play();
+    
 }
 
 void Bombergirl::IntroState::handleInput()
@@ -40,15 +43,20 @@ void Bombergirl::IntroState::update(const float& dt)
         m_totalTime += dt;
     else
     {
-        //m_sound.pause();
         m_sharedContext->m_stateManager->push(new MainMenuState(m_sharedContext));
         m_totalTime = 0.f;
     }
+    //m_sharedContext->m_soundManager->update();
 }
 
 void Bombergirl::IntroState::render()
 {
     m_sharedContext->m_window->draw(m_logo);
 
+}
+
+
+Bombergirl::IntroState::~IntroState() {
+    delete m_sound;
 }
 

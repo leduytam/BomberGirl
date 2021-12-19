@@ -21,7 +21,9 @@ namespace Bombergirl
         void loadFont(const std::string&, const std::string&);
         sf::Font& getFont(const std::string&);
 
-        //void loadSoundBuffer(const std::string&, const std::string&);
-        //sf::SoundBuffer& getSoundBuffer(const std::string&);
+        void loadBuffer(const std::string& soundID, const std::string& soundPath);
+        sf::SoundBuffer& getBuffer(const std::string& soundID);
+
+
     };
 }

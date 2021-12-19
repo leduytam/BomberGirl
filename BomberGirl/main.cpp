@@ -3,7 +3,7 @@
 
 int main()
 {
-    srand(time(NULL));
+    srand(time(0));
     Bombergirl::Game().run();
 
     return EXIT_SUCCESS;

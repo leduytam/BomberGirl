@@ -18,34 +18,34 @@ void Bombergirl::AboutState::init()
     sf::FloatRect bounds = m_aboutText.getLocalBounds();
     m_aboutText.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
     auto windowSize = m_sharedContext->m_window->getSize();
-    m_aboutText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 450);
+    m_aboutText.setPosition((float)windowSize.x / 2.f, (float)windowSize.y / 2.f - 450);
 
 
     m_controlText.setFont(m_sharedContext->m_resources->getFont("garamond"));
     m_controlText.setString("BOMBER-GIRL GAME IS DEVELOPED BASED ON THE CLASSIC BOMBERMAN GAME,");
     m_controlText.setCharacterSize(30u);
-    m_controlText.setPosition(windowSize.x - 1550, windowSize.y - 920);
+    m_controlText.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 920);
 
 
     m_controlText2.setFont(m_sharedContext->m_resources->getFont("garamond"));
     m_controlText2.setString("CONTROL THE CHARACTER TO MOVE SKILLFULLY, PLACE BOMBS AND BLOW UP THE ENEMY!");
     m_controlText2.setCharacterSize(30u);
-    m_controlText2.setPosition(windowSize.x - 1550, windowSize.y - 870);
+    m_controlText2.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 870);
 
     m_controlText3.setFont(m_sharedContext->m_resources->getFont("garamond"));
     m_controlText3.setString("THE GAME HAS ONLY ONE MODE:");
     m_controlText3.setCharacterSize(30u);
-    m_controlText3.setPosition(windowSize.x - 1550, windowSize.y - 800);
+    m_controlText3.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 800);
 
     m_controlText4.setFont(m_sharedContext->m_resources->getFont("garamond"));
     m_controlText4.setString("CLASSIC ENTERTAINMENT: TAKE DOWN ALL OPPONENTS ON THE MAP.");
     m_controlText4.setCharacterSize(30u);
-    m_controlText4.setPosition(windowSize.x - 1550, windowSize.y - 750);
+    m_controlText4.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 750);
 
     m_controlText5.setFont(m_sharedContext->m_resources->getFont("garamond"));
     m_controlText5.setString("LET'S SHOW OFF OUR SUPER BOMB-MAKING TALENT!");
     m_controlText5.setCharacterSize(30u);
-    m_controlText5.setPosition(windowSize.x - 1550, windowSize.y - 680);
+    m_controlText5.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 680);
 
 
 
@@ -55,7 +55,7 @@ void Bombergirl::AboutState::init()
 
     //controls
     m_control.setTexture(m_sharedContext->m_resources->getTexture("about_control"));
-    m_control.setPosition(windowSize.x - 1440, windowSize.y - 630);
+    m_control.setPosition((float)windowSize.x - 1440, (float)windowSize.y - 630);
 
 }
 

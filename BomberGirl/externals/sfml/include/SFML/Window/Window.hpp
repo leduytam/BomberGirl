@@ -543,7 +543,7 @@ private:
     // Member data
     ////////////////////////////////////////////////////////////
     priv::WindowImpl* m_impl;           ///< Platform-specific implementation of the window
-    priv::GlContext*  m_sharedContext;        ///< Platform-specific implementation of the OpenGL context
+    priv::GlContext*  m_context;        ///< Platform-specific implementation of the OpenGL context
     Clock             m_clock;          ///< Clock for measuring the elapsed time between frames
     Time              m_frameTimeLimit; ///< Current framerate limit
     Vector2u          m_size;           ///< Current size of the window

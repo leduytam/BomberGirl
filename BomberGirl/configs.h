@@ -18,9 +18,8 @@ namespace Bombergirl
 
 ////////////////////////////
 #pragma region Intro
-	const auto INTRO_SCREEN_TIME = 3.f;
+	const auto INTRO_SCREEN_TIME = 2.f;
 	const auto INTRO_LOGO_PATH = "./assets/textures/logo/bomb_logo.png";
-	const auto INTRO_SOUND = "./assets/sounds/intro.wav";
 
 #pragma endregion
 
@@ -29,6 +28,8 @@ namespace Bombergirl
 
 	const auto MENU_BACKGROUND_PATH = "./assets/textures/backgrounds/background_menu.jpg";
 	const auto MENU_SYSTEM_PATH = "./assets/textures/img/system/Window.png";
+	
+
 #pragma endregion
 
 ////////////////////////////
@@ -60,4 +61,14 @@ namespace Bombergirl
 	const auto CREATE_RATIO = 0.5f;
 	
 #pragma endregion
+
+
+#pragma region Sound
+	const auto INTRO_SOUND = "./assets/sounds/intro.wav";
+	const auto MENU_SOUND = "./assets/sounds/main_menu.wav";
+	const auto MENU_SELECT_SOUND = "./assets/sounds/select_click.wav";
+	const auto MENU_CONFIRM_SOUND = "./assets/sounds/confirm.wav";
+	const auto CHARACTER_CONFRIM_SOUND = "./assets/sounds/select_character.wav";
+#pragma endregion
+
 }

@@ -8,6 +8,9 @@
 
 Bombergirl::MainMenuState::MainMenuState(SharedContext* sharedContext) : BaseState(sharedContext) {
 	m_option = 0;
+	m_soundBack = new sf::Sound();
+	m_soundClick = new sf::Sound();
+	m_soundConfirm = new sf::Sound();
 }
 
 void Bombergirl::MainMenuState::init()
@@ -55,9 +58,17 @@ void Bombergirl::MainMenuState::init()
 			break;
 		}
 		btn.setPadding(20);
-		btn.setPosition(sf::Vector2f(windowSize.x / 2.f - btn.getCenter().x, START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
+		btn.setPosition(sf::Vector2f((float)windowSize.x / 2.f - btn.getCenter().x, (float)START_POSITION_OPTION + SPACE_BETWEEN_OPTION * i));
 		options_Button.push_back(btn);
 	}
+	m_sharedContext->m_resources->loadBuffer("mainMenu_sound", MENU_SOUND);
+	m_sharedContext->m_resources->loadBuffer("select_sound", MENU_SELECT_SOUND);
+	m_sharedContext->m_resources->loadBuffer("confirm_sound", MENU_CONFIRM_SOUND);
+
+	m_soundBack->setBuffer(m_sharedContext->m_resources->getBuffer("mainMenu_sound"));
+	m_soundClick->setBuffer(m_sharedContext->m_resources->getBuffer("select_sound"));
+	m_soundConfirm->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_sound"));
+	m_soundBack->play();
 }
 
 void Bombergirl::MainMenuState::handleInput()
@@ -85,13 +96,17 @@ void Bombergirl::MainMenuState::handleInput()
 			if (e.key.code == sf::Keyboard::Down) {
 				m_option = m_option++;
 				m_option %= 4;
+				m_soundClick->play();
 			}
 
 			if (e.key.code == sf::Keyboard::Up) {
 				m_option = m_option--;
 				if (m_option < 0) m_option = 3;
+				m_soundClick->play();
+
 			}
 			if (e.key.code == sf::Keyboard::Enter) {
+				m_soundConfirm->play();
 				switch (m_option)
 				{
 				case 0:
@@ -148,4 +163,11 @@ void Bombergirl::MainMenuState::selectOption(int option) {
 		}
 	}
 }
+
+Bombergirl::MainMenuState::~MainMenuState() {
+	delete m_soundBack;
+	delete m_soundClick;
+	delete m_soundConfirm;
+}
+
 

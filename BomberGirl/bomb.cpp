@@ -69,7 +69,7 @@ void Bombergirl::Bomb::update(const float& dt, const std::vector<std::vector<Cel
 			++left;
 		}
 
-		for (int i = m_index.y + 1; i < map.front().size(); i++) {
+		for (unsigned int i = m_index.y + 1; i < map.front().size(); i++) {
 			if (isBlocked(map[m_index.x][i]->getType())) {
 				if (map[m_index.x][i]->getType() == Cell::Type::Crate) {
 					map[m_index.x][i]->setType(Cell::Type::None);
@@ -79,7 +79,7 @@ void Bombergirl::Bomb::update(const float& dt, const std::vector<std::vector<Cel
 			++right;
 		}
 
-		for (int i = m_index.x + 1; i < map.size(); i++) {
+		for (unsigned int i = m_index.x + 1; i < map.size(); i++) {
 			if (isBlocked(map[i][m_index.y]->getType())) {
 				if (map[i][m_index.y]->getType() == Cell::Type::Crate) {
 					map[i][m_index.y]->setType(Cell::Type::None);

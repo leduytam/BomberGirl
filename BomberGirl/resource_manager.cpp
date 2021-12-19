@@ -49,24 +49,21 @@ sf::Font& Bombergirl::ResourceManager::getFont(const std::string& fontID)
 {
     return m_fonts.at(fontID);
 }
-//
-//void  Bombergirl::ResourceManager::loadSoundBuffer(const std::string& soundID, const std::string& soundFilePath) {
-//    if (m_sounds.find(soundID) == m_sounds.end()) {
-//        sf::SoundBuffer soundbuffer;
-//        if (soundbuffer.loadFromFile(soundFilePath)) {
-//            m_sounds[soundID] = soundbuffer;
-//        }
-//        else {
-//            std::cout << "Failed to load font: " << soundFilePath << std::endl;
-//
-//        }
-//    }
-//}
-//
-//
-//sf::SoundBuffer& Bombergirl::ResourceManager::getSoundBuffer(const std::string& soundID)
-//{
-//    return m_sounds.at(soundID);
-//}
-//
+
+
+void Bombergirl::ResourceManager::loadBuffer(const std::string& soundID, const std::string& soundPath) {
+    if (m_sounds.find(soundID) == m_sounds.end())
+    {
+        sf::SoundBuffer sound;
+
+        if (sound.loadFromFile(soundPath))
+            m_sounds[soundID] = sound;
+    }
+}
+
+sf::SoundBuffer& Bombergirl::ResourceManager::getBuffer(const std::string& soundID) {
+    return m_sounds.at(soundID);
+}
+
+
 

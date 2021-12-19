@@ -17,7 +17,7 @@ void Bombergirl::Button::setText(const std::string& text, sf::Color color, const
     m_content.setCharacterSize(sizeCharacter);
     m_content.setFillColor(color);
     m_content.setString(text);
-    m_shape.setSize(sf::Vector2f(text.length() * sizeCharacter, sizeCharacter));
+    m_shape.setSize(sf::Vector2f((float)text.length() * sizeCharacter, (float)sizeCharacter));
 }
 
 void Bombergirl::Button::setOutline(float thickness = 0.f, sf::Color color) {
@@ -33,7 +33,7 @@ void Bombergirl::Button::drawButton() {
 
 void Bombergirl::Button::setPosition(const sf::Vector2f& position) {
     m_shape.setPosition(position);
-    m_content.setPosition(position.x + (m_shape.getSize().x - m_content.getLocalBounds().width) / 2, position.y + (m_shape.getSize().y - m_content.getCharacterSize() * 1.5f) / 2);
+    m_content.setPosition((float)position.x + (m_shape.getSize().x - m_content.getLocalBounds().width) / 2, (float)position.y + (m_shape.getSize().y - m_content.getCharacterSize() * 1.5f) / 2);
 }
 
 void Bombergirl::Button::setBackgroundColor(const sf::Color color) {

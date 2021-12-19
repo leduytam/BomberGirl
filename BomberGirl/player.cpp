@@ -280,10 +280,10 @@ void Bombergirl::Player::setSpeed(const float& speed)
 }
 
 void Bombergirl::Player::setArena(const sf::IntRect& arena) {
-	m_arena.left = arena.left + m_playerSprite.getLocalBounds().width;
-	m_arena.top = arena.top + m_playerSprite.getLocalBounds().height;
-	m_arena.width = arena.width - m_playerSprite.getLocalBounds().width;
-	m_arena.height = arena.height - m_playerSprite.getLocalBounds().height;
+	m_arena.left = (int)(arena.left + m_playerSprite.getLocalBounds().width);
+	m_arena.top = (int)(arena.top + m_playerSprite.getLocalBounds().height);
+	m_arena.width = (int)(arena.width - m_playerSprite.getLocalBounds().width);
+	m_arena.height = (int)(arena.height - m_playerSprite.getLocalBounds().height);
 }
 
 sf::Vector2f Bombergirl::Player::getCenter()

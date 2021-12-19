@@ -3,7 +3,7 @@
 Bombergirl::Cell::Cell(const Cell::Type& type, const sf::Vector2f& position) {
 	m_type = type;
 	m_position = position;
-	m_rect = sf::FloatRect(position.x, position.y, cell_size, cell_size);
+	m_rect = sf::FloatRect((float)position.x, (float)position.y, (float)cell_size, (float)cell_size);
 }
 
 Bombergirl::Cell::Type Bombergirl::Cell::getType() const {
