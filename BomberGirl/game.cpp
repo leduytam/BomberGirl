@@ -7,7 +7,6 @@ Bombergirl::Game::Game()
     m_sharedContext.m_window = &m_window;
     m_sharedContext.m_resources = &m_resources;
     m_sharedContext.m_stateManager = &m_stateManager;
-    //m_sharedContext.m_soundManager = &m_soundManager;
     m_sharedContext.m_window->setKeyRepeatEnabled(false);
 
     m_window.create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Default);

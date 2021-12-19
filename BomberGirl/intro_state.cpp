@@ -46,7 +46,6 @@ void Bombergirl::IntroState::update(const float& dt)
         m_sharedContext->m_stateManager->push(new MainMenuState(m_sharedContext));
         m_totalTime = 0.f;
     }
-    //m_sharedContext->m_soundManager->update();
 }
 
 void Bombergirl::IntroState::render()
