@@ -6,8 +6,14 @@
 Bombergirl::Game::Game()
 {
     m_sharedContext = new SharedContext();
+<<<<<<< HEAD
     
     m_sharedContext->m_window = new sf::RenderWindow(sf::VideoMode(0, 0), GAME_TITLE, sf::Style::Default);
+=======
+
+    m_sharedContext->m_window = new sf::RenderWindow(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Fullscreen);
+
+>>>>>>> sang
     m_sharedContext->m_window->setVisible(false);
     m_sharedContext->m_window->setPosition(sf::Vector2i(2000, 2000));
     m_sharedContext->m_window->setMouseCursorVisible(false);
@@ -58,8 +64,7 @@ void Bombergirl::Game::loadResources()
     m_sharedContext->m_resources->loadBuffer("confirm_character_sound", CHARACTER_CONFIRM_SOUND);
 
     // about state
-    m_sharedContext->m_resources->loadTexture("about_background", ABOUT_BACKGROUND_PATH);
-    m_sharedContext->m_resources->loadTexture("about_control", ABOUT_CONTROL_PATH);
+    m_sharedContext->m_resources->loadTexture("about_text_image", ABOUT_TEXT_IMAGE);
 
     // game state
     m_sharedContext->m_resources->loadTexture("map_background", MAP_BACKGROUND_TEXTURE_PATH);

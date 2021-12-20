@@ -37,8 +37,9 @@ namespace Bombergirl
 #pragma endregion
 
 #pragma region About
-	const auto ABOUT_BACKGROUND_PATH = "./assets/textures/backgrounds/about_background.jpg";
-	const auto ABOUT_CONTROL_PATH = "./assets/textures/img/system/about_control.png";
+	const auto TEXT_SPEED = 100;
+	const auto ABOUT_TEXT_IMAGE = "./assets/textures/img/system/about_text_image.png";
+
 #pragma endregion
 
 #pragma region Game
