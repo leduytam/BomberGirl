@@ -24,15 +24,19 @@ Bombergirl::BombCell::BombCell(const sf::Vector2i& index, SharedContext* sharedC
 
 	m_bombSetSound = new sf::Sound();
 	m_bombSetSound->setBuffer(m_sharedContext->m_resources->getBuffer("bombset_sound"));
+	m_bombSetSound->setVolume(50.f);
 	m_bombSetSound->play();
 
 	// m_bomb explosion here
+	m_bombExplosionSound = new sf::Sound();
+	m_bombExplosionSound->setBuffer(m_sharedContext->m_resources->getBuffer("explosion_sound"));
+	m_bombExplosionSound->setVolume(80.f);
 }
 
 Bombergirl::BombCell::~BombCell()
 {
 	delete m_bombSetSound;
-	//delete m_bombExplosionSound;
+	delete m_bombExplosionSound;
 }
 
 Bombergirl::Cell::CellType Bombergirl::BombCell::getType() const
@@ -66,7 +70,7 @@ void Bombergirl::BombCell::update(const float& dt, std::vector<std::vector<Cell*
 	if (m_bombAnimation.isDone() && !m_isExploded)
 	{
 		m_isExploded = true;
-
+		m_bombExplosionSound->play();
 		m_bombSprite.setTextureRect(sf::IntRect(3 * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE));
 
 		int up = 0, left = 0, right = 0, down = 0;
@@ -101,7 +105,7 @@ void Bombergirl::BombCell::update(const float& dt, std::vector<std::vector<Cell*
 				if (map[m_index.x][i]->getType() == Cell::CellType::Barrel) {
 					dynamic_cast<BarrelCell*>(map[m_index.x][i])->setOnExplosion();
 				}
-				else if (map[i][m_index.y]->getType() == Cell::CellType::Item) {
+				else if (map[m_index.x][i]->getType() == Cell::CellType::Item) {
 					dynamic_cast<ItemCell*>(map[m_index.x][i])->setOnExplosion();
 				}
 				break;
@@ -120,7 +124,7 @@ void Bombergirl::BombCell::update(const float& dt, std::vector<std::vector<Cell*
 				if (map[m_index.x][i]->getType() == Cell::CellType::Barrel) {
 					dynamic_cast<BarrelCell*>(map[m_index.x][i])->setOnExplosion();
 				}
-				else if (map[i][m_index.y]->getType() == Cell::CellType::Item) {
+				else if (map[m_index.x][i]->getType() == Cell::CellType::Item) {
 					dynamic_cast<ItemCell*>(map[m_index.x][i])->setOnExplosion();
 				}
 				break;
@@ -158,9 +162,9 @@ void Bombergirl::BombCell::render(sf::RenderWindow& window) const
 	window.draw(m_bombSprite);
 }
 
-bool Bombergirl::BombCell::isOwnerPlayerStillInside() const
+bool Bombergirl::BombCell::isOwnerPlayerStillInside(Player* player) const
 {
-	return m_isOwnerPlayerStillInside;
+	return player == m_player && m_isOwnerPlayerStillInside;
 }
 
 bool Bombergirl::BombCell::isOnExplosion() const

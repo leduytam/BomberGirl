@@ -7,7 +7,8 @@ Bombergirl::Game::Game()
 {
     m_sharedContext = new SharedContext();
 
-    m_sharedContext->m_window = new sf::RenderWindow(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Fullscreen);
+    m_sharedContext->m_window = new sf::RenderWindow(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Default);
+
     m_sharedContext->m_window->setVisible(false);
     m_sharedContext->m_window->setMouseCursorVisible(false);
     m_sharedContext->m_window->setKeyRepeatEnabled(false);
@@ -15,7 +16,6 @@ Bombergirl::Game::Game()
     m_sharedContext->m_resources = new ResourceManager();
     loadResources();
     m_sharedContext->m_window->setVisible(true);
-
     m_sharedContext->m_stateManager = new StateManager();
     m_sharedContext->m_stateManager->push(new IntroState(m_sharedContext));
 }
@@ -31,6 +31,7 @@ void Bombergirl::Game::loadResources()
 
     // game font
     m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
+    m_sharedContext->m_resources->loadFont("control_font", CONTROL_FONT_PATH);
 
     // intro state
     m_sharedContext->m_resources->loadTexture("logo", INTRO_LOGO_PATH);
@@ -69,8 +70,15 @@ void Bombergirl::Game::loadResources()
     m_sharedContext->m_resources->loadTexture("items", ITEM_TEXTURE_PATH);
     m_sharedContext->m_resources->loadTexture("shadow", PLAYER_SHADOW_PATH);
     m_sharedContext->m_resources->loadTexture("background_gamestate", GAMESTATE_BACKGROUND_PATH);
+    m_sharedContext->m_resources->loadTexture("timer_icon", TIMER_ICON_PATH);
+
     m_sharedContext->m_resources->loadBuffer("game_back_sound", GAME_SOUND);
     m_sharedContext->m_resources->loadBuffer("bombset_sound", SET_BOMB_SOUND);
+    m_sharedContext->m_resources->loadBuffer("explosion_sound", EXPLOSION_SOUND);
+    m_sharedContext->m_resources->loadBuffer("get_item_IncreaseSpeed", GET_ITEM_INCREASESPEED_SOUND);
+    m_sharedContext->m_resources->loadBuffer("get_item_IncreaseBombCount", GET_ITEM_INCREASEBOMBCOUNT_SOUND);
+    m_sharedContext->m_resources->loadBuffer("get_item_IncreaseBombRange", GET_ITEM_INCREASEBOMBRANGE_SOUND);
+    m_sharedContext->m_resources->loadBuffer("tick_sound", TICK_SOUND);
 }
 
 void Bombergirl::Game::handleInput()

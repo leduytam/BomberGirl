@@ -57,6 +57,7 @@ void Bombergirl::MainMenuState::init()
 	}
 
 	m_soundBack->setBuffer(m_sharedContext->m_resources->getBuffer("mainMenu_sound"));
+	m_soundBack->setLoop(true);
 	m_soundClick->setBuffer(m_sharedContext->m_resources->getBuffer("select_sound"));
 	m_soundConfirm->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_sound"));
 	m_soundBack->play();
