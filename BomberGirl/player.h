@@ -14,7 +14,7 @@ namespace Bombergirl
         float m_speed;
         int m_bombs;
         int m_bombRange;
-        bool m_isDead;
+        bool m_isOnDead;
         bool m_isOnSetUpBomb;
         float m_elapsedTime;
         sf::Sprite m_playerSprite;
@@ -42,6 +42,7 @@ namespace Bombergirl
         sf::Vector2f getCenter() const;
         sf::FloatRect getBound() const;
         bool isDead() const;
+        bool isOnDead() const;
         ~Player();
     };
 };

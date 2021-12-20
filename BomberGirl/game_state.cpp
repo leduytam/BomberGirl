@@ -18,7 +18,6 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 
 	m_mainView.reset(sf::FloatRect(0, 0, 1920, 1080));
 	
-
 	m_backSound = new sf::Sound();
 	m_backSound->setBuffer(m_sharedContext->m_resources->getBuffer("game_back_sound"));
 	m_backSound->setLoop(true);
@@ -167,6 +166,7 @@ void Bombergirl::GameState::update(const float& dt)
 			cell->update(dt, m_map);
 		}
 	}
+
 	if (!m_isGameOver && m_gameTime > 1.f) {
 		m_countDown--;
 		if (m_countDown <= 10.f) {
@@ -193,8 +193,25 @@ void Bombergirl::GameState::update(const float& dt)
 	else {
 		m_gameTime += dt;
 	}
-	m_player1->update(dt, m_map);
-	m_player2->update(dt, m_map);
+	
+	bool isPlayer1OnDead = m_player1->isOnDead();
+	bool isPlayer2OnDead = m_player2->isOnDead();
+	// on dead = dang chet != dead = da chet
+	// can de xet truong hop ca 2 chet cung luc
+	// neu goi truc tiep trong if thi player2 luon thang neu nhu ca 2 chet cung luc
+
+	if (!isPlayer2OnDead) {
+		m_player1->update(dt, m_map);
+	}
+
+	if (!isPlayer1OnDead) {
+		m_player2->update(dt, m_map);
+	}
+
+	if (isPlayer1OnDead && isPlayer2OnDead) {
+		m_player1->update(dt, m_map);
+		m_player2->update(dt, m_map);
+	}
 
 	if (m_player1->isDead() || m_player2->isDead()) {
 		if (m_player1->isDead()) {
@@ -236,8 +253,6 @@ void Bombergirl::GameState::update(const float& dt)
 		}
 	}
 }
-
-
 
 void Bombergirl::GameState::render()
 {

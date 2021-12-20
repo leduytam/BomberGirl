@@ -5,7 +5,7 @@
 #include "configs.h"
 
 Bombergirl::Player::Player(SharedContext* sharedContext, sf::Texture* m_playerTexture, const PlayerDirection& playerDirection)
-	: m_sharedContext(sharedContext), m_speed(PLAYER_DEFAULT_SPEED), m_isDead(false), m_isOnSetUpBomb(false), m_elapsedTime(0.f),
+	: m_sharedContext(sharedContext), m_speed(PLAYER_DEFAULT_SPEED), m_isOnDead(false), m_isOnSetUpBomb(false), m_elapsedTime(0.f),
 	m_playerDirection(playerDirection), m_bombs(PLAYER_DEFAULT_BOMBS), m_bombRange(PLAYER_DEFAULT_BOMB_RANGE)
 {
 	m_playerSprite.setTexture(*m_playerTexture);
@@ -67,7 +67,7 @@ Bombergirl::Player::Player(SharedContext* sharedContext, sf::Texture* m_playerTe
 
 void Bombergirl::Player::update(const float& dt, std::vector<std::vector<Cell*>>& map)
 {
-	if (m_isDead) {
+	if (m_isOnDead) {
 		m_deadAnimation.update(dt);
 		return;
 	}
@@ -136,7 +136,7 @@ void Bombergirl::Player::update(const float& dt, std::vector<std::vector<Cell*>>
 			if (newPlayerBound.intersects(cell->getBound())) {
 				if (cell->getType() == Cell::CellType::Flame // collision flame
 					|| (cell->getType() == Cell::CellType::Bomb && dynamic_cast<BombCell*>(cell)->isOnExplosion())) {
-					m_isDead = true;
+					m_isOnDead = true;
 					// hit sound
 					m_hitSound->play();
 					return;
@@ -375,6 +375,11 @@ sf::FloatRect Bombergirl::Player::getBound() const
 bool Bombergirl::Player::isDead() const
 {
 	return m_deadAnimation.isDone();
+}
+
+bool Bombergirl::Player::isOnDead() const
+{
+	return m_isOnDead;
 }
 
 

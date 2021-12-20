@@ -37,9 +37,14 @@ namespace Bombergirl
 #pragma endregion
 
 #pragma region About
-	const auto TEXT_SPEED = 150;
+	const auto TEXT_MOVE_SPEED = 150;
+	const auto PRESS_ENTER_TEXT_AFFECT_SPEED = 300.f;
+	const auto GEAR_ROTATE_SPEED = 40.f;
 	const auto ABOUT_TEXT_IMAGE = "./assets/textures/img/system/about_text_image.png";
-
+	const auto GROUP_ABOUT_IMAGE = "./assets/textures/img/system/group.png";
+	const auto LIGHT_ABOUT_IMAGE = "./assets/textures/img/system/light.png";
+	const auto LEFT_GEAR_ABOUT_IMAGE = "./assets/textures/img/system/left_gear.png";
+	const auto RIGHT_GEAR_ABOUT_IMAGE = "./assets/textures/img/system/right_gear.png";
 #pragma endregion
 
 #pragma region Game
@@ -57,11 +62,11 @@ namespace Bombergirl
 	const auto TILE_SIZE = 48;
 	const auto WORLD_WIDTH = 720;
 	const auto WORLD_HEIGHT = 720;
-	const auto PLAYER_DEFAULT_SPEED = 150.f;
+	const auto PLAYER_DEFAULT_SPEED = 300.f;
 	const auto PLAYER_DEFAULT_BOMB_RANGE = 2;
 	const auto PLAYER_DEFAULT_BOMBS = 2;
 	const auto ITEM_OCCURRENCE_RATE = 0.3f;
-	const auto BARREL_OCCURRENCE_RATE = 0.6f;
+	const auto BARREL_OCCURRENCE_RATE = 0.1f;
 	//Time
 	const auto FLAME_EXISTING_TIME = 0.3f;
 	const auto TRANSITION_PICKUP_TIME = 2.f;
