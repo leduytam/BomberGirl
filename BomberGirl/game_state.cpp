@@ -6,6 +6,7 @@
 #include "bomb_cell.h"
 #include <sstream>
 #include <string>
+#include <iostream>
 
 Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(sharedContext), m_player1(nullptr), m_player2(nullptr)
 {
@@ -16,6 +17,7 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 	m_mapView.zoom(0.8f);
 
 	m_mainView.reset(sf::FloatRect(0, 0, 1920, 1080));
+	
 
 	m_backSound = new sf::Sound();
 	m_backSound->setBuffer(m_sharedContext->m_resources->getBuffer("game_back_sound"));
@@ -27,17 +29,24 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 	m_tickSound->setBuffer(m_sharedContext->m_resources->getBuffer("tick_sound"));
 	m_tickSound->setVolume(100.f);
 
+	m_winSound = new sf::Sound();
+	m_winSound->setBuffer(m_sharedContext->m_resources->getBuffer("win_sound"));
+
 	m_coundDownTimerText.setFont(m_sharedContext->m_resources->getFont("control_font"));
 	m_coundDownTimerText.setCharacterSize(55);
-	m_coundDownTimerText.setFillColor(sf::Color{ 54, 170, 43 });
-	m_coundDownTimerText.setString("12");
-	m_coundDownTimerText.setPosition((1920 - m_coundDownTimerText.getLocalBounds().width) / 2.f, 10);
-
-
 	m_countDown = TIME_PER_ROUND;
+	 
 	m_gameTime = 0.f;
 	m_timerIcon.setTexture(m_sharedContext->m_resources->getTexture("timer_icon"));
 	m_timerIcon.setPosition((float) 1920 / 2.0 - 80, 15.f);
+
+	m_pointPlayer1 = m_pointPlayer2 = 0;
+	m_isGameOver = false;
+	m_delayTimeGameOver = 0;
+
+
+	m_resultRect.setSize({ DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT });
+	m_resultRect.setFillColor(sf::Color{ 0,0,0,150 });
 }
 
 Bombergirl::GameState::~GameState()
@@ -50,7 +59,7 @@ Bombergirl::GameState::~GameState()
 			delete cell;
 		}
 	}
-
+	
 	delete m_backSound;
 	delete m_tickSound;
 }
@@ -97,6 +106,10 @@ void Bombergirl::GameState::init()
 
 	m_mapBackgroundSprite.setTexture(m_sharedContext->m_resources->getTexture("map_background"));
 	m_backgroundSprite.setTexture(m_sharedContext->m_resources->getTexture("background_gamestate"));
+	m_coundDownTimerText.setFillColor(sf::Color{ 54, 170, 43 });
+	m_countDown = TIME_PER_ROUND;
+	m_coundDownTimerText.setString(std::to_string((int)TIME_PER_ROUND));
+	m_coundDownTimerText.setPosition((1920 - m_coundDownTimerText.getLocalBounds().width) / 2.f, 10);
 }
 
 void Bombergirl::GameState::handleInput()
@@ -154,14 +167,22 @@ void Bombergirl::GameState::update(const float& dt)
 			cell->update(dt, m_map);
 		}
 	}
-	if (m_gameTime > 1.f) {
+	if (!m_isGameOver && m_gameTime > 1.f) {
 		m_countDown--;
 		if (m_countDown <= 10.f) {
 			m_coundDownTimerText.setFillColor(sf::Color{ 252, 69, 43 });
 			m_tickSound->play();
 		}
 		if (m_countDown <= 0.f) {
-			m_countDown = TIME_PER_ROUND;
+			delete m_player1;
+			delete m_player2;
+			for (auto& row : m_map) {
+				for (auto& cell : row) {
+					delete cell;
+				}
+			}
+			init();
+			return;
 		}
 		std::stringstream ssCountDown;
 		ssCountDown << m_countDown;
@@ -174,8 +195,49 @@ void Bombergirl::GameState::update(const float& dt)
 	}
 	m_player1->update(dt, m_map);
 	m_player2->update(dt, m_map);
-	
+
+	if (m_player1->isDead() || m_player2->isDead()) {
+		if (m_player1->isDead()) {
+			m_pointPlayer2++;
+		}
+		if (m_player2->isDead()) {
+			m_pointPlayer1++;
+		} 
+		delete m_player1;
+		delete m_player2;
+		for (auto& row : m_map) {
+			for (auto& cell : row) {
+				delete cell;
+			}
+		}
+		init();
+	}
+
+	if (!m_isGameOver &&  (m_pointPlayer1 >= 2 || m_pointPlayer2 >= 2)) {
+		m_isGameOver = true;
+		m_backSound->pause();
+		m_winSound->play();
+		if (m_pointPlayer1 >= 2) {
+			m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_1"));
+		}
+		if (m_pointPlayer2 >= 2) {
+			m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_2"));
+		}
+		m_winner.setPosition({ (DEFAULT_WINDOW_WIDTH - m_winner.getLocalBounds().width * 2) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_winner.getLocalBounds().height * 2) / 2.f });
+		m_winner.scale({ 2.f, 2.f });
+	}
+
+	if (m_isGameOver) {
+		if (m_delayTimeGameOver >= 3.f) {
+			m_sharedContext->m_stateManager->pop();
+		}
+		else {
+			m_delayTimeGameOver += dt;
+		}
+	}
 }
+
+
 
 void Bombergirl::GameState::render()
 {
@@ -197,4 +259,9 @@ void Bombergirl::GameState::render()
 
 	m_player1->render(*m_sharedContext->m_window);
 	m_player2->render(*m_sharedContext->m_window);
+	m_sharedContext->m_window->setView(m_mainView);
+	if (m_isGameOver) {
+		m_sharedContext->m_window->draw(m_resultRect);
+		m_sharedContext->m_window->draw(m_winner);
+	}
 }

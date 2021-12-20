@@ -52,7 +52,7 @@ namespace Bombergirl
 	const auto FLAME_TEXTURE_PATH = "./assets/textures/tilesets/flame.png";
 	const auto ITEM_TEXTURE_PATH = "./assets/textures/tilesets/items.png";
 	const auto GAMESTATE_BACKGROUND_PATH = "./assets/textures/backgrounds/background_gamestate.jpg";
-	const auto TIMER_ICON_PATH = "./assets/textures/icon/timer_icon_2.png";
+	const auto TIMER_ICON_PATH = "./assets/textures/icon/timer_icon.png";
 	const auto TILE_SIZE = 48;
 	const auto WORLD_WIDTH = 720;
 	const auto WORLD_HEIGHT = 720;
@@ -63,7 +63,7 @@ namespace Bombergirl
 	const auto BARREL_OCCURRENCE_RATE = 0.6f;
 	//Time
 	const auto FLAME_EXISTING_TIME = 0.3f;
-	const auto TRANSITION_PICKUP_TIME = 3.f;
+	const auto TRANSITION_PICKUP_TIME = 2.f;
 	const auto ITEM_EXISTING_TIME = 6.f;
 	const auto TIME_DELAY_SET_UP_BOMB = 0.1f;
 	const auto TIME_PER_ROUND = 12.f;
@@ -82,5 +82,7 @@ namespace Bombergirl
 	const auto GET_ITEM_INCREASEBOMBCOUNT_SOUND = "./assets/sounds/get_item_IncreaseBombCount.wav";
 	const auto GET_ITEM_INCREASESPEED_SOUND = "./assets/sounds/get_item_IncreaseSpeed.wav";
 	const auto TICK_SOUND = "./assets/sounds/tick.wav";
+	const auto HIT_SOUND = "./assets/sounds/hit.wav";
+	const auto WIN_SOUND = "./assets/sounds/win.wav";
 #pragma endregion
 }

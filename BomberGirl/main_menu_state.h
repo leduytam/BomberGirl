@@ -20,14 +20,14 @@ namespace Bombergirl
 		sf::Sound *m_soundBack;
 		sf::Sound *m_soundClick;
 		sf::Sound* m_soundConfirm;
-	public:
 
+	public:
 		enum class OPTION {
 			PLAY,
 			CONTINUE,
 			ABOUT,
 			EXIT,
-			MAX,
+			MAX
 		};
 		MainMenuState(SharedContext* sharedContext);
 

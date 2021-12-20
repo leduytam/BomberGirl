@@ -29,7 +29,8 @@ namespace Bombergirl
         sf::Sound* m_increaseBombRangeSound;
         sf::Sound* m_increaseBombCountSound;
         sf::Sound* m_IncreaseSpeedSound;
-
+        sf::Sound* m_hitSound;
+        int m_countWinRounds;
         friend class BombCell;
     public:
         Player(SharedContext*, sf::Texture*, const PlayerDirection&);

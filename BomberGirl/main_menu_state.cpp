@@ -11,6 +11,7 @@ Bombergirl::MainMenuState::MainMenuState(SharedContext* sharedContext) : BaseSta
 	m_soundBack = new sf::Sound();
 	m_soundClick = new sf::Sound();
 	m_soundConfirm = new sf::Sound();
+
 }
 
 void Bombergirl::MainMenuState::init()
@@ -122,6 +123,9 @@ void Bombergirl::MainMenuState::update(const float& dt)
 {
 	m_arrow.setPosition(sf::Vector2f(options_Button[m_option].getPosition().x - m_arrow.getLocalBounds().width, options_Button[m_option].getPosition().y + options_Button[m_option].getCenter().y));
 	selectOption(m_option);
+	if (m_soundBack->getStatus() == sf::Sound::Paused) {
+		m_soundBack->play();
+	}
 }
 
 void Bombergirl::MainMenuState::render()
