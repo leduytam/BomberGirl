@@ -62,11 +62,11 @@ namespace Bombergirl
 	const auto TILE_SIZE = 48;
 	const auto WORLD_WIDTH = 720;
 	const auto WORLD_HEIGHT = 720;
-	const auto PLAYER_DEFAULT_SPEED = 300.f;
+	const auto PLAYER_DEFAULT_SPEED = 150.f;
 	const auto PLAYER_DEFAULT_BOMB_RANGE = 2;
 	const auto PLAYER_DEFAULT_BOMBS = 2;
 	const auto ITEM_OCCURRENCE_RATE = 0.3f;
-	const auto BARREL_OCCURRENCE_RATE = 0.1f;
+	const auto BARREL_OCCURRENCE_RATE = 0.6f;
 	//Time
 	const auto FLAME_EXISTING_TIME = 0.3f;
 	const auto TRANSITION_PICKUP_TIME = 2.f;
