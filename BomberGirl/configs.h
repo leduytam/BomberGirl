@@ -37,7 +37,7 @@ namespace Bombergirl
 #pragma endregion
 
 #pragma region About
-	const auto TEXT_SPEED = 100;
+	const auto TEXT_SPEED = 150;
 	const auto ABOUT_TEXT_IMAGE = "./assets/textures/img/system/about_text_image.png";
 
 #pragma endregion
