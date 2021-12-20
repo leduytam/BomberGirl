@@ -37,6 +37,9 @@ namespace Bombergirl{
         sf::Sound* m_soundClick_2;
         sf::Sound* m_soundconfirm_1;
         sf::Sound* m_soundconfirm_2;
+
+        float m_transition;
+        bool m_donePickingUp;
     public:
         PickUpCharacterState(SharedContext* sharedContext, sf::Sound*backSound = NULL);
         void init() override;

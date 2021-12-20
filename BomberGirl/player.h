@@ -25,6 +25,10 @@ namespace Bombergirl
         Animation m_walkingRightAnimation;
         Animation m_deadAnimation;
         PlayerDirection m_playerDirection;
+        
+        sf::Sound* m_increaseBombRangeSound;
+        sf::Sound* m_increaseBombCountSound;
+        sf::Sound* m_IncreaseSpeedSound;
 
         friend class BombCell;
     public:
@@ -37,5 +41,6 @@ namespace Bombergirl
         sf::Vector2f getCenter() const;
         sf::FloatRect getBound() const;
         bool isDead() const;
+        ~Player();
     };
 };

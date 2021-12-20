@@ -16,10 +16,17 @@ namespace Bombergirl
         sf::View m_mainView;
         sf::Sprite m_mapBackgroundSprite;
         sf::Sprite m_backgroundSprite;
+        sf::Sprite m_timerIcon;
 
         std::vector <std::vector<Cell*>> m_map;
 
         sf::Sound *m_backSound;
+        sf::Sound* m_tickSound;
+
+        float m_gameTime;
+
+        sf::Text m_coundDownTimerText;
+        float m_countDown;
     public:
         GameState(SharedContext* sharedContext);
         ~GameState();

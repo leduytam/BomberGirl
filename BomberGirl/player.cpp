@@ -51,6 +51,14 @@ Bombergirl::Player::Player(SharedContext* sharedContext, sf::Texture* m_playerTe
 	else {
 		m_walkingDownAnimation.update(0.f);
 	}
+
+	m_increaseBombCountSound = new sf::Sound();
+	m_increaseBombRangeSound = new sf::Sound();
+	m_IncreaseSpeedSound = new sf::Sound();
+
+	m_increaseBombCountSound->setBuffer(m_sharedContext->m_resources->getBuffer("get_item_IncreaseBombCount"));
+	m_increaseBombRangeSound->setBuffer(m_sharedContext->m_resources->getBuffer("get_item_IncreaseBombRange"));
+	m_IncreaseSpeedSound->setBuffer(m_sharedContext->m_resources->getBuffer("get_item_IncreaseSpeed"));
 }
 
 void Bombergirl::Player::update(const float& dt, std::vector<std::vector<Cell*>>& map)
@@ -129,19 +137,23 @@ void Bombergirl::Player::update(const float& dt, std::vector<std::vector<Cell*>>
 				}
 				else if (cell->getType() == Cell::CellType::Item) { // collsion item
 					ItemCell* item = dynamic_cast<ItemCell*>(cell);
-
+					// get Item sound
 					if (item->isOnExplosion()) {
 						continue;
 					}
 
 					if (item->getItemType() == ItemCell::ItemType::IncreaseBombRange) {
 						m_bombRange++;
+						m_increaseBombRangeSound->play();
 					}
 					else if (item->getItemType() == ItemCell::ItemType::IncreaseBombCount) {
 						m_bombs++;
+						m_increaseBombCountSound->play();
 					}
 					else {
 						m_speed += 20.f;
+						m_IncreaseSpeedSound->play();
+
 					}
 
 					delete map[i][j];
@@ -356,4 +368,10 @@ sf::FloatRect Bombergirl::Player::getBound() const
 bool Bombergirl::Player::isDead() const
 {
 	return m_deadAnimation.isDone();
+}
+
+Bombergirl::Player::~Player() {
+	delete m_increaseBombCountSound;
+	delete m_increaseBombRangeSound;
+	delete m_IncreaseSpeedSound;
 }

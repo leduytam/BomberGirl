@@ -4,6 +4,8 @@
 #include "empty_cell.h"
 #include "indestructible_cell.h"
 #include "bomb_cell.h"
+#include <sstream>
+#include <string>
 
 Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(sharedContext), m_player1(nullptr), m_player2(nullptr)
 {
@@ -11,13 +13,31 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 
 	m_mapView.reset(sf::FloatRect(0, 0, 1920, 1080));
 	m_mapView.setCenter(WORLD_WIDTH / 2.f, WORLD_HEIGHT / 2.f);
-	m_mapView.zoom(0.7f);
+	m_mapView.zoom(0.8f);
 
 	m_mainView.reset(sf::FloatRect(0, 0, 1920, 1080));
 
 	m_backSound = new sf::Sound();
 	m_backSound->setBuffer(m_sharedContext->m_resources->getBuffer("game_back_sound"));
+	m_backSound->setLoop(true);
 	m_backSound->play();
+	m_backSound->setVolume(50.f);
+
+	m_tickSound = new sf::Sound();
+	m_tickSound->setBuffer(m_sharedContext->m_resources->getBuffer("tick_sound"));
+	m_tickSound->setVolume(100.f);
+
+	m_coundDownTimerText.setFont(m_sharedContext->m_resources->getFont("control_font"));
+	m_coundDownTimerText.setCharacterSize(55);
+	m_coundDownTimerText.setFillColor(sf::Color{ 54, 170, 43 });
+	m_coundDownTimerText.setString("12");
+	m_coundDownTimerText.setPosition((1920 - m_coundDownTimerText.getLocalBounds().width) / 2.f, 10);
+
+
+	m_countDown = TIME_PER_ROUND;
+	m_gameTime = 0.f;
+	m_timerIcon.setTexture(m_sharedContext->m_resources->getTexture("timer_icon"));
+	m_timerIcon.setPosition((float) 1920 / 2.0 - 80, 15.f);
 }
 
 Bombergirl::GameState::~GameState()
@@ -32,6 +52,7 @@ Bombergirl::GameState::~GameState()
 	}
 
 	delete m_backSound;
+	delete m_tickSound;
 }
 
 void Bombergirl::GameState::createMap() {
@@ -133,15 +154,38 @@ void Bombergirl::GameState::update(const float& dt)
 			cell->update(dt, m_map);
 		}
 	}
-
+	if (m_gameTime > 1.f) {
+		m_countDown--;
+		if (m_countDown <= 10.f) {
+			m_coundDownTimerText.setFillColor(sf::Color{ 252, 69, 43 });
+			m_tickSound->play();
+		}
+		if (m_countDown <= 0.f) {
+			m_countDown = TIME_PER_ROUND;
+		}
+		std::stringstream ssCountDown;
+		ssCountDown << m_countDown;
+		m_coundDownTimerText.setString(ssCountDown.str());
+		m_coundDownTimerText.setPosition((1920 - m_coundDownTimerText.getLocalBounds().width) / 2.f, 10);
+		m_gameTime = 0.f;
+	}
+	else {
+		m_gameTime += dt;
+	}
 	m_player1->update(dt, m_map);
 	m_player2->update(dt, m_map);
+	
 }
 
 void Bombergirl::GameState::render()
 {
+	// HUD view
 	m_sharedContext->m_window->setView(m_mainView);
 	m_sharedContext->m_window->draw(m_backgroundSprite);
+	m_sharedContext->m_window->draw(m_timerIcon);
+	m_sharedContext->m_window->draw(m_coundDownTimerText);
+
+	// map view
 	m_sharedContext->m_window->setView(m_mapView);
 	m_sharedContext->m_window->draw(m_mapBackgroundSprite);
 
