@@ -9,59 +9,91 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Header Files\cells">
+      <UniqueIdentifier>{953f1c39-3544-4352-9110-1e742e370b99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\states">
+      <UniqueIdentifier>{f96bec8f-fc45-4fe6-a652-6da4ed07aeef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cells">
+      <UniqueIdentifier>{6b88d089-5880-45b6-9305-e7465400f190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\states">
+      <UniqueIdentifier>{7b428999-bee3-4edd-9512-c144bb113b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utilities">
+      <UniqueIdentifier>{86029f2f-9310-4a1e-aeb6-f718a0bede6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utilities">
+      <UniqueIdentifier>{7c5693ce-0072-4b0d-a4c1-daaac9bd7766}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="base_state.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="resource_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="state_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="intro_state.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main_menu_state.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="paused_state.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="fade_in_transition_state.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pick_up_Character_state.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="about_state.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="about_state.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="base_state.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
     <ClCompile Include="animation.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\utilities</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="button.cpp">
+      <Filter>Source Files\utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Cell.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="bomb_cell.cpp">
+      <Filter>Source Files\cells</Filter>
+    </ClCompile>
+    <ClCompile Include="cell.cpp">
+      <Filter>Source Files\cells</Filter>
+    </ClCompile>
+    <ClCompile Include="fade_in_transition_state.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="game_state.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="intro_state.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="main_menu_state.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="paused_state.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="pick_up_character_state.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="state_manager.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="flame_cell.cpp">
+      <Filter>Source Files\cells</Filter>
+    </ClCompile>
+    <ClCompile Include="empty_cell.cpp">
+      <Filter>Source Files\cells</Filter>
+    </ClCompile>
+    <ClCompile Include="indestructible_cell.cpp">
+      <Filter>Source Files\cells</Filter>
+    </ClCompile>
+    <ClCompile Include="item_cell.cpp">
+      <Filter>Source Files\cells</Filter>
+    </ClCompile>
+    <ClCompile Include="barrel_cell.cpp">
+      <Filter>Source Files\cells</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,9 +101,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="shared_context.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="base_state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource_manager.h">
@@ -83,38 +112,59 @@
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="intro_state.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="main_menu_state.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="paused_state.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="fade_in_transition_state.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pick_up_Character_state.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="about_state.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cell.h">
+      <Filter>Header Files\cells</Filter>
+    </ClInclude>
+    <ClInclude Include="about_state.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="base_state.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="fade_in_transition_state.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="game_state.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="pick_up_character_state.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="paused_state.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="main_menu_state.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="intro_state.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
     <ClInclude Include="animation.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\utilities</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="button.h">
+      <Filter>Header Files\utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Cell.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="bomb_cell.h">
+      <Filter>Header Files\cells</Filter>
+    </ClInclude>
+    <ClInclude Include="flame_cell.h">
+      <Filter>Header Files\cells</Filter>
+    </ClInclude>
+    <ClInclude Include="empty_cell.h">
+      <Filter>Header Files\cells</Filter>
+    </ClInclude>
+    <ClInclude Include="indestructible_cell.h">
+      <Filter>Header Files\cells</Filter>
+    </ClInclude>
+    <ClInclude Include="item_cell.h">
+      <Filter>Header Files\cells</Filter>
+    </ClInclude>
+    <ClInclude Include="barrel_cell.h">
+      <Filter>Header Files\cells</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

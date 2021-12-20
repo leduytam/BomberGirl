@@ -2,17 +2,21 @@
 #include "configs.h"
 #include "main_menu_state.h"
 
-Bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sharedContext), m_totalTime(0.f) {}
+Bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sharedContext), m_totalTime(0.f) {
+    m_sound = new sf::Sound();
+
+}
 
 void Bombergirl::IntroState::init()
 {
-    // load resources
-    m_sharedContext->m_resources->loadTexture("logo", INTRO_LOGO_PATH);
-
     // init components
     auto windowSize = m_sharedContext->m_window->getSize();
     m_logo.setTexture(m_sharedContext->m_resources->getTexture("logo"));
     m_logo.setPosition({ windowSize.x / 2.f - m_logo.getTexture()->getSize().x / 2.f, windowSize.y / 2.f - m_logo.getTexture()->getSize().y / 2.f });
+
+    //// sounds
+    m_sound->setBuffer(m_sharedContext->m_resources->getBuffer("intro_sound"));
+    m_sound->play();
 }
 
 void Bombergirl::IntroState::handleInput()
@@ -42,5 +46,11 @@ void Bombergirl::IntroState::update(const float& dt)
 void Bombergirl::IntroState::render()
 {
     m_sharedContext->m_window->draw(m_logo);
+
+}
+
+
+Bombergirl::IntroState::~IntroState() {
+    delete m_sound;
 }
 

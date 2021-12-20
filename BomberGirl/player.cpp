@@ -1,71 +1,114 @@
 #include "player.h"
-#include<iostream>
+#include "item_cell.h"
+#include "empty_cell.h"
+#include "bomb_cell.h"
+#include "configs.h"
 
-Bombergirl::Player::Player(sf::Texture* playerTexture, sf::Texture* shadowTexture, bool isFaceUp) : m_speed(150.f), m_isDead(false)
+Bombergirl::Player::Player(SharedContext* sharedContext, sf::Texture* m_playerTexture, const PlayerDirection& playerDirection)
+	: m_sharedContext(sharedContext), m_speed(PLAYER_DEFAULT_SPEED), m_isDead(false), m_isOnSetUpBomb(false), m_elapsedTime(0.f),
+	m_playerDirection(playerDirection), m_bombs(PLAYER_DEFAULT_BOMBS), m_bombRange(PLAYER_DEFAULT_BOMB_RANGE)
 {
-	m_direction = isFaceUp ? Direction::Up : Direction::Down;
-	m_playerSprite.setTexture(*playerTexture);
-	m_shadowSprite.setTexture(*shadowTexture);
+	m_playerSprite.setTexture(*m_playerTexture);
+	m_shadowSprite.setTexture(m_sharedContext->m_resources->getTexture("shadow"));
 	m_shadowSprite.setPosition({ 0.f, 8.f });
 
 	m_walkingDownAnimation.setSprite(&m_playerSprite);
-	m_walkingDownAnimation.addFrame({ 0, 0, 48, 48 });
-	m_walkingDownAnimation.addFrame({ 48, 0, 48, 48 });
-	m_walkingDownAnimation.addFrame({ 96, 0, 48, 48 });
+	for (int i = 0; i < 3; i++) {
+		m_walkingDownAnimation.addFrame({ i * TILE_SIZE, 0 * TILE_SIZE, TILE_SIZE, TILE_SIZE });
+	}
 
 	m_walkingLeftAnimation.setSprite(&m_playerSprite);
-	m_walkingLeftAnimation.addFrame({ 0, 48, 48, 48 });
-	m_walkingLeftAnimation.addFrame({ 48, 48, 48, 48 });
-	m_walkingLeftAnimation.addFrame({ 96, 48, 48, 48 });
+	for (int i = 0; i < 3; i++) {
+		m_walkingLeftAnimation.addFrame({ i * TILE_SIZE, 1 * TILE_SIZE, TILE_SIZE, TILE_SIZE });
+	}
 
 	m_walkingRightAnimation.setSprite(&m_playerSprite);
-	m_walkingRightAnimation.addFrame({ 0, 96, 48, 48 });
-	m_walkingRightAnimation.addFrame({ 48, 96, 48, 48 });
-	m_walkingRightAnimation.addFrame({ 96, 96, 48, 48 });
+	for (int i = 0; i < 3; i++) {
+		m_walkingRightAnimation.addFrame({ i * TILE_SIZE, 2 * TILE_SIZE, TILE_SIZE, TILE_SIZE });
+	}
 
 	m_walkingUpAnimation.setSprite(&m_playerSprite);
-	m_walkingUpAnimation.addFrame({ 0, 144, 48, 48 });
-	m_walkingUpAnimation.addFrame({ 48, 144, 48, 48 });
-	m_walkingUpAnimation.addFrame({ 96, 144, 48, 48 });
+	for (int i = 0; i < 3; i++) {
+		m_walkingUpAnimation.addFrame({ i * TILE_SIZE, 3 * TILE_SIZE, TILE_SIZE, TILE_SIZE });
+	}
 
 	m_deadAnimation.setSprite(&m_playerSprite);
-	m_deadAnimation.addFrame({ 0, 192, 48, 48 });
-	m_deadAnimation.addFrame({ 48, 192, 48, 48 });
-	m_deadAnimation.addFrame({ 96, 192, 48, 48 });
-	
-	if (isFaceUp) {
+	m_deadAnimation.setFrameDuration(0.5f);
+	m_deadAnimation.setRepeat(false);
+	for (int i = 0; i < 3; i++) {
+		m_deadAnimation.addFrame({ i * TILE_SIZE, 4 * TILE_SIZE, TILE_SIZE, TILE_SIZE });
+	}
+
+	if (m_playerDirection == PlayerDirection::Up) {
 		m_walkingUpAnimation.update(0.f);
+	}
+	else if (m_playerDirection == PlayerDirection::Left) {
+		m_walkingLeftAnimation.update(0.f);
+	}
+	else if (m_playerDirection == PlayerDirection::Right) {
+		m_walkingRightAnimation.update(0.f);
 	}
 	else {
 		m_walkingDownAnimation.update(0.f);
 	}
+
+	m_increaseBombCountSound = new sf::Sound();
+	m_increaseBombRangeSound = new sf::Sound();
+	m_IncreaseSpeedSound = new sf::Sound();
+
+	m_increaseBombCountSound->setBuffer(m_sharedContext->m_resources->getBuffer("get_item_IncreaseBombCount"));
+	m_increaseBombRangeSound->setBuffer(m_sharedContext->m_resources->getBuffer("get_item_IncreaseBombRange"));
+	m_IncreaseSpeedSound->setBuffer(m_sharedContext->m_resources->getBuffer("get_item_IncreaseSpeed"));
 }
 
-void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<Cell*>>& map)
+void Bombergirl::Player::update(const float& dt, std::vector<std::vector<Cell*>>& map)
 {
+	if (m_isDead) {
+		m_deadAnimation.update(dt);
+		return;
+	}
+
+	m_elapsedTime += dt;
+
+	sf::FloatRect playerBound = this->getBound();
+
+	// set up bomb
+	if (m_isOnSetUpBomb) {
+		sf::Vector2i playerIndex = { static_cast<int>((getCenter().y / TILE_SIZE)), static_cast<int>((getCenter().x / TILE_SIZE)) };
+
+		if (playerIndex.x >= 0 && playerIndex.x < static_cast<int>(map.size())
+			&& playerIndex.y >= 0 && playerIndex.y < static_cast<int>(map.front().size())
+			&& map[playerIndex.x][playerIndex.y]->getType() != Cell::CellType::Bomb) {
+			m_bombs--;
+			delete map[playerIndex.x][playerIndex.y];
+			map[playerIndex.x][playerIndex.y] = new BombCell(playerIndex, m_sharedContext, this);
+		}
+
+		m_isOnSetUpBomb = false;
+	}
+
 	sf::Vector2f offset;
 
-	switch (m_direction)
+	switch (m_playerDirection)
 	{
-	case Player::Direction::Up:
+	case Player::PlayerDirection::Up:
 		offset = { 0.f, -dt * m_speed };
 		m_walkingUpAnimation.update(dt);
 		break;
-	case Player::Direction::Down:
+	case Player::PlayerDirection::Down:
 		offset = { 0.f, dt * m_speed };
 		m_walkingDownAnimation.update(dt);
 		break;
-	case Player::Direction::Left:
+	case Player::PlayerDirection::Left:
 		offset = { -dt * m_speed, 0.f };
 		m_walkingLeftAnimation.update(dt);
 		break;
-	case Player::Direction::Right:
+	case Player::PlayerDirection::Right:
 		offset = { dt * m_speed, 0.f };
 		m_walkingRightAnimation.update(dt);
 		break;
 	}
 
-	sf::FloatRect playerBound = this->getBound();
 	sf::FloatRect newPlayerBound = {
 		playerBound.left + offset.x,
 		playerBound.top + offset.y,
@@ -73,108 +116,206 @@ void Bombergirl::Player::update(const float& dt, const std::vector<std::vector<C
 		playerBound.height
 	};
 
-	if (newPlayerBound.top < m_arena.top) { 
-		offset.y = playerBound.top - m_arena.top;
-	}
-	else if (newPlayerBound.top + newPlayerBound.height > m_arena.height) {
-		offset.y = m_arena.height - (playerBound.top + newPlayerBound.height);
-	}
-
-	if (newPlayerBound.left < m_arena.left) { 
-		offset.x = playerBound.left - m_arena.left;
-	}
-	else if (newPlayerBound.left + newPlayerBound.width > m_arena.width) {
-		offset.x = m_arena.width - (playerBound.left + newPlayerBound.width);
-	}
-
 	bool isCollision = false;
+	bool isCollisionBomb = false;
 
-	for (int i = 0; i < map.size(); i++)
+	for (size_t i = 0; i < map.size(); i++)
 	{
-		for (int j = 0; j < map[i].size(); j++)
+		for (size_t j = 0; j < map[i].size(); j++)
 		{
 			Cell* cell = map[i][j];
 
-			if (newPlayerBound.intersects(cell->getBound()) && cell->getType() == 1) {
-				if (offset.x != 0.f)
-				{
-					auto centerPlayer_Y = playerBound.top + playerBound.height / 2.f;
-					auto centerCell_Y = cell->getBound().top + cell->getBound().height / 2.f;
-					bool isUp = centerPlayer_Y < centerCell_Y - cell->getBound().height / 6.f;
-					bool isDown = centerPlayer_Y > centerCell_Y + cell->getBound().height / 6.f;
-
-					float tmp = fabs(offset.x);
-
-					if (offset.x < 0.f) {
-						offset.x = cell->getBound().left + cell->getBound().width - playerBound.left;
-						offset.y = tmp - fabs(offset.x);
-					}
-					else {
-						offset.x = cell->getBound().left - (playerBound.left + playerBound.width);
-						offset.y = tmp - fabs(offset.x);
-					}
-
-					if (isUp) {
-						offset.y = -offset.y;
-					}
-					else if (!isDown) {
-						offset.y = 0.f;
-					}
-
-					// check collision up and down
-					if (isUp) {
-
-					}
-					else if (isDown) {
-
-					}
-				}
-				else {
-					auto centerPlayer_X = playerBound.left + playerBound.width / 2.f;
-					auto centerCell_X = cell->getBound().left + cell->getBound().width / 2.f;
-					bool isLeft = centerPlayer_X < centerCell_X - cell->getBound().width / 6.f;
-					bool isRight = centerPlayer_X > centerCell_X + cell->getBound().width / 6.f;
-
-					float tmp = fabs(offset.y);
-
-					if (offset.y < 0.f) {
-						offset.y = cell->getBound().top + cell->getBound().height - playerBound.top;
-						offset.x = tmp - fabs(offset.y);
-					}
-					else {
-						offset.y = cell->getBound().top - (playerBound.top + playerBound.height);
-						offset.x = tmp - fabs(offset.y);
-					}
-
-					if (isLeft) {
-						offset.x = -offset.x;
-					}
-					else if (!isRight) {
-						offset.x = 0.f;
-					}
-
-					// check collision left and right
-					if (isLeft) {
-
-					}
-					else if (isRight) {
-
-					}
-				}
-
-				isCollision = true;
-				break;
+			if (cell->getType() == Cell::CellType::Empty) {
+				continue;
 			}
-		}
 
-		if (isCollision) {
-			break;
+			if (newPlayerBound.intersects(cell->getBound())) {
+				if (cell->getType() == Cell::CellType::Flame // collision flame
+					|| (cell->getType() == Cell::CellType::Bomb && dynamic_cast<BombCell*>(cell)->isOnExplosion())) {
+					m_isDead = true;
+					return;
+				}
+				else if (cell->getType() == Cell::CellType::Item) { // collsion item
+					ItemCell* item = dynamic_cast<ItemCell*>(cell);
+					// get Item sound
+					if (item->isOnExplosion()) {
+						continue;
+					}
+
+					if (item->getItemType() == ItemCell::ItemType::IncreaseBombRange) {
+						m_bombRange++;
+						m_increaseBombRangeSound->play();
+					}
+					else if (item->getItemType() == ItemCell::ItemType::IncreaseBombCount) {
+						m_bombs++;
+						m_increaseBombCountSound->play();
+					}
+					else {
+						m_speed += 20.f;
+						m_IncreaseSpeedSound->play();
+
+					}
+
+					delete map[i][j];
+					map[i][j] = new EmptyCell(sf::Vector2i(i, j), m_sharedContext);
+				}
+				else if (m_playerDirection != PlayerDirection::None && cell->isObstacle() && !isCollision) { // collision  obstacle
+					if (cell->getType() == Cell::CellType::Bomb
+						&& dynamic_cast<BombCell*>(cell)->isOwnerPlayerStillInside(this)) {
+						continue;
+					}
+
+					// horizontal
+					if (offset.x != 0.f)
+					{
+						auto centerPlayer_Y = this->getCenter().y;
+						auto centerCell_Y = cell->getBound().top + cell->getBound().height / 2.f;
+						bool isPushedUp = centerPlayer_Y < centerCell_Y - cell->getBound().height / 7.f;
+						bool isPushedDown = centerPlayer_Y > centerCell_Y + cell->getBound().height / 7.f;
+
+						float tmp = fabs(offset.x);
+
+						if (offset.x < 0.f) { // go left
+							offset.x = cell->getBound().left + cell->getBound().width - playerBound.left;
+							offset.y = tmp - fabs(offset.x);
+						}
+						else { // go right
+							offset.x = cell->getBound().left - (playerBound.left + playerBound.width);
+							offset.y = tmp - fabs(offset.x);
+						}
+
+						if (isPushedUp) {
+							offset.y = -offset.y;
+						}
+						else if (!isPushedDown) {
+							offset.y = 0.f;
+						}
+
+						// 1  2  1
+						// X<-O->X
+						// 1  2  1
+						// O: player
+						// X: cell
+						// 1: index1
+						// 2: index2
+						// ->: direction
+						// i j: index of collision cell
+						sf::Vector2i index1(i, j);
+						sf::Vector2i index2(i, j);
+
+						if (isPushedUp) {
+							index1.x -= 1;
+							index2.x -= 1;
+						}
+						else if (isPushedDown) {
+							index1.x += 1;
+							index2.x += 1;
+						}
+
+						if (m_playerDirection == Player::PlayerDirection::Left) {
+							index2.y += 1;
+						}
+						else if (m_playerDirection == Player::PlayerDirection::Right) {
+							index2.y -= 1;
+						}
+
+						if (isPushedUp || isPushedDown) {
+							if (index1.x >= 0 && index1.x < static_cast<int>(map.size())
+								&& index1.y >= 0 && index1.y < static_cast<int>(map.front().size())
+								&& map[index1.x][index1.y]->isObstacle()) {
+								offset.y = 0.f;
+							}
+
+							if (index2.x >= 0 && index2.x < static_cast<int>(map.size())
+								&& index2.y >= 0 && index2.y < static_cast<int>(map.front().size())
+								&& map[index2.x][index2.y]->isObstacle()
+								&& !(map[index2.x][index2.y]->getType() == Cell::CellType::Bomb
+									&& dynamic_cast<BombCell*>(map[index2.x][index2.y])->isOwnerPlayerStillInside(this))) {
+								offset.y = 0.f;
+							}
+						}
+					}
+					else { // vertical
+						auto centerPlayer_X = this->getCenter().x;
+						auto centerCell_X = cell->getBound().left + cell->getBound().width / 2.f;
+						bool isPushedLeft = centerPlayer_X < centerCell_X - cell->getBound().width / 7.f;
+						bool isPushedRight = centerPlayer_X > centerCell_X + cell->getBound().width / 7.f;
+
+						float tmp = fabs(offset.y);
+
+						if (offset.y < 0.f) { // go up
+							offset.y = cell->getBound().top + cell->getBound().height - playerBound.top;
+							offset.x = tmp - fabs(offset.y);
+						}
+						else { // go down
+							offset.y = cell->getBound().top - (playerBound.top + playerBound.height);
+							offset.x = tmp - fabs(offset.y);
+						}
+
+						if (isPushedLeft) {
+							offset.x = -offset.x;
+						}
+						else if (!isPushedRight) {
+							offset.x = 0.f;
+						}
+
+						sf::Vector2i index1(i, j);
+						sf::Vector2i index2(i, j);
+
+						// 1 X 1
+						//   ^ 
+						//   |
+						// 2 O 2
+						//   |
+						//   v
+						// 1 X 1
+						// O: player
+						// X: cell
+						// 1: index1
+						// 2: index2
+						// ->: direction
+						// i j: index of collision cell
+						if (isPushedLeft) {
+							index1.y -= 1;
+							index2.y -= 1;
+						}
+						else if (isPushedRight) {
+							index1.y += 1;
+							index2.y += 1;
+						}
+
+						if (m_playerDirection == Player::PlayerDirection::Up) {
+							index2.x += 1;
+						}
+						else if (m_playerDirection == Player::PlayerDirection::Down) {
+							index2.x -= 1;
+						}
+
+						if (isPushedLeft || isPushedRight) {
+							if (index1.x >= 0 && index1.x < static_cast<int>(map.size())
+								&& index1.y >= 0 && index1.y < static_cast<int>(map.front().size())
+								&& map[index1.x][index1.y]->isObstacle()) {
+								offset.x = 0.f;
+							}
+
+							if (index2.x >= 0 && index2.x < static_cast<int>(map.size())
+								&& index2.y >= 0 && index2.y < static_cast<int>(map.front().size())
+								&& map[index2.x][index2.y]->isObstacle()
+								&& !(map[index2.x][index2.y]->getType() == Cell::CellType::Bomb
+									&& dynamic_cast<BombCell*>(map[index2.x][index2.y])->isOwnerPlayerStillInside(this))) {
+								offset.x = 0.f;
+							}
+						}
+					}
+
+					isCollision = true;
+				}
+			}
 		}
 	}
 
 	m_playerSprite.move(offset);
-
-	m_direction = Direction::None;
+	m_playerDirection = PlayerDirection::None;
 }
 
 void Bombergirl::Player::render(sf::RenderWindow& window)
@@ -187,33 +328,13 @@ void Bombergirl::Player::render(sf::RenderWindow& window)
 	rect.setSize({ getBound().width, getBound().height });
 	rect.setFillColor(sf::Color::Transparent);
 	rect.setOutlineColor(sf::Color::Red);
-	rect.setOutlineThickness(-2.f);
+	rect.setOutlineThickness(-1.f);
 	window.draw(rect);
 }
 
-void Bombergirl::Player::moveUp()
+void Bombergirl::Player::setDirection(const PlayerDirection& playerDirection)
 {
-	m_direction = Direction::Up;
-}
-
-void Bombergirl::Player::moveDown()
-{
-	m_direction = Direction::Down;
-}
-
-void Bombergirl::Player::moveLeft()
-{
-	m_direction = Direction::Left;
-}
-
-void Bombergirl::Player::moveRight()
-{
-	m_direction = Direction::Right;
-}
-
-void Bombergirl::Player::setIsDead()
-{
-	m_isDead = true;
+	m_playerDirection = playerDirection;
 }
 
 void Bombergirl::Player::setPosition(const sf::Vector2f& position)
@@ -221,14 +342,20 @@ void Bombergirl::Player::setPosition(const sf::Vector2f& position)
 	m_playerSprite.setPosition({ position.x - 24.f, position.y - 24.f });
 }
 
-void Bombergirl::Player::setArena(const sf::IntRect& arena) {
-	m_arena.left = arena.left + m_playerSprite.getLocalBounds().width;
-	m_arena.top = arena.top + m_playerSprite.getLocalBounds().height;
-	m_arena.width = arena.width - m_playerSprite.getLocalBounds().width;
-	m_arena.height = arena.height - m_playerSprite.getLocalBounds().height;
+void Bombergirl::Player::setUpBomb()
+{
+	if (m_elapsedTime >= TIME_DELAY_SET_UP_BOMB && m_bombs > 0) {
+		m_isOnSetUpBomb = true;
+		m_elapsedTime = 0.f;
+	}
 }
 
-sf::FloatRect Bombergirl::Player::getBound()
+sf::Vector2f Bombergirl::Player::getCenter() const
+{
+	return { getBound().left + getBound().width / 2.f, getBound().top + getBound().height / 2.f };
+}
+
+sf::FloatRect Bombergirl::Player::getBound() const
 {
 	return {
 		m_playerSprite.getPosition().x + 8.f,
@@ -236,4 +363,15 @@ sf::FloatRect Bombergirl::Player::getBound()
 		m_playerSprite.getLocalBounds().width - 16.f,
 		m_playerSprite.getLocalBounds().height - 8.f,
 	};
+}
+
+bool Bombergirl::Player::isDead() const
+{
+	return m_deadAnimation.isDone();
+}
+
+Bombergirl::Player::~Player() {
+	delete m_increaseBombCountSound;
+	delete m_increaseBombRangeSound;
+	delete m_IncreaseSpeedSound;
 }

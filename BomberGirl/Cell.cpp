@@ -1,15 +1,28 @@
-#include "Cell.h"
+#include "cell.h"
+#include "configs.h"
 
-Bombergirl::Cell::Cell(int type, sf::Vector2f position) {
-	m_type = type;
-	m_position = position;
-	m_rect = sf::FloatRect(position.x, position.y, cell_size, cell_size);
+Bombergirl::Cell::Cell(const sf::Vector2i& index, SharedContext* sharedContext) : m_index(index), m_sharedContext(sharedContext)
+{
+	m_bound = sf::FloatRect(static_cast<float>(index.y * TILE_SIZE), static_cast<float>(index.x * TILE_SIZE), static_cast<float>(TILE_SIZE), static_cast<float>(TILE_SIZE));
 }
 
-int Bombergirl::Cell::getType() {
-	return m_type;
+Bombergirl::Cell::~Cell() {}
+
+sf::FloatRect Bombergirl::Cell::getBound() const
+{
+	return m_bound;
 }
 
-sf::FloatRect Bombergirl::Cell::getBound() {
-	return m_rect;
+sf::Vector2i Bombergirl::Cell::getIndex() const
+{
+	return m_index;
 }
+
+sf::Vector2f Bombergirl::Cell::getPosision() const
+{
+	return sf::Vector2f(m_bound.left, m_bound.top);
+}
+
+void Bombergirl::Cell::update(const float&, std::vector<std::vector<Cell*>>&) {}
+
+void Bombergirl::Cell::render(sf::RenderWindow&) const {}

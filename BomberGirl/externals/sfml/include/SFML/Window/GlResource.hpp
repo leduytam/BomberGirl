@@ -35,7 +35,7 @@
 namespace sf
 {
 
-class SharedContext;
+class Context;
 
 typedef void(*ContextDestroyCallback)(void*);
 

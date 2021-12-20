@@ -10,6 +10,7 @@ namespace Bombergirl
     private:
         sf::Sprite m_logo;
         float m_totalTime;
+        sf::Sound *m_sound;
     public:
         IntroState(SharedContext* sharedContext);
 
@@ -17,7 +18,6 @@ namespace Bombergirl
         void handleInput() override;
         void update(const float&) override;
         void render() override;
-        
+        ~IntroState();
     };
 }
-

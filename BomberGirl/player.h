@@ -1,16 +1,22 @@
 #pragma once
 
 #include "animation.h"
-#include "Cell.h"
-#include <vector>
+#include "cell.h"
 
 namespace Bombergirl
 {
     class Player
     {
+    public:
+        enum class PlayerDirection { Up, Down, Left, Right, None };
     private:
-        enum class Direction { Up, Down, Left, Right, None };
-
+        SharedContext* m_sharedContext;
+        float m_speed;
+        int m_bombs;
+        int m_bombRange;
+        bool m_isDead;
+        bool m_isOnSetUpBomb;
+        float m_elapsedTime;
         sf::Sprite m_playerSprite;
         sf::Sprite m_shadowSprite;
         Animation m_walkingUpAnimation;
@@ -18,27 +24,23 @@ namespace Bombergirl
         Animation m_walkingLeftAnimation;
         Animation m_walkingRightAnimation;
         Animation m_deadAnimation;
-        Direction m_direction;
-        float m_speed;
-        bool m_isDead;
-        sf::IntRect m_arena;
+        PlayerDirection m_playerDirection;
+        
+        sf::Sound* m_increaseBombRangeSound;
+        sf::Sound* m_increaseBombCountSound;
+        sf::Sound* m_IncreaseSpeedSound;
 
+        friend class BombCell;
     public:
-        Player(sf::Texture*, sf::Texture*, bool isFaceUp = true);
-
-        void update(const float&, const std::vector<std::vector<Cell*>>&);
+        Player(SharedContext*, sf::Texture*, const PlayerDirection&);
+        void update(const float&, std::vector<std::vector<Cell*>>&);
         void render(sf::RenderWindow&);
-
-        void moveUp();
-        void moveDown();
-        void moveLeft();
-        void moveRight();
-        void setIsDead();
-        void setArena(const sf::IntRect& arena = { 0, 0, 1920, 1080});
-
+        void setDirection(const PlayerDirection&);
         void setPosition(const sf::Vector2f&);
-
-        sf::FloatRect getBound();
+        void setUpBomb();
+        sf::Vector2f getCenter() const;
+        sf::FloatRect getBound() const;
+        bool isDead() const;
+        ~Player();
     };
 };
-

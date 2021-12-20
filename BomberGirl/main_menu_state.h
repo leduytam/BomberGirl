@@ -17,6 +17,9 @@ namespace Bombergirl
 		const int SPACE_BETWEEN_OPTION = 150;
 		std::vector <Button> options_Button;
 		int m_option;
+		sf::Sound *m_soundBack;
+		sf::Sound *m_soundClick;
+		sf::Sound* m_soundConfirm;
 	public:
 
 		enum class OPTION {
@@ -28,7 +31,6 @@ namespace Bombergirl
 		};
 		MainMenuState(SharedContext* sharedContext);
 
-
 		void init() override;
 		void handleInput() override;
 		void update(const float&) override;
@@ -37,6 +39,8 @@ namespace Bombergirl
 		Button createOption();
 		void drawMenuOption();
 		void selectOption(int option);
+
+		~MainMenuState();
 	};
 }
 
