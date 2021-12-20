@@ -6,15 +6,15 @@
 Bombergirl::Game::Game()
 {
     m_sharedContext = new SharedContext();
-
-    m_sharedContext->m_window = new sf::RenderWindow(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Default);
-
+    
+    m_sharedContext->m_window = new sf::RenderWindow(sf::VideoMode(0, 0), GAME_TITLE, sf::Style::Default);\
     m_sharedContext->m_window->setVisible(false);
+    m_sharedContext->m_window->setPosition(sf::Vector2i(2000, 2000));
     m_sharedContext->m_window->setMouseCursorVisible(false);
     m_sharedContext->m_window->setKeyRepeatEnabled(false);
-    
     m_sharedContext->m_resources = new ResourceManager();
     loadResources();
+    m_sharedContext->m_window->create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Default);
     m_sharedContext->m_window->setVisible(true);
     m_sharedContext->m_stateManager = new StateManager();
     m_sharedContext->m_stateManager->push(new IntroState(m_sharedContext));
@@ -58,8 +58,7 @@ void Bombergirl::Game::loadResources()
     m_sharedContext->m_resources->loadBuffer("confirm_character_sound", CHARACTER_CONFIRM_SOUND);
 
     // about state
-    m_sharedContext->m_resources->loadTexture("about_background", ABOUT_BACKGROUND_PATH);
-    m_sharedContext->m_resources->loadTexture("about_control", ABOUT_CONTROL_PATH);
+    m_sharedContext->m_resources->loadTexture("about_text_image", ABOUT_TEXT_IMAGE);
 
     // game state
     m_sharedContext->m_resources->loadTexture("map_background", MAP_BACKGROUND_TEXTURE_PATH);
@@ -79,6 +78,8 @@ void Bombergirl::Game::loadResources()
     m_sharedContext->m_resources->loadBuffer("get_item_IncreaseBombCount", GET_ITEM_INCREASEBOMBCOUNT_SOUND);
     m_sharedContext->m_resources->loadBuffer("get_item_IncreaseBombRange", GET_ITEM_INCREASEBOMBRANGE_SOUND);
     m_sharedContext->m_resources->loadBuffer("tick_sound", TICK_SOUND);
+    m_sharedContext->m_resources->loadBuffer("hit_sound", HIT_SOUND);
+    m_sharedContext->m_resources->loadBuffer("win_sound", WIN_SOUND);
 }
 
 void Bombergirl::Game::handleInput()

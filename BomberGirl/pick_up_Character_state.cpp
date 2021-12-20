@@ -148,6 +148,8 @@ void Bombergirl::PickUpCharacterState::update(const float& dt) {
 	m_borderSelect_2.setPosition(m_characters[m_select_2].getPosition());
 	if (m_donePickingUp && m_transition >= TRANSITION_PICKUP_TIME) {
 		m_backsound->pause();
+		m_sharedContext->m_resources->loadTexture("player_face_1", CHARACTER_TEXTURE_PATH + m_character_value_1 + ".png");
+		m_sharedContext->m_resources->loadTexture("player_face_2", CHARACTER_TEXTURE_PATH + m_character_value_2 + ".png");
 		m_sharedContext->m_resources->loadTexture("player_movement_1", PLAYER_MOVEMENT_TEXTURE_PATH + m_character_value_1 + ".png");
 		m_sharedContext->m_resources->loadTexture("player_movement_2", PLAYER_MOVEMENT_TEXTURE_PATH + m_character_value_2 + ".png");
 		m_sharedContext->m_stateManager->push(new GameState(m_sharedContext), true);

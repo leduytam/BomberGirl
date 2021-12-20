@@ -5,49 +5,21 @@ Bombergirl::AboutState::AboutState(Bombergirl::SharedContext* sharedContext) : B
 
 void Bombergirl::AboutState::init()
 {
-    // init components
-    m_aboutText.setFont(m_sharedContext->m_resources->getFont("garamond"));
-    m_aboutText.setString("ABOUT AND CONTROL");
-    m_aboutText.setCharacterSize(75u);
-    sf::FloatRect bounds = m_aboutText.getLocalBounds();
-    m_aboutText.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
+    m_textImage.setTexture(m_sharedContext->m_resources->getTexture("about_text_image"));
     auto windowSize = m_sharedContext->m_window->getSize();
-    m_aboutText.setPosition((float)windowSize.x / 2.f, (float)windowSize.y / 2.f - 450);
+    m_whiteBackground.setSize(sf::Vector2f(windowSize.x*1.f, windowSize.y*1.f));
+    m_whiteBackground.setFillColor(sf::Color::White);
 
+    m_whiteRectUp.setSize(sf::Vector2f(windowSize.x * 1.f, windowSize.y* 0.15f));
+    m_whiteRectUp.setFillColor(sf::Color::White);
 
-    m_controlText.setFont(m_sharedContext->m_resources->getFont("garamond"));
-    m_controlText.setString("BOMBER-GIRL GAME IS DEVELOPED BASED ON THE CLASSIC BOMBERMAN GAME,");
-    m_controlText.setCharacterSize(30u);
-    m_controlText.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 920);
+    m_whiteRectDown.setSize(sf::Vector2f(windowSize.x * 1.f, windowSize.y * 0.15f));
+    m_whiteRectDown.setFillColor(sf::Color::White);
+    m_whiteRectDown.setPosition(0.f, windowSize.y - m_whiteRectDown.getSize().y);
 
+    m_textImage.setPosition(windowSize.x - 960.f, m_whiteRectDown.getPosition().y);
 
-    m_controlText2.setFont(m_sharedContext->m_resources->getFont("garamond"));
-    m_controlText2.setString("CONTROL THE CHARACTER TO MOVE SKILLFULLY, PLACE BOMBS AND BLOW UP THE ENEMY!");
-    m_controlText2.setCharacterSize(30u);
-    m_controlText2.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 870);
-
-    m_controlText3.setFont(m_sharedContext->m_resources->getFont("garamond"));
-    m_controlText3.setString("THE GAME HAS ONLY ONE MODE:");
-    m_controlText3.setCharacterSize(30u);
-    m_controlText3.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 800);
-
-    m_controlText4.setFont(m_sharedContext->m_resources->getFont("garamond"));
-    m_controlText4.setString("CLASSIC ENTERTAINMENT: TAKE DOWN ALL OPPONENTS ON THE MAP.");
-    m_controlText4.setCharacterSize(30u);
-    m_controlText4.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 750);
-
-    m_controlText5.setFont(m_sharedContext->m_resources->getFont("garamond"));
-    m_controlText5.setString("LET'S SHOW OFF OUR SUPER BOMB-MAKING TALENT!");
-    m_controlText5.setCharacterSize(30u);
-    m_controlText5.setPosition((float)windowSize.x - 1550, (float)windowSize.y - 680);
-
-    //background
-    m_background.setTexture(m_sharedContext->m_resources->getTexture("about_background"));
-
-    //controls
-    m_control.setTexture(m_sharedContext->m_resources->getTexture("about_control"));
-    m_control.setPosition((float)windowSize.x - 1440, (float)windowSize.y - 630);
-
+    
 }
 
 void Bombergirl::AboutState::handleInput()
@@ -66,19 +38,18 @@ void Bombergirl::AboutState::handleInput()
     }
 }
 
-void Bombergirl::AboutState::update(const float&)
+void Bombergirl::AboutState::update(const float&dt)
 {
-
+    if (m_textImage.getPosition().y + m_textImage.getLocalBounds().height <= m_whiteRectUp.getSize().y) {
+        return;
+    }
+    m_textImage.move(0.f, -TEXT_SPEED * dt);
 }
 
 void Bombergirl::AboutState::render()
 {
-    m_sharedContext->m_window->draw(m_background);
-    m_sharedContext->m_window->draw(m_aboutText);
-    m_sharedContext->m_window->draw(m_control);
-    m_sharedContext->m_window->draw(m_controlText);
-    m_sharedContext->m_window->draw(m_controlText2);
-    m_sharedContext->m_window->draw(m_controlText3);
-    m_sharedContext->m_window->draw(m_controlText4);
-    m_sharedContext->m_window->draw(m_controlText5);
+    m_sharedContext->m_window->draw(m_whiteBackground);
+    m_sharedContext->m_window->draw(m_textImage);
+    m_sharedContext->m_window->draw(m_whiteRectUp);
+    m_sharedContext->m_window->draw(m_whiteRectDown);
 }

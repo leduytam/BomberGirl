@@ -7,15 +7,11 @@ namespace Bombergirl
     class AboutState : public BaseState
     {
     private:
-        sf::Text m_aboutText;
-        sf::Sprite m_control;
-        sf::Sprite m_background;
-        sf::View m_view;
-        sf::Text m_controlText;
-        sf::Text m_controlText2;
-        sf::Text m_controlText3;
-        sf::Text m_controlText4;
-        sf::Text m_controlText5;
+        sf::Sprite m_textImage;
+        sf::RectangleShape m_whiteBackground;
+        sf::RectangleShape m_whiteRectUp;
+        sf::RectangleShape m_whiteRectDown;
+
     public:
         AboutState(SharedContext* sharedContext);
 
