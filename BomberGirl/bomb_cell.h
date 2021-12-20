@@ -26,7 +26,7 @@ namespace Bombergirl
 		bool isObstacle() const override;
 		void update(const float&, std::vector<std::vector<Cell*>>&) override;
 		void render(sf::RenderWindow&) const override;
-		bool isOwnerPlayerStillInside() const;
+		bool isOwnerPlayerStillInside(Player*) const;
 		bool isOnExplosion() const;
 	};
 }

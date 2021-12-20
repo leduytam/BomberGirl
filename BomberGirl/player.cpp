@@ -161,7 +161,7 @@ void Bombergirl::Player::update(const float& dt, std::vector<std::vector<Cell*>>
 				}
 				else if (m_playerDirection != PlayerDirection::None && cell->isObstacle() && !isCollision) { // collision  obstacle
 					if (cell->getType() == Cell::CellType::Bomb
-						&& dynamic_cast<BombCell*>(cell)->isOwnerPlayerStillInside()) {
+						&& dynamic_cast<BombCell*>(cell)->isOwnerPlayerStillInside(this)) {
 						continue;
 					}
 
@@ -230,7 +230,7 @@ void Bombergirl::Player::update(const float& dt, std::vector<std::vector<Cell*>>
 								&& index2.y >= 0 && index2.y < static_cast<int>(map.front().size())
 								&& map[index2.x][index2.y]->isObstacle()
 								&& !(map[index2.x][index2.y]->getType() == Cell::CellType::Bomb
-									&& dynamic_cast<BombCell*>(map[index2.x][index2.y])->isOwnerPlayerStillInside())) {
+									&& dynamic_cast<BombCell*>(map[index2.x][index2.y])->isOwnerPlayerStillInside(this))) {
 								offset.y = 0.f;
 							}
 						}
@@ -302,7 +302,7 @@ void Bombergirl::Player::update(const float& dt, std::vector<std::vector<Cell*>>
 								&& index2.y >= 0 && index2.y < static_cast<int>(map.front().size())
 								&& map[index2.x][index2.y]->isObstacle()
 								&& !(map[index2.x][index2.y]->getType() == Cell::CellType::Bomb
-									&& dynamic_cast<BombCell*>(map[index2.x][index2.y])->isOwnerPlayerStillInside())) {
+									&& dynamic_cast<BombCell*>(map[index2.x][index2.y])->isOwnerPlayerStillInside(this))) {
 								offset.x = 0.f;
 							}
 						}

@@ -105,7 +105,7 @@ void Bombergirl::BombCell::update(const float& dt, std::vector<std::vector<Cell*
 				if (map[m_index.x][i]->getType() == Cell::CellType::Barrel) {
 					dynamic_cast<BarrelCell*>(map[m_index.x][i])->setOnExplosion();
 				}
-				else if (map[i][m_index.y]->getType() == Cell::CellType::Item) {
+				else if (map[m_index.x][i]->getType() == Cell::CellType::Item) {
 					dynamic_cast<ItemCell*>(map[m_index.x][i])->setOnExplosion();
 				}
 				break;
@@ -124,7 +124,7 @@ void Bombergirl::BombCell::update(const float& dt, std::vector<std::vector<Cell*
 				if (map[m_index.x][i]->getType() == Cell::CellType::Barrel) {
 					dynamic_cast<BarrelCell*>(map[m_index.x][i])->setOnExplosion();
 				}
-				else if (map[i][m_index.y]->getType() == Cell::CellType::Item) {
+				else if (map[m_index.x][i]->getType() == Cell::CellType::Item) {
 					dynamic_cast<ItemCell*>(map[m_index.x][i])->setOnExplosion();
 				}
 				break;
@@ -162,9 +162,9 @@ void Bombergirl::BombCell::render(sf::RenderWindow& window) const
 	window.draw(m_bombSprite);
 }
 
-bool Bombergirl::BombCell::isOwnerPlayerStillInside() const
+bool Bombergirl::BombCell::isOwnerPlayerStillInside(Player* player) const
 {
-	return m_isOwnerPlayerStillInside;
+	return player == m_player && m_isOwnerPlayerStillInside;
 }
 
 bool Bombergirl::BombCell::isOnExplosion() const
