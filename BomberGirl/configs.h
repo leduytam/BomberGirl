@@ -51,6 +51,11 @@ namespace Bombergirl
 	const auto RIGHT_GEAR_ABOUT_IMAGE = "./assets/textures/img/system/right_gear.png";
 #pragma endregion
 
+#pragma region Guide
+	const auto GUIDE_TEXT_IMAGE = "./assets/textures/img/system/guide_text_image.png";
+	const auto GUIDE_BACKGROUND_IMAGE = "./assets/textures/backgrounds/guide_background.jpg";
+#pragma endregion
+
 #pragma region Game
 	const auto PLAYER_SHADOW_PATH = "./assets/textures/players/shadow.png";
 	const auto PLAYER_MOVEMENT_TEXTURE_PATH = "./assets/textures/players/movements/";
