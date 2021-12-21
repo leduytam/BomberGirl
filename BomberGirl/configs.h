@@ -12,7 +12,7 @@ namespace Bombergirl
 ////////////////////////////
 #pragma region Font
 	const auto GARAMOND_FONT_PATH = "./assets/fonts/garamond.ttf";
-	const auto CONTROL_FONT_PATH = "./assets/fonts/control.ttf";
+	const auto UPHEAVTT_FONT_PATH = "./assets/fonts/upheavtt.ttf";
 #pragma endregion
 
 ////////////////////////////
@@ -37,9 +37,14 @@ namespace Bombergirl
 #pragma endregion
 
 #pragma region About
-	const auto TEXT_SPEED = 150;
+	const auto TEXT_MOVE_SPEED = 150;
+	const auto PRESS_ENTER_TEXT_AFFECT_SPEED = 300.f;
+	const auto GEAR_ROTATE_SPEED = 40.f;
 	const auto ABOUT_TEXT_IMAGE = "./assets/textures/img/system/about_text_image.png";
-
+	const auto GROUP_ABOUT_IMAGE = "./assets/textures/img/system/group.png";
+	const auto LIGHT_ABOUT_IMAGE = "./assets/textures/img/system/light.png";
+	const auto LEFT_GEAR_ABOUT_IMAGE = "./assets/textures/img/system/left_gear.png";
+	const auto RIGHT_GEAR_ABOUT_IMAGE = "./assets/textures/img/system/right_gear.png";
 #pragma endregion
 
 #pragma region Game
@@ -85,5 +90,7 @@ namespace Bombergirl
 	const auto TICK_SOUND = "./assets/sounds/tick.wav";
 	const auto HIT_SOUND = "./assets/sounds/hit.wav";
 	const auto WIN_SOUND = "./assets/sounds/win.wav";
+	const auto READY_SOUND = "./assets/sounds/ready.wav";
+	const auto START_SOUND = "./assets/sounds/start.wav";
 #pragma endregion
 }

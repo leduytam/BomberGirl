@@ -13,10 +13,15 @@ namespace Bombergirl
         sf::RectangleShape m_whiteBackground;
         sf::RectangleShape m_whiteRectUp;
         sf::RectangleShape m_whiteRectDown;
+        sf::Sprite m_groupSprite;
+        sf::Sprite m_lightSprite;
+        sf::Sprite m_leftGearSprite;
+        sf::Sprite m_rightGearSprite;
         bool m_isTextEnd;
-        float alpha = 0;
-        float speed = 200;
-
+        float m_pressEnterTextEffectAlpha;
+        float m_pressEnterTextEffectSpeed;
+        float m_animationImageAlpha;
+        bool isThanksDisplayed;
     public:
         AboutState(SharedContext* sharedContext);
 

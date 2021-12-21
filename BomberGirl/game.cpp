@@ -7,7 +7,7 @@ Bombergirl::Game::Game()
 {
     m_sharedContext = new SharedContext();
     
-    m_sharedContext->m_window = new sf::RenderWindow(sf::VideoMode(0, 0), GAME_TITLE, sf::Style::Default);\
+    m_sharedContext->m_window = new sf::RenderWindow(sf::VideoMode(0, 0), GAME_TITLE, sf::Style::Default);
     m_sharedContext->m_window->setVisible(false);
     m_sharedContext->m_window->setPosition(sf::Vector2i(2000, 2000));
     m_sharedContext->m_window->setMouseCursorVisible(false);
@@ -31,7 +31,7 @@ void Bombergirl::Game::loadResources()
 
     // game font
     m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
-    m_sharedContext->m_resources->loadFont("control_font", CONTROL_FONT_PATH);
+    m_sharedContext->m_resources->loadFont("upheavtt_font", UPHEAVTT_FONT_PATH);
 
     // intro state
     m_sharedContext->m_resources->loadTexture("logo", INTRO_LOGO_PATH);
@@ -59,6 +59,10 @@ void Bombergirl::Game::loadResources()
 
     // about state
     m_sharedContext->m_resources->loadTexture("about_text_image", ABOUT_TEXT_IMAGE);
+    m_sharedContext->m_resources->loadTexture("group_about", GROUP_ABOUT_IMAGE);
+    m_sharedContext->m_resources->loadTexture("light_about", LIGHT_ABOUT_IMAGE);
+    m_sharedContext->m_resources->loadTexture("left_gear_about", LEFT_GEAR_ABOUT_IMAGE);
+    m_sharedContext->m_resources->loadTexture("right_gear_about", RIGHT_GEAR_ABOUT_IMAGE);
 
     // game state
     m_sharedContext->m_resources->loadTexture("map_background", MAP_BACKGROUND_TEXTURE_PATH);
@@ -80,6 +84,8 @@ void Bombergirl::Game::loadResources()
     m_sharedContext->m_resources->loadBuffer("tick_sound", TICK_SOUND);
     m_sharedContext->m_resources->loadBuffer("hit_sound", HIT_SOUND);
     m_sharedContext->m_resources->loadBuffer("win_sound", WIN_SOUND);
+    m_sharedContext->m_resources->loadBuffer("ready_sound", READY_SOUND);
+    m_sharedContext->m_resources->loadBuffer("start_sound", START_SOUND);
 }
 
 void Bombergirl::Game::handleInput()

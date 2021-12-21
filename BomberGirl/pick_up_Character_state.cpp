@@ -70,6 +70,7 @@ void Bombergirl::PickUpCharacterState::init() {
 	m_soundClick_2->setBuffer(m_sharedContext->m_resources->getBuffer("select_sound"));
 	m_soundconfirm_1->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_character_sound"));
 	m_soundconfirm_2->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_character_sound"));
+
 }
 
 void Bombergirl::PickUpCharacterState::handleInput() {
@@ -192,7 +193,7 @@ void Bombergirl::PickUpCharacterState::lockSelect(int order, sf::RectangleShape&
 }
 
 void Bombergirl::PickUpCharacterState::setText(sf::Text & text, const int& charactersize, const sf::String& content) {
-	text.setFont(m_sharedContext->m_resources->getFont("garamond"));
+	text.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
 	text.setString(content);
 	text.setCharacterSize(charactersize);
 	sf::FloatRect bounds = text.getLocalBounds();
