@@ -78,10 +78,6 @@ void Bombergirl::MainMenuState::handleInput()
 				m_sharedContext->m_window->close();
 			}
 
-			if (e.key.code == sf::Keyboard::P) {
-				m_sharedContext->m_stateManager->push(new PausedState(m_sharedContext));
-			}
-
 			if (e.key.code == sf::Keyboard::BackSpace) {
 				m_sharedContext->m_stateManager->pop();
 			}

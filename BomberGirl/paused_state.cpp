@@ -14,7 +14,7 @@ void Bombergirl::PausedState::init()
     m_overlay.setSize({ static_cast<float>(windowSize.x), static_cast<float>(windowSize.y) });
     m_overlay.setFillColor(sf::Color(0u, 0u, 0u, 200));
 
-    m_pausedText.setFont(m_sharedContext->m_resources->getFont("garamond"));
+    m_pausedText.setFont(m_sharedContext->m_resources->getFont("upheavtt"));
     m_pausedText.setString("PAUSED");
     m_pausedText.setCharacterSize(50u);
     sf::FloatRect bounds = m_pausedText.getLocalBounds();

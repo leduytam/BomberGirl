@@ -3,6 +3,7 @@
 #include "barrel_cell.h"
 #include "empty_cell.h"
 #include "indestructible_cell.h"
+#include "paused_state.h"
 #include "bomb_cell.h"
 #include <sstream>
 #include <string>
@@ -145,10 +146,6 @@ void Bombergirl::GameState::init()
 	m_coundDownTimerText.setString(std::to_string((int)TIME_PER_ROUND));
 	m_coundDownTimerText.setPosition((1920 - m_coundDownTimerText.getLocalBounds().width) / 2.f, 10);
 
-	
-	m_countDownPreGame.setString("3");
-	m_countDownPreGame.setPosition({ (DEFAULT_WINDOW_WIDTH - m_countDownPreGame.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_coundDownTimerText.getLocalBounds().height * 2) / 2.f });
-	
 }
 
 void Bombergirl::GameState::handleInput()
@@ -159,8 +156,15 @@ void Bombergirl::GameState::handleInput()
 		if (e.type == sf::Event::Closed) {
 			m_sharedContext->m_window->close();
 		}
-		else if (e.key.code == sf::Keyboard::Escape) {
-			m_sharedContext->m_window->close();
+		else  if (e.type == sf::Event::KeyPressed) {
+
+			if (e.key.code == sf::Keyboard::Escape) {
+				m_sharedContext->m_window->close();
+			}
+
+			else if (e.key.code == sf::Keyboard::P) {
+				m_sharedContext->m_stateManager->push(new PausedState(m_sharedContext));
+			}
 		}
 	}
 
@@ -190,11 +194,11 @@ void Bombergirl::GameState::handleInput()
 		m_player1->setDirection(Player::PlayerDirection::Right);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 		m_player1->setUpBomb();
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 		m_player2->setUpBomb();
 	}
 }
@@ -226,7 +230,7 @@ void Bombergirl::GameState::update(const float& dt)
 
 			m_startSound->play();
 		}
-		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - 300 * 2) / 2.f });
+		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - 500 * 2) / 2.f });
 		m_countDownPreGame.setString(std::to_string(demo));
 		m_countDownPreGame.setPosition({ (DEFAULT_WINDOW_WIDTH - m_countDownPreGame.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_coundDownTimerText.getLocalBounds().height * 2) / 2.f });
 
