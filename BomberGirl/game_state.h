@@ -24,6 +24,11 @@ namespace Bombergirl
 		sf::Sound* m_backSound;
 		sf::Sound* m_tickSound;
 		sf::Sound* m_winSound;
+
+		sf::RectangleShape m_decorFrame_l;
+		sf::RectangleShape m_decorFrame_r;
+		sf::RectangleShape m_decorFrame_t;
+		sf::RectangleShape m_decorFrame_b;
 		float m_gameTime;
 		float m_countDown;
 		const int NUMBER_ROUNDS = 3;
@@ -31,6 +36,7 @@ namespace Bombergirl
 		int m_pointPlayer2;
 		bool m_isGameOver;
 		float m_delayTimeGameOver;
+
 	public:
 		GameState(SharedContext* sharedContext);
 		~GameState();

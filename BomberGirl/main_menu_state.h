@@ -22,13 +22,7 @@ namespace Bombergirl
 		sf::Sound* m_soundConfirm;
 
 	public:
-		enum class OPTION {
-			PLAY,
-			CONTINUE,
-			ABOUT,
-			EXIT,
-			MAX
-		};
+		const int NUMBER_OPTION = 4;
 		MainMenuState(SharedContext* sharedContext);
 
 		void init() override;

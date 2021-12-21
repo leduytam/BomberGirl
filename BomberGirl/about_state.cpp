@@ -49,6 +49,7 @@ void Bombergirl::AboutState::init()
     m_rightGearSprite.setTexture(m_sharedContext->m_resources->getTexture("right_gear_about"));
     m_rightGearSprite.setOrigin(m_rightGearSprite.getLocalBounds().width / 2.f, m_rightGearSprite.getLocalBounds().height / 2.f);
     m_rightGearSprite.setPosition(690.f, 332.f);
+
 }
 
 void Bombergirl::AboutState::handleInput()

@@ -18,7 +18,7 @@ void Bombergirl::MainMenuState::init()
 {
 	// init components
 	m_mainMenuText.setFont(m_sharedContext->m_resources->getFont("garamond"));
-	m_mainMenuText.setString("MAIN   MENU");
+	m_mainMenuText.setString("MAIN MENU");
 	m_mainMenuText.setCharacterSize(75u);
 	sf::FloatRect bounds = m_mainMenuText.getLocalBounds();
 	m_mainMenuText.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
@@ -35,7 +35,7 @@ void Bombergirl::MainMenuState::init()
 	m_arrow.setRotation(-90);
 
 	//options
-	for (int i = 0; OPTION(i) < OPTION::MAX; i++) {
+	for (int i = 0; i < NUMBER_OPTION; i++) {
 		Button btn = createOption();
 		switch (i)
 		{
@@ -43,7 +43,7 @@ void Bombergirl::MainMenuState::init()
 			btn.setText("Play");
 			break;
 		case 1:
-			btn.setText("Continue");
+			btn.setText("Rule");
 			break;
 		case 2:
 			btn.setText("About");

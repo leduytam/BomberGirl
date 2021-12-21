@@ -11,7 +11,7 @@ namespace Bombergirl
 
 ////////////////////////////
 #pragma region Font
-	const auto GARAMOND_FONT_PATH = "./assets/fonts/garamond.ttf";
+	const auto GARAMOND_FONT_PATH = "./assets/fonts/garamond_2.ttf";
 	const auto CONTROL_FONT_PATH = "./assets/fonts/control.ttf";
 #pragma endregion
 
