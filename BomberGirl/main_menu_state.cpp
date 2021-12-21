@@ -106,6 +106,7 @@ void Bombergirl::MainMenuState::handleInput()
 					m_sharedContext->m_stateManager->push(new PickUpCharacterState(m_sharedContext, m_soundBack));
 					break;
 				case 1:
+					break;
 				case 2:
 					m_sharedContext->m_stateManager->push(new AboutState(m_sharedContext));
 					break;

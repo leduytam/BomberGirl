@@ -31,7 +31,7 @@ void Bombergirl::Game::loadResources()
 
     // game font
     m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
-    m_sharedContext->m_resources->loadFont("control_font", CONTROL_FONT_PATH);
+    m_sharedContext->m_resources->loadFont("upheavtt_font", UPHEAVTT_FONT_PATH);
 
     // intro state
     m_sharedContext->m_resources->loadTexture("logo", INTRO_LOGO_PATH);
@@ -84,6 +84,8 @@ void Bombergirl::Game::loadResources()
     m_sharedContext->m_resources->loadBuffer("tick_sound", TICK_SOUND);
     m_sharedContext->m_resources->loadBuffer("hit_sound", HIT_SOUND);
     m_sharedContext->m_resources->loadBuffer("win_sound", WIN_SOUND);
+    m_sharedContext->m_resources->loadBuffer("ready_sound", READY_SOUND);
+    m_sharedContext->m_resources->loadBuffer("start_sound", START_SOUND);
 }
 
 void Bombergirl::Game::handleInput()

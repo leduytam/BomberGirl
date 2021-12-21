@@ -18,7 +18,7 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 
 	m_mainView.reset(sf::FloatRect(0, 0, 1920, 1080));
 
-	
+
 	m_backSound = new sf::Sound();
 	m_backSound->setBuffer(m_sharedContext->m_resources->getBuffer("game_back_sound"));
 	m_backSound->setLoop(true);
@@ -32,7 +32,13 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 	m_winSound = new sf::Sound();
 	m_winSound->setBuffer(m_sharedContext->m_resources->getBuffer("win_sound"));
 
-	m_coundDownTimerText.setFont(m_sharedContext->m_resources->getFont("garamond"));
+	m_readySound = new sf::Sound();
+	m_readySound->setBuffer(m_sharedContext->m_resources->getBuffer("ready_sound"));
+
+	m_startSound = new sf::Sound();
+	m_startSound->setBuffer(m_sharedContext->m_resources->getBuffer("start_sound"));
+
+	m_coundDownTimerText.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
 	m_coundDownTimerText.setCharacterSize(55);
 	m_countDown = TIME_PER_ROUND;
 
@@ -42,7 +48,7 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 
 	m_pointPlayer1 = m_pointPlayer2 = 0;
 	m_isGameOver = false;
-	m_delayTimeGameOver = 0;
+	m_delayTimeGameOver = 0.f;
 
 	m_resultRect.setSize({ DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT });
 	m_resultRect.setFillColor(sf::Color{ 0,0,0,175 });
@@ -51,14 +57,28 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 	m_decorFrame_t.setFillColor(sf::Color{ 218, 202, 10 });
 	m_decorFrame_r.setFillColor(sf::Color{ 218, 202, 10 });
 	m_decorFrame_b.setFillColor(sf::Color{ 218, 202, 10 });
-
 	m_decorFrame_b.setSize({ 308.f, 10.f });
-
 	m_decorFrame_r.setSize({ 10.f, 308.f });
-
 	m_decorFrame_t.setSize({ 308.f, 10.f });
-
 	m_decorFrame_l.setSize({ 10.f, 308.f });
+
+	m_pointText1.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
+	m_pointText1.setCharacterSize(300);
+	m_pointText1.setString("0");
+	m_pointText1.setPosition({ 150.f, 300.f });
+	m_pointText1.setFillColor(sf::Color{ 82, 121, 255 });
+
+	m_pointText2.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
+	m_pointText2.setCharacterSize(300);
+	m_pointText2.setString("0");
+	m_pointText2.setPosition({ 1920 - 170.f - m_pointText2.getLocalBounds().width, 300.f });
+	m_pointText2.setFillColor(sf::Color{ 255, 112, 93 });
+
+	m_countDownPreGame.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
+	m_countDownPreGame.setCharacterSize(400);
+
+	m_preGameText.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
+	m_preGameText.setCharacterSize(300);
 }
 
 Bombergirl::GameState::~GameState()
@@ -110,6 +130,8 @@ void Bombergirl::GameState::init()
 {
 	createMap();
 
+	m_isPreGame = true;
+	m_preGameTime = 0.f;
 	m_player1 = new Player(m_sharedContext, &m_sharedContext->m_resources->getTexture("player_movement_1"), Player::PlayerDirection::Down);
 	m_player2 = new Player(m_sharedContext, &m_sharedContext->m_resources->getTexture("player_movement_2"), Player::PlayerDirection::Up);
 
@@ -122,6 +144,11 @@ void Bombergirl::GameState::init()
 	m_countDown = TIME_PER_ROUND;
 	m_coundDownTimerText.setString(std::to_string((int)TIME_PER_ROUND));
 	m_coundDownTimerText.setPosition((1920 - m_coundDownTimerText.getLocalBounds().width) / 2.f, 10);
+
+	
+	m_countDownPreGame.setString("3");
+	m_countDownPreGame.setPosition({ (DEFAULT_WINDOW_WIDTH - m_countDownPreGame.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_coundDownTimerText.getLocalBounds().height * 2) / 2.f });
+	
 }
 
 void Bombergirl::GameState::handleInput()
@@ -174,19 +201,101 @@ void Bombergirl::GameState::handleInput()
 
 void Bombergirl::GameState::update(const float& dt)
 {
-	for (auto& row : m_map) {
-		for (auto& cell : row) {
-			cell->update(dt, m_map);
+	if (m_isGameOver) {
+		if (m_delayTimeGameOver >= 3.f) {
+			m_sharedContext->m_stateManager->pop();
+		}
+		else {
+			m_delayTimeGameOver += dt;
+			return;
 		}
 	}
 
-	if (!m_isGameOver && m_gameTime > 1.f) {
-		m_countDown--;
-		if (m_countDown <= 10.f) {
-			m_coundDownTimerText.setFillColor(sf::Color{ 252, 69, 43 });
-			m_tickSound->play();
+	if (m_preGameTime >= 3.f) {
+		m_isPreGame = false;
+	}
+	else {
+		m_preGameTime += dt;
+		int demo = 3 - (int)m_preGameTime;
+		if (demo == 3 && m_readySound->getStatus() != sf::Sound::Playing && !m_isGameOver) {
+			m_preGameText.setString("Ready");
+			m_readySound->play();
 		}
-		if (m_countDown <= 0.f) {
+		if (demo == 2 && m_startSound->getStatus() != sf::Sound::Playing && m_readySound->getStatus() != sf::Sound::Playing && !m_isGameOver) {
+			m_preGameText.setString("Go!");
+
+			m_startSound->play();
+		}
+		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - 300 * 2) / 2.f });
+		m_countDownPreGame.setString(std::to_string(demo));
+		m_countDownPreGame.setPosition({ (DEFAULT_WINDOW_WIDTH - m_countDownPreGame.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_coundDownTimerText.getLocalBounds().height * 2) / 2.f });
+
+	}
+
+	if (!m_isPreGame) {
+		for (auto& row : m_map) {
+			for (auto& cell : row) {
+				cell->update(dt, m_map);
+			}
+		}
+
+		if (!m_isGameOver && m_gameTime > 1.f) {
+			m_countDown--;
+			if (m_countDown <= 10.f) {
+				m_coundDownTimerText.setFillColor(sf::Color{ 252, 69, 43 });
+				m_tickSound->play();
+			}
+			if (m_countDown <= 0.f) {
+				delete m_player1;
+				delete m_player2;
+				for (auto& row : m_map) {
+					for (auto& cell : row) {
+						delete cell;
+					}
+				}
+				init();
+				return;
+			}
+			std::stringstream ssCountDown;
+			ssCountDown << m_countDown;
+			m_coundDownTimerText.setString(ssCountDown.str());
+			m_coundDownTimerText.setPosition((1920 - m_coundDownTimerText.getLocalBounds().width) / 2.f, 10);
+			m_gameTime = 0.f;
+		}
+		else {
+			m_gameTime += dt;
+		}
+
+		bool isPlayer1OnDead = m_player1->isOnDead();
+		bool isPlayer2OnDead = m_player2->isOnDead();
+		// on dead = dang chet != dead = da chet
+		// can de xet truong hop ca 2 chet cung luc
+		// neu goi truc tiep trong if thi player2 luon thang neu nhu ca 2 chet cung luc
+
+
+
+		if (!isPlayer2OnDead) {
+			m_player1->update(dt, m_map);
+		}
+
+		if (!isPlayer1OnDead) {
+			m_player2->update(dt, m_map);
+		}
+
+		if (isPlayer1OnDead && isPlayer2OnDead) {
+			m_player1->update(dt, m_map);
+			m_player2->update(dt, m_map);
+		}
+
+		if (m_player1->isDead() || m_player2->isDead()) {
+			if (m_player1->isDead()) {
+				m_pointPlayer2++;
+				m_pointText2.setString(std::to_string(m_pointPlayer2));
+			}
+			if (m_player2->isDead()) {
+				m_pointPlayer1++;
+				m_pointText1.setString(std::to_string(m_pointPlayer1));
+			}
 			delete m_player1;
 			delete m_player2;
 			for (auto& row : m_map) {
@@ -195,76 +304,28 @@ void Bombergirl::GameState::update(const float& dt)
 				}
 			}
 			init();
-			return;
 		}
-		std::stringstream ssCountDown;
-		ssCountDown << m_countDown;
-		m_coundDownTimerText.setString(ssCountDown.str());
-		m_coundDownTimerText.setPosition((1920 - m_coundDownTimerText.getLocalBounds().width) / 2.f, 10);
-		m_gameTime = 0.f;
-	}
-	else {
-		m_gameTime += dt;
-	}
-	
-	bool isPlayer1OnDead = m_player1->isOnDead();
-	bool isPlayer2OnDead = m_player2->isOnDead();
-	// on dead = dang chet != dead = da chet
-	// can de xet truong hop ca 2 chet cung luc
-	// neu goi truc tiep trong if thi player2 luon thang neu nhu ca 2 chet cung luc
 
-	if (!isPlayer2OnDead) {
-		m_player1->update(dt, m_map);
-	}
-
-	if (!isPlayer1OnDead) {
-		m_player2->update(dt, m_map);
-	}
-
-	if (isPlayer1OnDead && isPlayer2OnDead) {
-		m_player1->update(dt, m_map);
-		m_player2->update(dt, m_map);
-	}
-
-	if (m_player1->isDead() || m_player2->isDead()) {
-		if (m_player1->isDead()) {
-			m_pointPlayer2++;
-		}
-		if (m_player2->isDead()) {
-			m_pointPlayer1++;
-		}
-		delete m_player1;
-		delete m_player2;
-		for (auto& row : m_map) {
-			for (auto& cell : row) {
-				delete cell;
+		if (!m_isGameOver && (m_pointPlayer1 >= 2 || m_pointPlayer2 >= 2)) {
+			m_isGameOver = true;
+			m_backSound->pause();
+			m_winSound->play();
+			if (m_pointPlayer1 >= 2) {
+				m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_1"));
 			}
-		}
-		init();
-	}
+			if (m_pointPlayer2 >= 2) {
+				m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_2"));
+			}
+			float scale = 2.f;
+			m_winner.setPosition({ (DEFAULT_WINDOW_WIDTH - m_winner.getLocalBounds().width * scale) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_winner.getLocalBounds().height * scale) / 2.f - 200.f });
+			m_winner.scale({ scale, scale });
 
-	if (!m_isGameOver && (m_pointPlayer1 >= 2 || m_pointPlayer2 >= 2)) {
-		m_isGameOver = true;
-		m_backSound->pause();
-		m_winSound->play();
-		if (m_pointPlayer1 >= 2) {
-			m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_1"));
+			m_preGameText.setCharacterSize(200);
+			m_preGameText.setString("CONGRATULATIONS!");
+			m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height) / 2.f }); 
 		}
-		if (m_pointPlayer2 >= 2) {
-			m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_2"));
-		}
-		float scale = 2.f;
-		m_winner.setPosition({ (DEFAULT_WINDOW_WIDTH - m_winner.getLocalBounds().width * scale) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_winner.getLocalBounds().height * scale) / 2.f - 200.f });
-		m_winner.scale({ scale, scale });
-	}
 
-	if (m_isGameOver) {
-		if (m_delayTimeGameOver >= 3.f) {
-			m_sharedContext->m_stateManager->pop();
-		}
-		else {
-			m_delayTimeGameOver += dt;
-		}
+		
 	}
 }
 
@@ -275,6 +336,8 @@ void Bombergirl::GameState::render()
 	m_sharedContext->m_window->draw(m_backgroundSprite);
 	m_sharedContext->m_window->draw(m_timerIcon);
 	m_sharedContext->m_window->draw(m_coundDownTimerText);
+	m_sharedContext->m_window->draw(m_pointText1);
+	m_sharedContext->m_window->draw(m_pointText2);
 
 	// map view
 	m_sharedContext->m_window->setView(m_mapView);
@@ -288,10 +351,13 @@ void Bombergirl::GameState::render()
 
 	m_player1->render(*m_sharedContext->m_window);
 	m_player2->render(*m_sharedContext->m_window);
+
+	// mainview
 	m_sharedContext->m_window->setView(m_mainView);
 	if (m_isGameOver) {
 		m_sharedContext->m_window->draw(m_resultRect);
 		m_sharedContext->m_window->draw(m_winner);
+		m_sharedContext->m_window->draw(m_preGameText);
 		if (m_delayTimeGameOver >= 1.5f) {
 			m_decorFrame_b.setPosition({ m_winner.getPosition().x - 10.f, m_winner.getPosition().y + 289.f });
 			m_sharedContext->m_window->draw(m_decorFrame_b);
@@ -311,5 +377,11 @@ void Bombergirl::GameState::render()
 			m_decorFrame_l.setPosition({ m_winner.getPosition().x - 10, m_winner.getPosition().y - 10 });
 			m_sharedContext->m_window->draw(m_decorFrame_l);
 		}
+	}
+
+	if (m_isPreGame && !m_isGameOver) {
+		m_sharedContext->m_window->draw(m_resultRect);
+		m_sharedContext->m_window->draw(m_countDownPreGame);
+		m_sharedContext->m_window->draw(m_preGameText);
 	}
 }

@@ -11,8 +11,8 @@ namespace Bombergirl
 
 ////////////////////////////
 #pragma region Font
-	const auto GARAMOND_FONT_PATH = "./assets/fonts/garamond_2.ttf";
-	const auto CONTROL_FONT_PATH = "./assets/fonts/control.ttf";
+	const auto GARAMOND_FONT_PATH = "./assets/fonts/garamond.ttf";
+	const auto UPHEAVTT_FONT_PATH = "./assets/fonts/upheavtt.ttf";
 #pragma endregion
 
 ////////////////////////////
@@ -90,5 +90,7 @@ namespace Bombergirl
 	const auto TICK_SOUND = "./assets/sounds/tick.wav";
 	const auto HIT_SOUND = "./assets/sounds/hit.wav";
 	const auto WIN_SOUND = "./assets/sounds/win.wav";
+	const auto READY_SOUND = "./assets/sounds/ready.wav";
+	const auto START_SOUND = "./assets/sounds/start.wav";
 #pragma endregion
 }
