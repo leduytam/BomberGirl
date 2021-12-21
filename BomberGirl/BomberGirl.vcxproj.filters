@@ -95,6 +95,9 @@
     <ClCompile Include="barrel_cell.cpp">
       <Filter>Source Files\cells</Filter>
     </ClCompile>
+    <ClCompile Include="guide_state.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="configs.h">
@@ -165,6 +168,9 @@
     </ClInclude>
     <ClInclude Include="barrel_cell.h">
       <Filter>Header Files\cells</Filter>
+    </ClInclude>
+    <ClInclude Include="guide_state.h">
+      <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

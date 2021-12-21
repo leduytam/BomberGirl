@@ -14,7 +14,7 @@ Bombergirl::Game::Game()
     m_sharedContext->m_window->setKeyRepeatEnabled(false);
     m_sharedContext->m_resources = new ResourceManager();
     loadResources();
-    m_sharedContext->m_window->create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Default);
+    m_sharedContext->m_window->create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Fullscreen);
     m_sharedContext->m_window->setVisible(true);
     m_sharedContext->m_stateManager = new StateManager();
     m_sharedContext->m_stateManager->push(new IntroState(m_sharedContext));
@@ -63,6 +63,10 @@ void Bombergirl::Game::loadResources()
     m_sharedContext->m_resources->loadTexture("light_about", LIGHT_ABOUT_IMAGE);
     m_sharedContext->m_resources->loadTexture("left_gear_about", LEFT_GEAR_ABOUT_IMAGE);
     m_sharedContext->m_resources->loadTexture("right_gear_about", RIGHT_GEAR_ABOUT_IMAGE);
+
+    //guide state
+    m_sharedContext->m_resources->loadTexture("guide_text_image", GUIDE_TEXT_IMAGE);
+    m_sharedContext->m_resources->loadTexture("guide_background", GUIDE_BACKGROUND_IMAGE);
 
     // game state
     m_sharedContext->m_resources->loadTexture("map_background", MAP_BACKGROUND_TEXTURE_PATH);

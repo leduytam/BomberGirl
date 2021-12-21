@@ -157,6 +157,7 @@
     <ClCompile Include="fade_in_transition_state.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game_state.cpp" />
+    <ClCompile Include="guide_state.cpp" />
     <ClCompile Include="indestructible_cell.cpp" />
     <ClCompile Include="intro_state.cpp" />
     <ClCompile Include="item_cell.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="empty_cell.h" />
     <ClInclude Include="fade_in_transition_state.h" />
     <ClInclude Include="game_state.h" />
+    <ClInclude Include="guide_state.h" />
     <ClInclude Include="indestructible_cell.h" />
     <ClInclude Include="item_cell.h" />
     <ClInclude Include="main_menu_state.h" />

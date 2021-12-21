@@ -4,6 +4,7 @@
 #include "paused_state.h"
 #include "pick_up_Character_state.h"
 #include "about_state.h"
+#include "guide_state.h";
 #include "configs.h"
 
 Bombergirl::MainMenuState::MainMenuState(SharedContext* sharedContext) : BaseState(sharedContext) {
@@ -43,7 +44,7 @@ void Bombergirl::MainMenuState::init()
 			btn.setText("Play");
 			break;
 		case 1:
-			btn.setText("Rule");
+			btn.setText("Guide");
 			break;
 		case 2:
 			btn.setText("About");
@@ -106,6 +107,7 @@ void Bombergirl::MainMenuState::handleInput()
 					m_sharedContext->m_stateManager->push(new PickUpCharacterState(m_sharedContext, m_soundBack));
 					break;
 				case 1:
+					m_sharedContext->m_stateManager->push(new GuideState(m_sharedContext));
 					break;
 				case 2:
 					m_sharedContext->m_stateManager->push(new AboutState(m_sharedContext));
