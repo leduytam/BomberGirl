@@ -32,6 +32,7 @@ void Bombergirl::Game::loadResources()
     // game font
     m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
     m_sharedContext->m_resources->loadFont("upheavtt_font", UPHEAVTT_FONT_PATH);
+    m_sharedContext->m_resources->loadFont("arista_font", ARISTA_FONT_PATH);
 
     // intro state
     m_sharedContext->m_resources->loadTexture("logo", INTRO_LOGO_PATH);
@@ -39,8 +40,9 @@ void Bombergirl::Game::loadResources()
 
     // main menu state
     m_sharedContext->m_resources->loadTexture("background_menu", MENU_BACKGROUND_PATH);
-    m_sharedContext->m_resources->loadTexture("container_menu", MENU_SYSTEM_PATH);
-    m_sharedContext->m_resources->loadTexture("arrow_menu", MENU_SYSTEM_PATH, sf::IntRect(sf::Vector2i(144, 96), sf::Vector2i(24, 24)));
+    m_sharedContext->m_resources->loadTexture("button_menu", MENU_BUTTON);
+    m_sharedContext->m_resources->loadTexture("arrow_menu", MENU_ARROW);
+    m_sharedContext->m_resources->loadTexture("title_menu", MENU_TITLE_TEXTURE_PATH);
     m_sharedContext->m_resources->loadBuffer("mainMenu_sound", MENU_SOUND);
     m_sharedContext->m_resources->loadBuffer("select_sound", SELECT_SOUND);
     m_sharedContext->m_resources->loadBuffer("confirm_sound", CONFIRM_SOUND);

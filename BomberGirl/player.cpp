@@ -328,14 +328,6 @@ void Bombergirl::Player::render(sf::RenderWindow& window)
 {
 	window.draw(m_shadowSprite, m_playerSprite.getTransform());
 	window.draw(m_playerSprite);
-
-	sf::RectangleShape rect;
-	rect.setPosition({ getBound().left, getBound().top });
-	rect.setSize({ getBound().width, getBound().height });
-	rect.setFillColor(sf::Color::Transparent);
-	rect.setOutlineColor(sf::Color::Red);
-	rect.setOutlineThickness(-1.f);
-	window.draw(rect);
 }
 
 void Bombergirl::Player::setDirection(const PlayerDirection& playerDirection)

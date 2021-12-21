@@ -25,7 +25,6 @@ namespace Bombergirl{
         sf::Sprite m_character_select_1;
         sf::Sprite m_character_select_2;
 
-
         sf::String m_character_value_1;
         sf::String m_character_value_2;
 
@@ -33,10 +32,8 @@ namespace Bombergirl{
         int m_select_2;
 
         sf::Sound* m_backsound;
-        sf::Sound* m_soundClick_1;
-        sf::Sound* m_soundClick_2;
-        sf::Sound* m_soundconfirm_1;
-        sf::Sound* m_soundconfirm_2;
+        sf::Sound* m_soundClick;
+        sf::Sound* m_soundconfirm;
 
         float m_transition;
         bool m_donePickingUp;
@@ -50,10 +47,8 @@ namespace Bombergirl{
         void setText(sf::Text &text, const int&, const sf::String&);
 
         ~PickUpCharacterState() {
-            delete m_soundClick_1;
-            delete m_soundClick_2;
-            delete m_soundconfirm_1;
-            delete m_soundconfirm_2;
+            delete m_soundClick;
+            delete m_soundconfirm;
         }
 	};
 }

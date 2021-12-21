@@ -151,7 +151,6 @@
     <ClCompile Include="barrel_cell.cpp" />
     <ClCompile Include="base_state.cpp" />
     <ClCompile Include="bomb_cell.cpp" />
-    <ClCompile Include="button.cpp" />
     <ClCompile Include="cell.cpp" />
     <ClCompile Include="empty_cell.cpp" />
     <ClCompile Include="fade_in_transition_state.cpp" />
@@ -175,7 +174,6 @@
     <ClInclude Include="barrel_cell.h" />
     <ClInclude Include="base_state.h" />
     <ClInclude Include="bomb_cell.h" />
-    <ClInclude Include="button.h" />
     <ClInclude Include="cell.h" />
     <ClInclude Include="configs.h" />
     <ClInclude Include="empty_cell.h" />

@@ -1,7 +1,6 @@
 #include "pick_up_character_state.h"
 #include "configs.h"
 #include <string>
-#include <iostream>
 #include "game_state.h"
 
 Bombergirl::PickUpCharacterState::PickUpCharacterState(SharedContext* sharedContext, sf::Sound*backSound) :BaseState(sharedContext) {
@@ -9,10 +8,8 @@ Bombergirl::PickUpCharacterState::PickUpCharacterState(SharedContext* sharedCont
 	m_select_2 = 1;
 	m_character_value_1 = "";
 	m_character_value_2 = "";
-	m_soundClick_1 = new sf::Sound();
-	m_soundClick_2 = new sf::Sound();
-	m_soundconfirm_1 = new sf::Sound();
-	m_soundconfirm_2 = new sf::Sound();
+	m_soundClick = new sf::Sound();
+	m_soundconfirm = new sf::Sound();
 	if (backSound) {
 		m_backsound = backSound;
 	}
@@ -66,10 +63,8 @@ void Bombergirl::PickUpCharacterState::init() {
 	m_frame_2.setOrigin(m_frame_2.getLocalBounds().width / 2.f, m_frame_2.getLocalBounds().height / 2.f);
 	m_frame_2.setPosition(m_character_text_2.getPosition().x, 500);
 
-	m_soundClick_1->setBuffer(m_sharedContext->m_resources->getBuffer("select_sound"));
-	m_soundClick_2->setBuffer(m_sharedContext->m_resources->getBuffer("select_sound"));
-	m_soundconfirm_1->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_character_sound"));
-	m_soundconfirm_2->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_character_sound"));
+	m_soundClick->setBuffer(m_sharedContext->m_resources->getBuffer("select_sound"));
+	m_soundconfirm->setBuffer(m_sharedContext->m_resources->getBuffer("confirm_character_sound"));
 
 }
 
@@ -87,29 +82,36 @@ void Bombergirl::PickUpCharacterState::handleInput() {
 				m_sharedContext->m_window->close();
 			}
 
+			if (e.key.code == sf::Keyboard::BackSpace && !m_donePickingUp) {
+				m_soundClick->play();
+				m_sharedContext->m_stateManager->pop();
+			}
+
 			// control
 			if (m_character_value_2 == "") {
 				if (e.key.code == sf::Keyboard::Left) {
 					m_select_2 = (m_select_2 - 1 + CHARACTER_NUMBER_OF) % CHARACTER_NUMBER_OF;
 					if (m_select_2 == m_select_1) m_select_2 = (m_select_2 - 1 + CHARACTER_NUMBER_OF) % CHARACTER_NUMBER_OF;
+					m_soundClick->play();
 				}
 				if (e.key.code == sf::Keyboard::Right) {
 					m_select_2 = (m_select_2 + 1) % CHARACTER_NUMBER_OF;
 					if (m_select_2 == m_select_1) m_select_2 = (m_select_2 + 1 + CHARACTER_NUMBER_OF) % CHARACTER_NUMBER_OF;
+					m_soundClick->play();
 				}
-				m_soundClick_2->play();
 			}
 
 			if (m_character_value_1 == "") {
 				if (e.key.code == sf::Keyboard::A) {
 					m_select_1 = (m_select_1 - 1 + CHARACTER_NUMBER_OF) % CHARACTER_NUMBER_OF;
 					if (m_select_2 == m_select_1) m_select_1 = (m_select_1 - 1 + CHARACTER_NUMBER_OF) % CHARACTER_NUMBER_OF;
+					m_soundClick->play();
 				}
 				if (e.key.code == sf::Keyboard::D) {
 					m_select_1 = (m_select_1 + 1) % CHARACTER_NUMBER_OF;
 					if (m_select_2 == m_select_1) m_select_1 = (m_select_1 + 1 + CHARACTER_NUMBER_OF) % CHARACTER_NUMBER_OF;
+					m_soundClick->play();
 				}
-				m_soundClick_1->play();
 
 			}
 
@@ -122,7 +124,7 @@ void Bombergirl::PickUpCharacterState::handleInput() {
 				m_character_select_2.setOrigin(m_character_select_2.getLocalBounds().width / 2.f, m_character_select_2.getGlobalBounds().height / 2.f);
 				m_character_select_2.setScale(2, 2);
 				m_character_select_2.setPosition(m_frame_2.getPosition());
-				m_soundconfirm_2->play();
+				m_soundconfirm->play();
 			}
 			if (e.key.code == sf::Keyboard::LShift && m_character_value_1 == "") {
 				lockSelect(1, m_lockBackground_1, sf::Vector2f(m_characters[m_select_1].getLocalBounds().width, m_characters[m_select_1].getLocalBounds().height), m_borderSelect_1.getPosition());
@@ -132,10 +134,8 @@ void Bombergirl::PickUpCharacterState::handleInput() {
 				m_character_select_1.setOrigin(m_character_select_1.getLocalBounds().width / 2.f, m_character_select_1.getGlobalBounds().height / 2.f);
 				m_character_select_1.setScale(2, 2);
 				m_character_select_1.setPosition(m_frame_1.getPosition());
-				m_soundconfirm_1->play();
-
+				m_soundconfirm->play();
 			}
-
 			if (m_character_value_1 != "" && m_character_value_2 != "")
 			{
 				m_donePickingUp = true;
@@ -147,16 +147,18 @@ void Bombergirl::PickUpCharacterState::handleInput() {
 void Bombergirl::PickUpCharacterState::update(const float& dt) {
 	m_borderSelect_1.setPosition(m_characters[m_select_1].getPosition());
 	m_borderSelect_2.setPosition(m_characters[m_select_2].getPosition());
-	if (m_donePickingUp && m_transition >= TRANSITION_PICKUP_TIME) {
-		m_backsound->pause();
-		m_sharedContext->m_resources->loadTexture("player_face_1", CHARACTER_TEXTURE_PATH + m_character_value_1 + ".png");
-		m_sharedContext->m_resources->loadTexture("player_face_2", CHARACTER_TEXTURE_PATH + m_character_value_2 + ".png");
-		m_sharedContext->m_resources->loadTexture("player_movement_1", PLAYER_MOVEMENT_TEXTURE_PATH + m_character_value_1 + ".png");
-		m_sharedContext->m_resources->loadTexture("player_movement_2", PLAYER_MOVEMENT_TEXTURE_PATH + m_character_value_2 + ".png");
-		m_sharedContext->m_stateManager->push(new GameState(m_sharedContext), true);
-	}
-	else {
-		m_transition += dt;
+	if (m_donePickingUp) {
+		if (m_transition >= TRANSITION_PICKUP_TIME) {
+			m_backsound->pause();
+			m_sharedContext->m_resources->loadTexture("player_face_1", CHARACTER_TEXTURE_PATH + m_character_value_1 + ".png");
+			m_sharedContext->m_resources->loadTexture("player_face_2", CHARACTER_TEXTURE_PATH + m_character_value_2 + ".png");
+			m_sharedContext->m_resources->loadTexture("player_movement_1", PLAYER_MOVEMENT_TEXTURE_PATH + m_character_value_1 + ".png");
+			m_sharedContext->m_resources->loadTexture("player_movement_2", PLAYER_MOVEMENT_TEXTURE_PATH + m_character_value_2 + ".png");
+			m_sharedContext->m_stateManager->push(new GameState(m_sharedContext), true);
+		}
+		else {
+			m_transition += dt;
+		}
 	}
 }
 

@@ -50,9 +50,6 @@
     <ClCompile Include="animation.cpp">
       <Filter>Source Files\utilities</Filter>
     </ClCompile>
-    <ClCompile Include="button.cpp">
-      <Filter>Source Files\utilities</Filter>
-    </ClCompile>
     <ClCompile Include="bomb_cell.cpp">
       <Filter>Source Files\cells</Filter>
     </ClCompile>
@@ -143,9 +140,6 @@
       <Filter>Header Files\states</Filter>
     </ClInclude>
     <ClInclude Include="animation.h">
-      <Filter>Header Files\utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="button.h">
       <Filter>Header Files\utilities</Filter>
     </ClInclude>
     <ClInclude Include="bomb_cell.h">

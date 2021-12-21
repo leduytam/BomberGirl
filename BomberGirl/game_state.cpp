@@ -7,7 +7,6 @@
 #include "bomb_cell.h"
 #include <sstream>
 #include <string>
-#include <iostream>
 
 Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(sharedContext), m_player1(nullptr), m_player2(nullptr)
 {
@@ -45,7 +44,7 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 
 	m_gameTime = 0.f;
 	m_timerIcon.setTexture(m_sharedContext->m_resources->getTexture("timer_icon"));
-	m_timerIcon.setPosition((float)1920 / 2.0 - 80, 23.f);
+	m_timerIcon.setPosition((float)1920 / 2.0 - 100, 30.f);
 
 	m_pointPlayer1 = m_pointPlayer2 = 0;
 	m_isGameOver = false;
@@ -80,10 +79,14 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 
 	m_preGameText.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
 	m_preGameText.setCharacterSize(300);
+	m_isPreGame = false;
+	m_preGameTime = 0.f;
 }
 
 Bombergirl::GameState::~GameState()
 {
+	m_sharedContext->m_resources->unloadTexture("player_movement_1");
+	m_sharedContext->m_resources->unloadTexture("player_movement_2");
 	delete m_player1;
 	delete m_player2;
 
@@ -194,11 +197,11 @@ void Bombergirl::GameState::handleInput()
 		m_player1->setDirection(Player::PlayerDirection::Right);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
 		m_player1->setUpBomb();
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
 		m_player2->setUpBomb();
 	}
 }
@@ -215,24 +218,24 @@ void Bombergirl::GameState::update(const float& dt)
 		}
 	}
 
-	if (m_preGameTime >= 3.f) {
+	if (m_preGameTime >= TIME_PREGAME) {
 		m_isPreGame = false;
 	}
 	else {
 		m_preGameTime += dt;
-		int demo = 3 - (int)m_preGameTime;
-		if (demo == 3 && m_readySound->getStatus() != sf::Sound::Playing && !m_isGameOver) {
+		int countDown = (int)TIME_PREGAME - (int)m_preGameTime;
+		if (countDown == 3 && m_readySound->getStatus() != sf::Sound::Playing && !m_isGameOver) {
 			m_preGameText.setString("Ready");
 			m_readySound->play();
 		}
-		if (demo == 2 && m_startSound->getStatus() != sf::Sound::Playing && m_readySound->getStatus() != sf::Sound::Playing && !m_isGameOver) {
+		if (countDown == 2 && m_startSound->getStatus() != sf::Sound::Playing && m_readySound->getStatus() != sf::Sound::Playing && !m_isGameOver) {
 			m_preGameText.setString("Go!");
 
 			m_startSound->play();
 		}
 		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - 500 * 2) / 2.f });
-		m_countDownPreGame.setString(std::to_string(demo));
-		m_countDownPreGame.setPosition({ (DEFAULT_WINDOW_WIDTH - m_countDownPreGame.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_coundDownTimerText.getLocalBounds().height * 2) / 2.f });
+		m_countDownPreGame.setString(std::to_string(countDown));
+		m_countDownPreGame.setPosition({ (DEFAULT_WINDOW_WIDTH - m_countDownPreGame.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_coundDownTimerText.getLocalBounds().height * 10) / 2.f });
 
 	}
 
