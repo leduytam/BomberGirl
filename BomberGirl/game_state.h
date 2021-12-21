@@ -15,20 +15,36 @@ namespace Bombergirl
 		sf::RectangleShape m_resultRect;
 		sf::View m_mapView;
 		sf::View m_mainView;
+
 		sf::Sprite m_mapBackgroundSprite;
 		sf::Sprite m_backgroundSprite;
 		sf::Sprite m_timerIcon;
 		sf::Sprite m_winner;
+
 		sf::Text m_coundDownTimerText;
+
 		std::vector <std::vector<Cell*>> m_map;
+
 		sf::Sound* m_backSound;
 		sf::Sound* m_tickSound;
 		sf::Sound* m_winSound;
+		sf::Sound* m_readySound;
+		sf::Sound* m_startSound;
 
 		sf::RectangleShape m_decorFrame_l;
 		sf::RectangleShape m_decorFrame_r;
 		sf::RectangleShape m_decorFrame_t;
 		sf::RectangleShape m_decorFrame_b;
+
+		sf::Text m_pointText1;
+		sf::Text m_pointText2;
+
+		sf::Text m_countDownPreGame;
+		sf::Text m_preGameText;
+		bool m_isPreGame;
+		float m_preGameTime;
+
+
 		float m_gameTime;
 		float m_countDown;
 		const int NUMBER_ROUNDS = 3;
@@ -36,7 +52,7 @@ namespace Bombergirl
 		int m_pointPlayer2;
 		bool m_isGameOver;
 		float m_delayTimeGameOver;
-
+		
 	public:
 		GameState(SharedContext* sharedContext);
 		~GameState();
