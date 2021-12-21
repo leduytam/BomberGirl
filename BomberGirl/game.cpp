@@ -55,7 +55,6 @@ void Bombergirl::Game::loadResources()
     }
     m_sharedContext->m_resources->loadTexture("border_select_red", CHARACTER_BORDER_SELECT_RED);
     m_sharedContext->m_resources->loadTexture("border_select_blue", CHARACTER_BORDER_SELECT_BLUE);
-    m_sharedContext->m_resources->loadTexture("background_select", MENU_SYSTEM_PATH, sf::IntRect(sf::Vector2i(0, 96), sf::Vector2i(96, 96)));
     m_sharedContext->m_resources->loadBuffer("select_sound", SELECT_SOUND);
     m_sharedContext->m_resources->loadBuffer("confirm_character_sound", CHARACTER_CONFIRM_SOUND);
 

@@ -26,7 +26,6 @@ namespace Bombergirl
 ////////////////////////////
 #pragma region Menu
 	const auto MENU_BACKGROUND_PATH = "./assets/textures/backgrounds/background_menu.jpg";
-	const auto MENU_SYSTEM_PATH = "./assets/textures/img/system/Window.png";
 	const auto MENU_TITLE_TEXTURE_PATH = "./assets/textures/menu_ui/menu_title.png";
 	const auto MENU_BUTTON = "./assets/textures/menu_ui/menu_button.png";
 	const auto MENU_ARROW = "./assets/textures/menu_ui/menu_arrow.png";
