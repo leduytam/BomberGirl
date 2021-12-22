@@ -8,10 +8,6 @@ Bombergirl::Game::Game()
     m_sharedContext = new SharedContext();
     m_sharedContext->m_window = new sf::RenderWindow(sf::VideoMode(0, 0), GAME_TITLE, sf::Style::Default);
     m_sharedContext->m_window->setVisible(false);
-<<<<<<< HEAD
-=======
-    m_sharedContext->m_window->setPosition(sf::Vector2i(2000, 2000));
->>>>>>> tam
     m_sharedContext->m_resources = new ResourceManager();
     loadResources();
     m_sharedContext->m_window->create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Fullscreen);
