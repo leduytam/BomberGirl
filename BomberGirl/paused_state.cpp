@@ -30,8 +30,9 @@ void Bombergirl::PausedState::handleInput() {
             m_sharedContext->m_window->close();
         else if (e.type == sf::Event::KeyPressed)
         {
-            if (e.key.code == sf::Keyboard::P)
+            if (e.key.code == sf::Keyboard::Enter) {
                 m_sharedContext->m_stateManager->pop();
+            }
             if (e.key.code == sf::Keyboard::Escape) {
                 m_sharedContext->m_window->close();
             }

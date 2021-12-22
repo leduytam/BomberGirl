@@ -20,6 +20,7 @@ namespace Bombergirl
 		sf::Sprite m_backgroundSprite;
 		sf::Sprite m_timerIcon;
 		sf::Sprite m_winner;
+		sf::Sprite m_winBoard;
 
 		sf::Text m_coundDownTimerText;
 
@@ -30,11 +31,7 @@ namespace Bombergirl
 		sf::Sound* m_winSound;
 		sf::Sound* m_readySound;
 		sf::Sound* m_startSound;
-
-		sf::RectangleShape m_decorFrame_l;
-		sf::RectangleShape m_decorFrame_r;
-		sf::RectangleShape m_decorFrame_t;
-		sf::RectangleShape m_decorFrame_b;
+		sf::Sound* m_drawSound;
 
 		sf::Text m_pointText1;
 		sf::Text m_pointText2;
@@ -62,5 +59,7 @@ namespace Bombergirl
 		void update(const float&) override;
 		void render() override;
 		void createMap();
+		void resetRound();
+		void setResult(bool isWin, bool isPlayer1 = true);
 	};
 }

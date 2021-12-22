@@ -10,7 +10,7 @@ Bombergirl::Game::Game()
     m_sharedContext->m_window->setVisible(false);
     m_sharedContext->m_resources = new ResourceManager();
     loadResources();
-    m_sharedContext->m_window->create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Fullscreen);
+    m_sharedContext->m_window->create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Default);
     m_sharedContext->m_window->setMouseCursorVisible(false);
     m_sharedContext->m_window->setKeyRepeatEnabled(false);
     m_sharedContext->m_window->setVisible(true);
@@ -55,6 +55,7 @@ void Bombergirl::Game::loadResources()
     m_sharedContext->m_resources->loadTexture("border_select_blue", CHARACTER_BORDER_SELECT_BLUE);
     m_sharedContext->m_resources->loadBuffer("select_sound", SELECT_SOUND);
     m_sharedContext->m_resources->loadBuffer("confirm_character_sound", CHARACTER_CONFIRM_SOUND);
+    
 
     // about state
     m_sharedContext->m_resources->loadTexture("about_text_image", ABOUT_TEXT_IMAGE);
@@ -77,6 +78,7 @@ void Bombergirl::Game::loadResources()
     m_sharedContext->m_resources->loadTexture("shadow", PLAYER_SHADOW_PATH);
     m_sharedContext->m_resources->loadTexture("background_gamestate", GAMESTATE_BACKGROUND_PATH);
     m_sharedContext->m_resources->loadTexture("timer_icon", TIMER_ICON_PATH);
+    m_sharedContext->m_resources->loadTexture("character_background", CHARACTER_BACKGROUND_PATH);
 
     m_sharedContext->m_resources->loadBuffer("game_back_sound", GAME_SOUND);
     m_sharedContext->m_resources->loadBuffer("bombset_sound", SET_BOMB_SOUND);
@@ -89,6 +91,7 @@ void Bombergirl::Game::loadResources()
     m_sharedContext->m_resources->loadBuffer("win_sound", WIN_SOUND);
     m_sharedContext->m_resources->loadBuffer("ready_sound", READY_SOUND);
     m_sharedContext->m_resources->loadBuffer("start_sound", START_SOUND);
+    m_sharedContext->m_resources->loadBuffer("draw_sound", DRAW_SOUND);
 }
 
 void Bombergirl::Game::handleInput()
