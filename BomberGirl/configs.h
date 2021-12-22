@@ -37,7 +37,7 @@ namespace Bombergirl
 	const auto CHARACTER_NUMBER_OF = 4;
 	const auto CHARACTER_BORDER_SELECT_RED = "./assets/textures/borders/red_border.png";
 	const auto CHARACTER_BORDER_SELECT_BLUE = "./assets/textures/borders/blue_border.png";
-	const auto CHARACTER_BACKGROUND_PATH = "./assets/textures/img/wood_board/wood_board_300.png";
+	const auto CHARACTER_BACKGROUND_PATH = "./assets/textures/img/wood_board/wood_board.png";
 #pragma endregion
 
 #pragma region About

@@ -154,7 +154,8 @@ void Bombergirl::GameState::setResult(bool isWin, bool isPlayer1)
 		m_preGameText.setString("CONGRATULATIONS!");
 		float scale = 2.f;
 		m_winner.setPosition({ (DEFAULT_WINDOW_WIDTH - m_winner.getLocalBounds().width * 2) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_winner.getLocalBounds().height * scale) / 2.f - 200.f });
-		m_winBoard.setPosition({ m_winner.getPosition().x - (300.f - 144.f * scale) / 2.F, m_winner.getPosition().y});
+		//m_winBoard.setPosition({ m_winner.getPosition().x - (300.f - 144.f * scale) / 2.F, m_winner.getPosition().y});
+		m_winBoard.setPosition({m_winner.getPosition().x + m_winner.getLocalBounds().width * scale / 2.f - m_winBoard.getLocalBounds().width / 2.f, m_winner.getPosition().y + m_winner.getLocalBounds().height * scale / 2.f - m_winBoard.getLocalBounds().height / 2.f });
 		m_winner.scale({ scale, scale });
 		m_preGameText.setCharacterSize(200);
 		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height) / 2.f });
@@ -214,7 +215,7 @@ void Bombergirl::GameState::handleInput()
 			}
 
 			else if (e.key.code == sf::Keyboard::Enter && !m_isGameOver) {
-				m_sharedContext->m_stateManager->push(new PausedState(m_sharedContext));
+				m_sharedContext->m_stateManager->push(new PausedState(m_sharedContext, m_backSound));
 			}
 		}
 	}

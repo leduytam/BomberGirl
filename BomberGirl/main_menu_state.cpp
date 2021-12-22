@@ -70,26 +70,19 @@ void Bombergirl::MainMenuState::handleInput()
 			if (e.key.code == sf::Keyboard::Escape) {
 				m_sharedContext->m_window->close();
 			}
-
-			if (e.key.code == sf::Keyboard::BackSpace) {
-				m_sharedContext->m_stateManager->pop();
-			}
-
-			if (e.key.code == sf::Keyboard::Down) {
+			else if (e.key.code == sf::Keyboard::Down) {
 				m_optionList[m_option].beInactive();
-				m_option = m_option++;
+				m_option++;
 				m_option %= 4;
 				m_soundClick->play();
 			}
-
-			if (e.key.code == sf::Keyboard::Up) {
+			else if (e.key.code == sf::Keyboard::Up) {
 				m_optionList[m_option].beInactive();
-				m_option = m_option--;
+				m_option--;
 				if (m_option < 0) m_option = 3;
 				m_soundClick->play();
-
 			}
-			if (e.key.code == sf::Keyboard::Enter) {
+			else if (e.key.code == sf::Keyboard::Enter) {
 				m_soundConfirm->play();
 				switch (m_option)
 				{
@@ -121,7 +114,6 @@ void Bombergirl::MainMenuState::update(const float& dt)
 	if (m_soundBack->getStatus() == sf::Sound::Paused) {
 		m_soundBack->play();
 	}
-	
 }
 
 void Bombergirl::MainMenuState::render()
