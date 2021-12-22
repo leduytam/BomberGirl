@@ -89,13 +89,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\BomberGirl\externals\sfml\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Hoang Quoc Nam\OneDrive\Máy tính\Bombergirl\BomberGirl\BomberGirl\externals\sfml\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\BomberGirl\externals\sfml\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Hoang Quoc Nam\OneDrive\Máy tính\Bombergirl\BomberGirl\BomberGirl\externals\sfml\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -146,20 +146,48 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="about_state.cpp" />
+    <ClCompile Include="animation.cpp" />
+    <ClCompile Include="barrel_cell.cpp" />
     <ClCompile Include="base_state.cpp" />
+    <ClCompile Include="bomb_cell.cpp" />
+    <ClCompile Include="cell.cpp" />
+    <ClCompile Include="empty_cell.cpp" />
+    <ClCompile Include="fade_in_transition_state.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="game_state.cpp" />
+    <ClCompile Include="guide_state.cpp" />
+    <ClCompile Include="indestructible_cell.cpp" />
     <ClCompile Include="intro_state.cpp" />
+    <ClCompile Include="item_cell.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_menu_state.cpp" />
     <ClCompile Include="paused_state.cpp" />
+    <ClCompile Include="pick_up_character_state.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="flame_cell.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="state_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="about_state.h" />
+    <ClInclude Include="animation.h" />
+    <ClInclude Include="barrel_cell.h" />
     <ClInclude Include="base_state.h" />
+    <ClInclude Include="bomb_cell.h" />
+    <ClInclude Include="cell.h" />
     <ClInclude Include="configs.h" />
+    <ClInclude Include="empty_cell.h" />
+    <ClInclude Include="fade_in_transition_state.h" />
+    <ClInclude Include="game_state.h" />
+    <ClInclude Include="guide_state.h" />
+    <ClInclude Include="indestructible_cell.h" />
+    <ClInclude Include="item_cell.h" />
     <ClInclude Include="main_menu_state.h" />
     <ClInclude Include="paused_state.h" />
+    <ClInclude Include="pick_up_character_state.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="flame_cell.h" />
     <ClInclude Include="shared_context.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="intro_state.h" />

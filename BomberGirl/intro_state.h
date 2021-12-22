@@ -3,13 +3,14 @@
 #include "base_state.h"
 #include <SFML/Graphics.hpp>
 
-namespace bombergirl
+namespace Bombergirl
 {
     class IntroState : public BaseState
     {
     private:
-        sf::Text m_introText;
+        sf::Sprite m_logo;
         float m_totalTime;
+        sf::Sound *m_sound;
     public:
         IntroState(SharedContext* sharedContext);
 
@@ -17,6 +18,6 @@ namespace bombergirl
         void handleInput() override;
         void update(const float&) override;
         void render() override;
+        ~IntroState();
     };
 }
-

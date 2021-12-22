@@ -1,9 +1,10 @@
 #include "state_manager.h"
 #include "base_state.h"
+#include "fade_in_transition_state.h"
 
-bombergirl::StateManager::StateManager() {}
+Bombergirl::StateManager::StateManager() {}
 
-bombergirl::StateManager::~StateManager()
+Bombergirl::StateManager::~StateManager()
 {
     for (auto& iter : m_states)
         delete iter;
@@ -15,28 +16,30 @@ bombergirl::StateManager::~StateManager()
     }
 }
 
-void bombergirl::StateManager::push(BaseState* state, const bool& isReplacing)
+void Bombergirl::StateManager::push(BaseState* state, const bool& isReplacing)
 {
     m_actionQueue.push(isReplacing ? StateAction::Replacing : StateAction::Adding);
     m_addingQueue.push(state);
 }
 
-void bombergirl::StateManager::pop()
+void Bombergirl::StateManager::pop()
 {
     m_actionQueue.push(StateAction::Removing);
 }
 
-void bombergirl::StateManager::handleInput()
+void Bombergirl::StateManager::handleInput()
 {
     if (!m_states.empty()) m_states.back()->handleInput();
 }
 
-void bombergirl::StateManager::update(const float& dt)
+void Bombergirl::StateManager::update(const float& dt)
 {
-    if (!m_states.empty()) m_states.back()->update(dt);
+    if (!m_states.empty()) {
+        m_states.back()->update(dt);
+    }
 }
 
-void bombergirl::StateManager::render()
+void Bombergirl::StateManager::render()
 {
     if (m_states.empty()) return;
     auto iter = m_states.end() - 1;
@@ -44,10 +47,14 @@ void bombergirl::StateManager::render()
     for (; iter != m_states.end(); ++iter) (*iter)->render();
 }
 
-void bombergirl::StateManager::handleStateChanges()
+void Bombergirl::StateManager::handleStateChanges()
 {
+    bool isOnAction = false;
+    bool isRemovedTransparent = false;
+
     while (!m_actionQueue.empty())
     {
+        isOnAction = true;
         StateAction action = m_actionQueue.front();
         m_actionQueue.pop();
 
@@ -73,10 +80,18 @@ void bombergirl::StateManager::handleStateChanges()
         {
             if (!m_states.empty())
             {
+                if (m_states.back()->isTransparent())
+                    isRemovedTransparent = true;
+
                 delete m_states.back();
                 m_states.pop_back();
             }
         }
     }
-}
 
+    if (isOnAction && !isRemovedTransparent && !m_states.empty() && !m_states.back()->isTransparent())
+    {
+        m_states.push_back(new FadeInTransitionState(m_states.back()->getSharedContext()));
+        m_states.back()->init();
+    }
+}

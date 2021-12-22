@@ -1,14 +1,20 @@
 #include "base_state.h"
 #include "shared_context.h"
 
-bombergirl::BaseState::BaseState(SharedContext* sharedContext) : m_sharedContext(sharedContext), m_isTransparent(false) {}
+Bombergirl::BaseState::BaseState(SharedContext* sharedContext) : m_sharedContext(sharedContext), m_isTransparent(false) {}
 
-bool bombergirl::BaseState::isTransparent() const
+Bombergirl::BaseState::~BaseState() {}
+
+bool Bombergirl::BaseState::isTransparent() const
 {
     return m_isTransparent;
 }
 
-void bombergirl::BaseState::setTransparent(const bool& isTransparent)
+void Bombergirl::BaseState::setTransparent(const bool& isTransparent)
 {
     m_isTransparent = isTransparent;
+}
+Bombergirl::SharedContext* Bombergirl::BaseState::getSharedContext() const
+{
+    return m_sharedContext;
 }

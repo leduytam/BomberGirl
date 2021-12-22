@@ -2,25 +2,21 @@
 
 #include "shared_context.h"
 
-namespace bombergirl
+namespace Bombergirl
 {
     class Game
     {
     private:
-        SharedContext m_sharedContext;
-        sf::RenderWindow m_window;
-        ResourceManager m_resources;
-        StateManager m_stateManager;
-
+        SharedContext* m_sharedContext;
         sf::Clock m_clock;
 
+        void loadResources();
         void handleInput();
         void update(const float&);
         void render();
     public:
         Game();
+        ~Game();
         void run();
     };
 }
-
-

@@ -2,7 +2,8 @@
 
 #include "shared_context.h"
 
-namespace bombergirl
+
+namespace Bombergirl
 {
     class BaseState
     {
@@ -11,6 +12,7 @@ namespace bombergirl
         bool m_isTransparent;
     public:
         BaseState(SharedContext*);
+        virtual ~BaseState();
 
         virtual void init() = 0;
         virtual void handleInput() = 0;
@@ -19,6 +21,7 @@ namespace bombergirl
 
         bool isTransparent() const;
         void setTransparent(const bool&);
+
+        SharedContext* getSharedContext() const;
     };
 }
-

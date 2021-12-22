@@ -47,7 +47,7 @@ typedef void (*GlFunctionPointer)();
 /// \brief Class holding a valid drawing context
 ///
 ////////////////////////////////////////////////////////////
-class SFML_WINDOW_API SharedContext : GlResource, NonCopyable
+class SFML_WINDOW_API Context : GlResource, NonCopyable
 {
 public:
 
@@ -57,7 +57,7 @@ public:
     /// The constructor creates and activates the context
     ///
     ////////////////////////////////////////////////////////////
-    SharedContext();
+    Context();
 
     ////////////////////////////////////////////////////////////
     /// \brief Destructor
@@ -65,7 +65,7 @@ public:
     /// The destructor deactivates and destroys the context
     ///
     ////////////////////////////////////////////////////////////
-    ~SharedContext();
+    ~Context();
 
     ////////////////////////////////////////////////////////////
     /// \brief Activate or deactivate explicitly the context
@@ -119,7 +119,7 @@ public:
     /// \return The currently active context or NULL if none is active
     ///
     ////////////////////////////////////////////////////////////
-    static const SharedContext* getActiveContext();
+    static const Context* getActiveContext();
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the currently active context's ID
@@ -143,14 +143,14 @@ public:
     /// \param height   Back buffer height
     ///
     ////////////////////////////////////////////////////////////
-    SharedContext(const ContextSettings& settings, unsigned int width, unsigned int height);
+    Context(const ContextSettings& settings, unsigned int width, unsigned int height);
 
 private:
 
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    priv::GlContext* m_sharedContext; ///< Internal OpenGL context
+    priv::GlContext* m_context; ///< Internal OpenGL context
 };
 
 } // namespace sf

@@ -2,43 +2,55 @@
 #include "configs.h"
 #include "main_menu_state.h"
 
-bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sharedContext), m_totalTime(0.f) {}
+Bombergirl::IntroState::IntroState(SharedContext* sharedContext) : BaseState(sharedContext), m_totalTime(0.f) {
+    m_sound = new sf::Sound();
 
-void bombergirl::IntroState::init()
-{
-    // load resources
-    m_sharedContext->m_resources->loadFont("garamond", GARAMOND_FONT_PATH);
-
-    // init components
-    m_introText.setFont(m_sharedContext->m_resources->getFont("garamond"));
-    m_introText.setString("GAME   INTRO");
-    m_introText.setCharacterSize(50u);
-    sf::FloatRect bounds = m_introText.getLocalBounds();
-    m_introText.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
-    auto windowSize = m_sharedContext->m_window->getSize();
-    m_introText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f);
 }
 
-void bombergirl::IntroState::handleInput()
+void Bombergirl::IntroState::init()
+{
+    // init components
+    auto windowSize = m_sharedContext->m_window->getSize();
+    m_logo.setTexture(m_sharedContext->m_resources->getTexture("logo"));
+    m_logo.setPosition({ windowSize.x / 2.f - m_logo.getTexture()->getSize().x / 2.f, windowSize.y / 2.f - m_logo.getTexture()->getSize().y / 2.f });
+
+    //// sounds
+    m_sound->setBuffer(m_sharedContext->m_resources->getBuffer("intro_sound"));
+    m_sound->play();
+}
+
+void Bombergirl::IntroState::handleInput()
 {
     sf::Event e;
     while (m_sharedContext->m_window->pollEvent(e))
     {
         if (e.type == sf::Event::Closed)
             m_sharedContext->m_window->close();
+        if (e.key.code == sf::Keyboard::Escape) {
+            m_sharedContext->m_window->close();
+        }
     }
 }
 
-void bombergirl::IntroState::update(const float& dt)
+void Bombergirl::IntroState::update(const float& dt)
 {
     if (m_totalTime < INTRO_SCREEN_TIME)
         m_totalTime += dt;
     else
-        m_sharedContext->m_stateManager->push(new MainMenuState(m_sharedContext), true);
+    {
+        m_sharedContext->m_stateManager->push(new MainMenuState(m_sharedContext));
+        m_totalTime = 0.f;
+    }
 }
 
-void bombergirl::IntroState::render()
+void Bombergirl::IntroState::render()
 {
-    m_sharedContext->m_window->draw(m_introText);
+    m_sharedContext->m_window->draw(m_logo);
+
+}
+
+
+Bombergirl::IntroState::~IntroState() {
+    delete m_sound;
 }
 

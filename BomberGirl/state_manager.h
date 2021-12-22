@@ -3,10 +3,9 @@
 #include <vector>
 #include <queue>
 
-namespace bombergirl
+namespace Bombergirl
 {
     class BaseState;
-
     class StateManager
     {
     private:

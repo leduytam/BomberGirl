@@ -3,7 +3,8 @@
 
 int main()
 {
-    bombergirl::Game().run();
+    srand(static_cast<unsigned int>(time(0)));
+    Bombergirl::Game().run();
 
     return EXIT_SUCCESS;
 }
