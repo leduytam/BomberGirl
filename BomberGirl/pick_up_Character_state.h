@@ -44,7 +44,7 @@ namespace Bombergirl{
         void update(const float&) override;
         void render() override;
         void lockSelect(int, sf::RectangleShape&, const sf::Vector2f& , const sf::Vector2f&);
-        void setText(sf::Text &text, const int&, const sf::String&);
+        void setText(sf::Text &text, const int&, const sf::String&, float outlineThickness = 1.f);
 
         ~PickUpCharacterState() {
             delete m_soundClick;

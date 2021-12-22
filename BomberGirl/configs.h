@@ -81,7 +81,7 @@ namespace Bombergirl
 	const auto ITEM_EXISTING_TIME = 6.f;
 	const auto TIME_DELAY_SET_UP_BOMB = 0.1f;
 	const auto TIME_PER_ROUND = 150.f;
-	const auto TIME_PREGAME = 3.f;
+	const auto TIME_PREGAME = 4.f;
 #pragma endregion
 
 #pragma region Sound
