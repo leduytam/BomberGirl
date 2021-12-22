@@ -1,4 +1,4 @@
-#include<sstream>
+#include <sstream>
 #include "main_menu_state.h"
 #include "paused_state.h"
 #include "pick_up_Character_state.h"

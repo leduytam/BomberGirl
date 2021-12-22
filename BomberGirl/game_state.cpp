@@ -148,7 +148,6 @@ void Bombergirl::GameState::init()
 	m_countDown = TIME_PER_ROUND;
 	m_coundDownTimerText.setString(std::to_string((int)TIME_PER_ROUND));
 	m_coundDownTimerText.setPosition((1920 - m_coundDownTimerText.getLocalBounds().width) / 2.f, 10);
-
 }
 
 void Bombergirl::GameState::handleInput()
@@ -278,8 +277,6 @@ void Bombergirl::GameState::update(const float& dt)
 		// on dead = dang chet != dead = da chet
 		// can de xet truong hop ca 2 chet cung luc
 		// neu goi truc tiep trong if thi player2 luon thang neu nhu ca 2 chet cung luc
-
-
 
 		if (!isPlayer2OnDead) {
 			m_player1->update(dt, m_map);
