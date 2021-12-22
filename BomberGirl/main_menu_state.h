@@ -40,7 +40,6 @@ namespace Bombergirl
 	private:
 		sf::Sprite m_title;
 		sf::Sprite m_backgroundSprite;
-		sf::Sprite m_containerBoard;
 		sf::Sprite m_arrow;
 		std::vector<Option> m_optionList;
 		int m_option;

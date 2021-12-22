@@ -37,6 +37,7 @@ namespace Bombergirl
 	const auto CHARACTER_NUMBER_OF = 4;
 	const auto CHARACTER_BORDER_SELECT_RED = "./assets/textures/borders/red_border.png";
 	const auto CHARACTER_BORDER_SELECT_BLUE = "./assets/textures/borders/blue_border.png";
+	const auto CHARACTER_BACKGROUND_PATH = "./assets/textures/img/wood_board/wood_board_300.png";
 #pragma endregion
 
 #pragma region About
@@ -101,5 +102,6 @@ namespace Bombergirl
 	const auto WIN_SOUND = "./assets/sounds/win.wav";
 	const auto READY_SOUND = "./assets/sounds/ready.wav";
 	const auto START_SOUND = "./assets/sounds/start.wav";
+	const auto DRAW_SOUND = "./assets/sounds/draw.wav";
 #pragma endregion
 }

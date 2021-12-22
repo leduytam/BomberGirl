@@ -38,6 +38,9 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 	m_startSound = new sf::Sound();
 	m_startSound->setBuffer(m_sharedContext->m_resources->getBuffer("start_sound"));
 
+	m_drawSound = new sf::Sound();
+	m_drawSound->setBuffer(m_sharedContext->m_resources->getBuffer("draw_sound"));
+
 	m_coundDownTimerText.setFont(m_sharedContext->m_resources->getFont("arista_font"));
 	m_coundDownTimerText.setCharacterSize(55);
 	m_countDown = TIME_PER_ROUND;
@@ -52,15 +55,6 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 
 	m_resultRect.setSize({ DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT });
 	m_resultRect.setFillColor(sf::Color{ 0,0,0,175 });
-
-	m_decorFrame_l.setFillColor(sf::Color{ 218, 202, 10 });
-	m_decorFrame_t.setFillColor(sf::Color{ 218, 202, 10 });
-	m_decorFrame_r.setFillColor(sf::Color{ 218, 202, 10 });
-	m_decorFrame_b.setFillColor(sf::Color{ 218, 202, 10 });
-	m_decorFrame_b.setSize({ 308.f, 10.f });
-	m_decorFrame_r.setSize({ 10.f, 308.f });
-	m_decorFrame_t.setSize({ 308.f, 10.f });
-	m_decorFrame_l.setSize({ 10.f, 308.f });
 
 	m_pointText1.setFont(m_sharedContext->m_resources->getFont("arista_font"));
 	m_pointText1.setCharacterSize(300);
@@ -81,6 +75,9 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 	m_preGameText.setCharacterSize(300);
 	m_isPreGame = false;
 	m_preGameTime = 0.f;
+	m_currentRound = 0;
+
+	m_winBoard.setTexture(m_sharedContext->m_resources->getTexture("character_background"));
 }
 
 Bombergirl::GameState::~GameState()
@@ -96,7 +93,6 @@ Bombergirl::GameState::~GameState()
 			delete cell;
 		}
 	}
-
 	delete m_backSound;
 	delete m_tickSound;
 }
@@ -129,13 +125,65 @@ void Bombergirl::GameState::createMap() {
 			}
 		}
 	}
-	m_currentRound = 1;
+}
+
+void Bombergirl::GameState::resetRound()
+{
+	delete m_player1;
+	delete m_player2;
+	for (auto& row : m_map) {
+		for (auto& cell : row) {
+			delete cell;
+		}
+	}
+	init();
+}
+
+void Bombergirl::GameState::setResult(bool isWin, bool isPlayer1)
+{
+	m_isGameOver = true;
+	m_backSound->pause();
+	if (isWin) {
+		m_winSound->play();
+		if (isPlayer1) {
+			m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_1"));
+		}
+		else {
+			m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_2"));
+		}
+		m_preGameText.setString("CONGRATULATIONS!");
+		float scale = 2.f;
+		m_winner.setPosition({ (DEFAULT_WINDOW_WIDTH - m_winner.getLocalBounds().width * 2) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_winner.getLocalBounds().height * scale) / 2.f - 200.f });
+		m_winBoard.setPosition({ m_winner.getPosition().x - (300.f - 144.f * scale) / 2.F, m_winner.getPosition().y});
+		m_winner.scale({ scale, scale });
+		m_preGameText.setCharacterSize(200);
+		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height) / 2.f });
+	}
+	else {
+		m_drawSound->play();
+		m_preGameText.setString("DRAW");
+		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height * 2) / 2.f });
+	}
 }
 
 void Bombergirl::GameState::init()
 {
 	createMap();
 	m_isPreGame = true;
+	m_currentRound++;
+	if (m_currentRound > NUMBER_ROUNDS) {
+		if (m_pointPlayer1 == m_pointPlayer2) {
+			setResult(false);
+		}
+		else {
+			if (m_pointPlayer1 > m_pointPlayer2) {
+				setResult(true, true);
+			}
+			else {
+				setResult(true, false);
+			}
+		}
+	}
 	m_preGameTime = 0.f;
 	m_player1 = new Player(m_sharedContext, &m_sharedContext->m_resources->getTexture("player_movement_1"), Player::PlayerDirection::Down);
 	m_player2 = new Player(m_sharedContext, &m_sharedContext->m_resources->getTexture("player_movement_2"), Player::PlayerDirection::Up);
@@ -165,7 +213,7 @@ void Bombergirl::GameState::handleInput()
 				m_sharedContext->m_window->close();
 			}
 
-			else if (e.key.code == sf::Keyboard::P) {
+			else if (e.key.code == sf::Keyboard::Enter && !m_isGameOver) {
 				m_sharedContext->m_stateManager->push(new PausedState(m_sharedContext));
 			}
 		}
@@ -217,7 +265,6 @@ void Bombergirl::GameState::update(const float& dt)
 			return;
 		}
 	}
-
 	if (m_preGameTime >= TIME_PREGAME) {
 		m_isPreGame = false;
 	}
@@ -230,7 +277,6 @@ void Bombergirl::GameState::update(const float& dt)
 		}
 		if (countDown == 2 && m_startSound->getStatus() != sf::Sound::Playing && m_readySound->getStatus() != sf::Sound::Playing && !m_isGameOver) {
 			m_preGameText.setString("Go!");
-
 			m_startSound->play();
 		}
 		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - 500 * 2) / 2.f });
@@ -238,10 +284,10 @@ void Bombergirl::GameState::update(const float& dt)
 			m_countDownPreGame.setString(std::to_string(countDown));
 		}
 		else {
-			m_countDownPreGame.setString("ROUND " + std::to_string(m_currentRound));
+			m_preGameText.setString("ROUND " + std::to_string(m_currentRound));
+			m_countDownPreGame.setString(std::to_string(m_pointPlayer1) + " - " + std::to_string(m_pointPlayer2)) ;
 		}
 		m_countDownPreGame.setPosition({ (DEFAULT_WINDOW_WIDTH - m_countDownPreGame.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_coundDownTimerText.getLocalBounds().height * 10) / 2.f });
-
 	}
 
 	if (!m_isPreGame) {
@@ -258,14 +304,7 @@ void Bombergirl::GameState::update(const float& dt)
 				m_tickSound->play();
 			}
 			if (m_countDown <= 0.f) {
-				delete m_player1;
-				delete m_player2;
-				for (auto& row : m_map) {
-					for (auto& cell : row) {
-						delete cell;
-					}
-				}
-				init();
+				resetRound();
 				return;
 			}
 			std::stringstream ssCountDown;
@@ -280,9 +319,6 @@ void Bombergirl::GameState::update(const float& dt)
 
 		bool isPlayer1OnDead = m_player1->isOnDead();
 		bool isPlayer2OnDead = m_player2->isOnDead();
-		// on dead = dang chet != dead = da chet
-		// can de xet truong hop ca 2 chet cung luc
-		// neu goi truc tiep trong if thi player2 luon thang neu nhu ca 2 chet cung luc
 
 		if (!isPlayer2OnDead) {
 			m_player1->update(dt, m_map);
@@ -306,42 +342,13 @@ void Bombergirl::GameState::update(const float& dt)
 				m_pointPlayer1++;
 				m_pointText1.setString(std::to_string(m_pointPlayer1));
 			}
-			m_currentRound++;
-			delete m_player1;
-			delete m_player2;
-			for (auto& row : m_map) {
-				for (auto& cell : row) {
-					delete cell;
-				}
-			}
-			init();
+			resetRound();
 		}
 
-		if (!m_isGameOver && (m_currentRound == NUMBER_ROUNDS || m_pointPlayer1 >= 2 || m_pointPlayer2 >= 2)) {
-			m_isGameOver = true;
-			m_backSound->pause();
-			m_winSound->play();
-			if (m_currentRound != NUMBER_ROUNDS) {
-				if (m_pointPlayer1 >= 2) {
-					m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_1"));
-				}
-				if (m_pointPlayer2 >= 2) {
-					m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_2"));
-				}
-				m_preGameText.setString("CONGRATULATIONS!");
-				float scale = 2.f;
-				m_winner.setPosition({ (DEFAULT_WINDOW_WIDTH - m_winner.getLocalBounds().width * scale) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_winner.getLocalBounds().height * scale) / 2.f - 200.f });
-				m_winner.scale({ scale, scale });
-				m_preGameText.setCharacterSize(200);
-				m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height) / 2.f });
-			}
-			else {
-				m_preGameText.setString("DRAW");
-				m_preGameText.setPosition({(DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height) / 2.f});
-			}
+		if (!m_isGameOver && (m_pointPlayer1 >= 2 || m_pointPlayer2 >= 2)) {
+			if (m_pointPlayer1 >= 2) setResult(true, true);
+			else if (m_pointPlayer2 >= 2) setResult(true, false);
 		}
-
-		
 	}
 }
 
@@ -359,40 +366,25 @@ void Bombergirl::GameState::render()
 	m_sharedContext->m_window->setView(m_mapView);
 	m_sharedContext->m_window->draw(m_mapBackgroundSprite);
 
-	for (const auto& row : m_map) {
-		for (const auto& cell : row) {
-			cell->render(*m_sharedContext->m_window);
+	if (!m_isGameOver) {
+		for (const auto& row : m_map) {
+			for (const auto& cell : row) {
+				cell->render(*m_sharedContext->m_window);
+			}
 		}
-	}
 
-	m_player1->render(*m_sharedContext->m_window);
-	m_player2->render(*m_sharedContext->m_window);
+		m_player1->render(*m_sharedContext->m_window);
+		m_player2->render(*m_sharedContext->m_window);
+	}
+	
 
 	// mainview
 	m_sharedContext->m_window->setView(m_mainView);
 	if (m_isGameOver) {
 		m_sharedContext->m_window->draw(m_resultRect);
+		m_sharedContext->m_window->draw(m_winBoard);
 		m_sharedContext->m_window->draw(m_winner);
 		m_sharedContext->m_window->draw(m_preGameText);
-		if (m_delayTimeGameOver >= 1.5f) {
-			m_decorFrame_b.setPosition({ m_winner.getPosition().x - 10.f, m_winner.getPosition().y + 289.f });
-			m_sharedContext->m_window->draw(m_decorFrame_b);
-
-		}
-		if (m_delayTimeGameOver >= 1.f) {
-			m_decorFrame_r.setPosition({ m_winner.getPosition().x + 289.f, m_winner.getPosition().y - 10 });
-			m_sharedContext->m_window->draw(m_decorFrame_r);
-
-		}
-		if (m_delayTimeGameOver >= 0.5f) {
-			m_decorFrame_t.setPosition({ m_winner.getPosition().x - 10, m_winner.getPosition().y - 10 });
-			m_sharedContext->m_window->draw(m_decorFrame_t);
-
-		}
-		if (m_delayTimeGameOver >= 0.f) {
-			m_decorFrame_l.setPosition({ m_winner.getPosition().x - 10, m_winner.getPosition().y - 10 });
-			m_sharedContext->m_window->draw(m_decorFrame_l);
-		}
 	}
 
 	if (m_isPreGame && !m_isGameOver) {
