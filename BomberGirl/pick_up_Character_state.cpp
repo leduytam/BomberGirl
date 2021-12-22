@@ -22,12 +22,16 @@ void Bombergirl::PickUpCharacterState::init() {
 	// init component
 	auto windowSize = m_sharedContext->m_window->getSize();
 
-	setText(m_pickUpText, 75u, "PICK UP CHARACTER");
+	setText(m_pickUpText, 75u, "PICK UP CHARACTER", 2.f);
+	m_pickUpText.setFillColor(sf::Color{ 242, 174, 69 });
+	
 	m_pickUpText.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 350);
 
 	// player select
 	setText(m_character_text_1, 50u, "Player 1");
 	setText(m_character_text_2, 50u, "Player 2");
+	m_character_text_1.setFillColor(sf::Color{ 82, 121, 255 });
+	m_character_text_2.setFillColor(sf::Color{ 255, 112, 93 });
 	m_character_text_1.setPosition(250, 700);
 	m_character_text_2.setPosition((float)windowSize.x - 250, 700.f);
 
@@ -194,11 +198,12 @@ void Bombergirl::PickUpCharacterState::lockSelect(int order, sf::RectangleShape&
 	background.setPosition(position.x, position.y);
 }
 
-void Bombergirl::PickUpCharacterState::setText(sf::Text & text, const int& charactersize, const sf::String& content) {
-	text.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
+void Bombergirl::PickUpCharacterState::setText(sf::Text & text, const int& charactersize, const sf::String& content, float outlineThickness) {
+	text.setFont(m_sharedContext->m_resources->getFont("arista_font"));
 	text.setString(content);
 	text.setCharacterSize(charactersize);
 	sf::FloatRect bounds = text.getLocalBounds();
 	text.setStyle(sf::Text::Style::Bold);
 	text.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
+	text.setOutlineThickness(2.f);
 }

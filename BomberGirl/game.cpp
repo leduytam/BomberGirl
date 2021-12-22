@@ -6,10 +6,8 @@
 Bombergirl::Game::Game()
 {
     m_sharedContext = new SharedContext();
-    
     m_sharedContext->m_window = new sf::RenderWindow(sf::VideoMode(0, 0), GAME_TITLE, sf::Style::Default);
     m_sharedContext->m_window->setVisible(false);
-    m_sharedContext->m_window->setPosition(sf::Vector2i(2000, 2000));
     m_sharedContext->m_resources = new ResourceManager();
     loadResources();
     m_sharedContext->m_window->create(sf::VideoMode(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT), GAME_TITLE, sf::Style::Fullscreen);
@@ -55,7 +53,6 @@ void Bombergirl::Game::loadResources()
     }
     m_sharedContext->m_resources->loadTexture("border_select_red", CHARACTER_BORDER_SELECT_RED);
     m_sharedContext->m_resources->loadTexture("border_select_blue", CHARACTER_BORDER_SELECT_BLUE);
-    m_sharedContext->m_resources->loadTexture("background_select", MENU_SYSTEM_PATH, sf::IntRect(sf::Vector2i(0, 96), sf::Vector2i(96, 96)));
     m_sharedContext->m_resources->loadBuffer("select_sound", SELECT_SOUND);
     m_sharedContext->m_resources->loadBuffer("confirm_character_sound", CHARACTER_CONFIRM_SOUND);
 

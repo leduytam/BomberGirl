@@ -15,7 +15,6 @@ namespace Bombergirl
         std::unordered_map<std::string, sf::SoundBuffer> m_sounds;
     public:
         void loadTexture(const std::string&, const std::string&);
-        void loadTexture(const std::string&, const std::string&, const sf::IntRect &);
         void unloadTexture(const std::string&);
         sf::Texture& getTexture(const std::string&);
 

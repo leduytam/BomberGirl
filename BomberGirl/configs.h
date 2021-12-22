@@ -26,7 +26,6 @@ namespace Bombergirl
 ////////////////////////////
 #pragma region Menu
 	const auto MENU_BACKGROUND_PATH = "./assets/textures/backgrounds/background_menu.jpg";
-	const auto MENU_SYSTEM_PATH = "./assets/textures/img/system/Window.png";
 	const auto MENU_TITLE_TEXTURE_PATH = "./assets/textures/menu_ui/menu_title.png";
 	const auto MENU_BUTTON = "./assets/textures/menu_ui/menu_button.png";
 	const auto MENU_ARROW = "./assets/textures/menu_ui/menu_arrow.png";
@@ -82,7 +81,7 @@ namespace Bombergirl
 	const auto ITEM_EXISTING_TIME = 6.f;
 	const auto TIME_DELAY_SET_UP_BOMB = 0.1f;
 	const auto TIME_PER_ROUND = 150.f;
-	const auto TIME_PREGAME = 3.f;
+	const auto TIME_PREGAME = 4.f;
 #pragma endregion
 
 #pragma region Sound

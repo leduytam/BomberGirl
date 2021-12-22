@@ -48,6 +48,7 @@ namespace Bombergirl
 		float m_gameTime;
 		float m_countDown;
 		const int NUMBER_ROUNDS = 3;
+		int m_currentRound;
 		int m_pointPlayer1;
 		int m_pointPlayer2;
 		bool m_isGameOver;

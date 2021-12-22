@@ -9,7 +9,7 @@ void Bombergirl::GuideState::init()
 
     m_imageGuide.setTexture(m_sharedContext->m_resources->getTexture("guide_text_image"));
     
-    m_textControls.setFont(m_sharedContext->m_resources->getFont("garamond"));
+    m_textControls.setFont(m_sharedContext->m_resources->getFont("arista_font"));
     m_textControls.setString("CONTROLS");
     m_textControls.setCharacterSize(100u);
     m_textControls.setFillColor(sf::Color::White);
@@ -18,43 +18,43 @@ void Bombergirl::GuideState::init()
     m_textControls.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
     m_textControls.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 470);
 
-    m_textMoveCharacter.setFont(m_sharedContext->m_resources->getFont("garamond"));
+    m_textMoveCharacter.setFont(m_sharedContext->m_resources->getFont("arista_font"));
     m_textMoveCharacter.setString("MOVE");
     m_textMoveCharacter.setCharacterSize(75u);
     m_textMoveCharacter.setFillColor(sf::Color::White);
     m_textMoveCharacter.setPosition(windowSize.x / 2.f - 100, windowSize.y / 2.f - 320);
 
-    m_textBomb.setFont(m_sharedContext->m_resources->getFont("garamond"));
+    m_textBomb.setFont(m_sharedContext->m_resources->getFont("arista_font"));
     m_textBomb.setString("BOMB");
     m_textBomb.setCharacterSize(75u);
     m_textBomb.setFillColor(sf::Color::White);
     m_textBomb.setPosition(windowSize.x / 2.f - 100, windowSize.y / 2.f - 220);
 
-    m_textMovePickUp.setFont(m_sharedContext->m_resources->getFont("garamond"));
+    m_textMovePickUp.setFont(m_sharedContext->m_resources->getFont("arista_font"));
     m_textMovePickUp.setString("MOVE PICK UP");
     m_textMovePickUp.setCharacterSize(75u);
     m_textMovePickUp.setFillColor(sf::Color::White);
     m_textMovePickUp.setPosition(windowSize.x / 2.f - 230, windowSize.y / 2.f - 120);
 
-    m_textPickUp.setFont(m_sharedContext->m_resources->getFont("garamond"));
+    m_textPickUp.setFont(m_sharedContext->m_resources->getFont("arista_font"));
     m_textPickUp.setString("PICK UP");
     m_textPickUp.setCharacterSize(75u);
     m_textPickUp.setFillColor(sf::Color::White);
     m_textPickUp.setPosition(windowSize.x / 2.f - 130, windowSize.y / 2.f - 20);
 
-    m_textPotionsIncreaseSpeed.setFont(m_sharedContext->m_resources->getFont("garamond"));
+    m_textPotionsIncreaseSpeed.setFont(m_sharedContext->m_resources->getFont("arista_font"));
     m_textPotionsIncreaseSpeed.setString("INCREASE SPEED");
     m_textPotionsIncreaseSpeed.setCharacterSize(75u);
     m_textPotionsIncreaseSpeed.setFillColor(sf::Color::White);
     m_textPotionsIncreaseSpeed.setPosition(windowSize.x / 2.f - 750, windowSize.y / 2.f + 140);
 
-    m_textPotionsIncreaseRange.setFont(m_sharedContext->m_resources->getFont("garamond"));
+    m_textPotionsIncreaseRange.setFont(m_sharedContext->m_resources->getFont("arista_font"));
     m_textPotionsIncreaseRange.setString("INCREASE RANGE");
     m_textPotionsIncreaseRange.setCharacterSize(75u);
     m_textPotionsIncreaseRange.setFillColor(sf::Color::White);
     m_textPotionsIncreaseRange.setPosition(windowSize.x / 2.f - 750, windowSize.y / 2.f + 270);
     
-    m_textPotionsIncreaseTheNumberOfBombs.setFont(m_sharedContext->m_resources->getFont("garamond"));
+    m_textPotionsIncreaseTheNumberOfBombs.setFont(m_sharedContext->m_resources->getFont("arista_font"));
     m_textPotionsIncreaseTheNumberOfBombs.setString("INCREASE THE NUMBER OF BOMBS");
     m_textPotionsIncreaseTheNumberOfBombs.setCharacterSize(75u);
     m_textPotionsIncreaseTheNumberOfBombs.setFillColor(sf::Color::White);

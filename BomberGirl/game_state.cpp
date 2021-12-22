@@ -38,7 +38,7 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 	m_startSound = new sf::Sound();
 	m_startSound->setBuffer(m_sharedContext->m_resources->getBuffer("start_sound"));
 
-	m_coundDownTimerText.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
+	m_coundDownTimerText.setFont(m_sharedContext->m_resources->getFont("arista_font"));
 	m_coundDownTimerText.setCharacterSize(55);
 	m_countDown = TIME_PER_ROUND;
 
@@ -62,22 +62,22 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 	m_decorFrame_t.setSize({ 308.f, 10.f });
 	m_decorFrame_l.setSize({ 10.f, 308.f });
 
-	m_pointText1.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
+	m_pointText1.setFont(m_sharedContext->m_resources->getFont("arista_font"));
 	m_pointText1.setCharacterSize(300);
 	m_pointText1.setString("0");
 	m_pointText1.setPosition({ 150.f, 300.f });
 	m_pointText1.setFillColor(sf::Color{ 82, 121, 255 });
 
-	m_pointText2.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
+	m_pointText2.setFont(m_sharedContext->m_resources->getFont("arista_font"));
 	m_pointText2.setCharacterSize(300);
 	m_pointText2.setString("0");
 	m_pointText2.setPosition({ 1920 - 170.f - m_pointText2.getLocalBounds().width, 300.f });
 	m_pointText2.setFillColor(sf::Color{ 255, 112, 93 });
 
-	m_countDownPreGame.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
+	m_countDownPreGame.setFont(m_sharedContext->m_resources->getFont("arista_font"));
 	m_countDownPreGame.setCharacterSize(400);
 
-	m_preGameText.setFont(m_sharedContext->m_resources->getFont("upheavtt_font"));
+	m_preGameText.setFont(m_sharedContext->m_resources->getFont("arista_font"));
 	m_preGameText.setCharacterSize(300);
 	m_isPreGame = false;
 	m_preGameTime = 0.f;
@@ -85,11 +85,12 @@ Bombergirl::GameState::GameState(SharedContext* sharedContext) : BaseState(share
 
 Bombergirl::GameState::~GameState()
 {
+	m_sharedContext->m_resources->unloadTexture("player_face_1");
+	m_sharedContext->m_resources->unloadTexture("player_face_2");
 	m_sharedContext->m_resources->unloadTexture("player_movement_1");
 	m_sharedContext->m_resources->unloadTexture("player_movement_2");
 	delete m_player1;
 	delete m_player2;
-
 	for (auto& row : m_map) {
 		for (auto& cell : row) {
 			delete cell;
@@ -128,12 +129,12 @@ void Bombergirl::GameState::createMap() {
 			}
 		}
 	}
+	m_currentRound = 1;
 }
 
 void Bombergirl::GameState::init()
 {
 	createMap();
-
 	m_isPreGame = true;
 	m_preGameTime = 0.f;
 	m_player1 = new Player(m_sharedContext, &m_sharedContext->m_resources->getTexture("player_movement_1"), Player::PlayerDirection::Down);
@@ -233,7 +234,12 @@ void Bombergirl::GameState::update(const float& dt)
 			m_startSound->play();
 		}
 		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - 500 * 2) / 2.f });
-		m_countDownPreGame.setString(std::to_string(countDown));
+		if (countDown != TIME_PREGAME) {
+			m_countDownPreGame.setString(std::to_string(countDown));
+		}
+		else {
+			m_countDownPreGame.setString("ROUND " + std::to_string(m_currentRound));
+		}
 		m_countDownPreGame.setPosition({ (DEFAULT_WINDOW_WIDTH - m_countDownPreGame.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_coundDownTimerText.getLocalBounds().height * 10) / 2.f });
 
 	}
@@ -300,6 +306,7 @@ void Bombergirl::GameState::update(const float& dt)
 				m_pointPlayer1++;
 				m_pointText1.setString(std::to_string(m_pointPlayer1));
 			}
+			m_currentRound++;
 			delete m_player1;
 			delete m_player2;
 			for (auto& row : m_map) {
@@ -310,23 +317,28 @@ void Bombergirl::GameState::update(const float& dt)
 			init();
 		}
 
-		if (!m_isGameOver && (m_pointPlayer1 >= 2 || m_pointPlayer2 >= 2)) {
+		if (!m_isGameOver && (m_currentRound == NUMBER_ROUNDS || m_pointPlayer1 >= 2 || m_pointPlayer2 >= 2)) {
 			m_isGameOver = true;
 			m_backSound->pause();
 			m_winSound->play();
-			if (m_pointPlayer1 >= 2) {
-				m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_1"));
+			if (m_currentRound != NUMBER_ROUNDS) {
+				if (m_pointPlayer1 >= 2) {
+					m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_1"));
+				}
+				if (m_pointPlayer2 >= 2) {
+					m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_2"));
+				}
+				m_preGameText.setString("CONGRATULATIONS!");
+				float scale = 2.f;
+				m_winner.setPosition({ (DEFAULT_WINDOW_WIDTH - m_winner.getLocalBounds().width * scale) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_winner.getLocalBounds().height * scale) / 2.f - 200.f });
+				m_winner.scale({ scale, scale });
+				m_preGameText.setCharacterSize(200);
+				m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height) / 2.f });
 			}
-			if (m_pointPlayer2 >= 2) {
-				m_winner.setTexture(m_sharedContext->m_resources->getTexture("player_face_2"));
+			else {
+				m_preGameText.setString("DRAW");
+				m_preGameText.setPosition({(DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height) / 2.f});
 			}
-			float scale = 2.f;
-			m_winner.setPosition({ (DEFAULT_WINDOW_WIDTH - m_winner.getLocalBounds().width * scale) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_winner.getLocalBounds().height * scale) / 2.f - 200.f });
-			m_winner.scale({ scale, scale });
-
-			m_preGameText.setCharacterSize(200);
-			m_preGameText.setString("CONGRATULATIONS!");
-			m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height) / 2.f }); 
 		}
 
 		
