@@ -17,8 +17,8 @@ namespace Bombergirl
 
         ~SharedContext() {
             delete m_window;
-            delete m_resources;
             delete m_stateManager;
+            delete m_resources;
         }
     };
 }

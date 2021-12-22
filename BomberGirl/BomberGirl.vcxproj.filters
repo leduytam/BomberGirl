@@ -106,9 +106,6 @@
     <ClInclude Include="resource_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="state_manager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -164,6 +161,9 @@
       <Filter>Header Files\cells</Filter>
     </ClInclude>
     <ClInclude Include="guide_state.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="state_manager.h">
       <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>
