@@ -154,13 +154,14 @@ void Bombergirl::GameState::setResult(bool isWin, bool isPlayer1)
 		m_preGameText.setString("CONGRATULATIONS!");
 		float scale = 2.f;
 		m_winner.setPosition({ (DEFAULT_WINDOW_WIDTH - m_winner.getLocalBounds().width * 2) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_winner.getLocalBounds().height * scale) / 2.f - 200.f });
-		//m_winBoard.setPosition({ m_winner.getPosition().x - (300.f - 144.f * scale) / 2.F, m_winner.getPosition().y});
 		m_winBoard.setPosition({m_winner.getPosition().x + m_winner.getLocalBounds().width * scale / 2.f - m_winBoard.getLocalBounds().width / 2.f, m_winner.getPosition().y + m_winner.getLocalBounds().height * scale / 2.f - m_winBoard.getLocalBounds().height / 2.f });
 		m_winner.scale({ scale, scale });
 		m_preGameText.setCharacterSize(200);
 		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height) / 2.f });
 	}
 	else {
+		m_winBoard.setPosition({-1000, -1000});
+
 		m_drawSound->play();
 		m_preGameText.setString("DRAW");
 		m_preGameText.setPosition({ (DEFAULT_WINDOW_WIDTH - m_preGameText.getLocalBounds().width) / 2.f, (DEFAULT_WINDOW_HEIGHT - m_preGameText.getLocalBounds().height * 2) / 2.f });

@@ -98,7 +98,7 @@ void Bombergirl::PickUpCharacterState::handleInput() {
 					if (m_select_2 == m_select_1) m_select_2 = (m_select_2 - 1 + CHARACTER_NUMBER_OF) % CHARACTER_NUMBER_OF;
 					m_soundClick->play();
 				}
-				if (e.key.code == sf::Keyboard::Right) {
+				else if (e.key.code == sf::Keyboard::Right) {
 					m_select_2 = (m_select_2 + 1) % CHARACTER_NUMBER_OF;
 					if (m_select_2 == m_select_1) m_select_2 = (m_select_2 + 1 + CHARACTER_NUMBER_OF) % CHARACTER_NUMBER_OF;
 					m_soundClick->play();
@@ -111,7 +111,7 @@ void Bombergirl::PickUpCharacterState::handleInput() {
 					if (m_select_2 == m_select_1) m_select_1 = (m_select_1 - 1 + CHARACTER_NUMBER_OF) % CHARACTER_NUMBER_OF;
 					m_soundClick->play();
 				}
-				if (e.key.code == sf::Keyboard::D) {
+				else if (e.key.code == sf::Keyboard::D) {
 					m_select_1 = (m_select_1 + 1) % CHARACTER_NUMBER_OF;
 					if (m_select_2 == m_select_1) m_select_1 = (m_select_1 + 1 + CHARACTER_NUMBER_OF) % CHARACTER_NUMBER_OF;
 					m_soundClick->play();
