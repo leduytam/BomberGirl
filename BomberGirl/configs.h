@@ -81,7 +81,7 @@ namespace Bombergirl
 	const auto TRANSITION_PICKUP_TIME = 2.f;
 	const auto ITEM_EXISTING_TIME = 6.f;
 	const auto TIME_DELAY_SET_UP_BOMB = 0.1f;
-	const auto TIME_PER_ROUND = 10.f;
+	const auto TIME_PER_ROUND = 120.f;
 	const auto TIME_PREGAME = 4.f;
 #pragma endregion
 
