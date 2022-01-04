@@ -15,6 +15,7 @@ Bombergirl::Game::Game()
     m_sharedContext->m_window->setKeyRepeatEnabled(false);
     m_sharedContext->m_window->setVisible(true);
     m_sharedContext->m_stateManager = new StateManager();
+    m_sharedContext->m_window->setVerticalSyncEnabled(true);
     m_sharedContext->m_stateManager->push(new IntroState(m_sharedContext));
 }
 
